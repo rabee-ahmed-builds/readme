@@ -73,13 +73,12 @@ code{background:var(--bg);padding:1px 5px;border-radius:4px;font-size:13px}
   <button data-t="comm" onclick="go('comm')"><b>👥</b>Community</button>
   <button data-t="admin" onclick="go('admin')"><b>🛠️</b>Admin</button>
 </nav>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-/* ====== STEP 1: PASTE YOUR FIREBASE CONFIG HERE (Firebase Console > Project settings > Your apps > Web app) ====== */
-const firebaseConfig={apiKey:"PASTE_API_KEY",authDomain:"PASTE_AUTH_DOMAIN",projectId:"PASTE_PROJECT_ID",storageBucket:"",messagingSenderId:"",appId:"PASTE_APP_ID"};
-/* ================================================================================================================ */
+/* ====== SUPABASE CONFIG (project URL + public anon key; safe to keep in the page) ====== */
+const SUPA_URL="https://rzbythfivpsdhawodkth.supabase.co",SUPA_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6Ynl0aGZpdnBzZGhhd29ka3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzNTE0ODEsImV4cCI6MjEwODkyNzQ4MX0.I-mgGTMdchJa5jGq2tgYepvx68l4e5ZpdfvGIn-BJ8s";
+const firebaseConfig={apiKey:SUPA_KEY};
+/* ================================================================================== */
 const READY=!/^PASTE/.test(firebaseConfig.apiKey),DEMO=!READY;
 const GH=[
  {n:'NIT Patna Campus',q:'NIT Patna, Ashok Rajpath, Patna, Bihar'},{n:'NIT Ghat',q:'NIT Ghat, Patna, Bihar'},
@@ -353,7 +352,52 @@ function demoFirebase(){
   signInWithEmailAndPassword:async(em,pw)=>{em=em.toLowerCase();const a=A()[em];if(!a||a.pw!==pw)throw new Error('Firebase: Wrong email or password');setCur(em);fire()},
   signOut:async()=>{setCur(null);fire()},sendPasswordResetEmail:async()=>{}};
  return{initializeApp:()=>{},auth:()=>authObj,firestore:Object.assign(()=>db,{FieldValue:{increment:n=>({__inc:n})}})}}
-if(DEMO)window.firebase=demoFirebase();
+/* ---------- SUPABASE: Firebase-compatible adapter (realtime via Postgres Changes) ---------- */
+function supaFirebase(){
+ const sb=supabase.createClient(SUPA_URL,SUPA_KEY),T='docs';
+ const ok=r=>{if(r.error)throw r.error;return r.data};
+ const split=o=>{const p={},i={};for(const k in o){const v=o[k];if(v&&typeof v==='object'&&v.__inc!==undefined)i[k]=v.__inc;else p[k]=v}return[p,i]};
+ const dref=(c,id)=>({id,
+  get:async()=>{const r=ok(await sb.from(T).select('data').eq('col',c).eq('id',id).maybeSingle());return{id,exists:!!r,data:()=>r?{...r.data}:undefined}},
+  set:async(o,op)=>{const [p,i]=split(o);
+   if(op&&op.merge){const r=ok(await sb.from(T).select('id').eq('col',c).eq('id',id).maybeSingle());
+    if(r){ok(await sb.rpc('doc_update',{p_col:c,p_id:id,p_patch:p,p_inc:i}));return}}
+   ok(await sb.from(T).upsert({col:c,id,data:p}))},
+  update:async o=>{const [p,i]=split(o);ok(await sb.rpc('doc_update',{p_col:c,p_id:id,p_patch:p,p_inc:i}))},
+  delete:async()=>{ok(await sb.from(T).delete().eq('col',c).eq('id',id))}});
+ const qry=(c,ord,lim)=>{
+  const cmp=(x,y)=>(ord[1]==='desc'?-1:1)*((x.v[ord[0]]>y.v[ord[0]])-(x.v[ord[0]]<y.v[ord[0]]));
+  const fetchAll=async()=>{let q=sb.from(T).select('id,data').eq('col',c);
+   if(ord)q=q.order('data->>'+ord[0],{ascending:ord[1]!=='desc'});if(lim)q=q.limit(lim);
+   return ok(await q).map(r=>({id:r.id,v:r.data}))};
+  const mk=(a,prev)=>({docs:a.map(x=>({id:x.id,data:()=>({...x.v}),ref:dref(c,x.id)})),empty:!a.length,
+   docChanges:()=>a.filter(x=>!prev.has(x.id)).map(x=>({type:'added',doc:{id:x.id,data:()=>({...x.v})}}))});
+  return{orderBy:(f,d)=>qry(c,[f,d||'asc'],lim),limit:n=>qry(c,ord,n),
+   get:async()=>mk(await fetchAll(),new Set()),
+   onSnapshot:(cb,errcb)=>{const M=new Map();let prev=new Set();
+    const emit=()=>{let a=[...M.values()];if(ord)a.sort(cmp);if(lim)a=a.slice(0,lim);cb(mk(a,prev));prev=new Set(a.map(x=>x.id))};
+    const ch=sb.channel('rt-'+c+'-'+Math.random().toString(36).slice(2))
+     .on('postgres_changes',{event:'*',schema:'public',table:T,filter:'col=eq.'+c},p=>{
+      if(p.eventType==='DELETE'){if(p.old.col&&p.old.col!==c)return;M.delete(p.old.id)}
+      else M.set(p.new.id,{id:p.new.id,v:p.new.data});emit()})
+     .subscribe();
+    fetchAll().then(a=>{a.forEach(x=>{if(!M.has(x.id))M.set(x.id,x)});emit()}).catch(e=>errcb&&errcb(e));
+    return()=>{sb.removeChannel(ch)}}}};
+ const db={collection:c=>Object.assign(qry(c,null,0),{doc:id=>dref(c,id),
+   add:async o=>{const id=(crypto.randomUUID?crypto.randomUUID():'d'+Date.now().toString(36)+Math.random().toString(36).slice(2,8));ok(await sb.from(T).insert({col:c,id,data:o}));return dref(c,id)}}),
+  doc:q=>{const a=q.split('/');return dref(a[0],a[1])},
+  batch:()=>{const ops=[];return{delete:r=>ops.push(()=>r.delete()),update:(r,o)=>ops.push(()=>r.update(o)),commit:async()=>{for(const f of ops)await f()}}}};
+ const wrap=u=>u?{uid:u.id,email:u.email,displayName:(u.user_metadata&&u.user_metadata.name)||'',
+  updateProfile:async o=>{ok(await sb.auth.updateUser({data:{name:o.displayName}}))}}:null;
+ const authObj={onAuthStateChanged:f=>{let last;sb.auth.onAuthStateChange((ev,s)=>{const id=s&&s.user?s.user.id:null;if(ev!=='SIGNED_OUT'&&id===last)return;last=id;setTimeout(()=>f(wrap(s&&s.user)),0)})},
+  createUserWithEmailAndPassword:async(em,pw)=>{const r=ok(await sb.auth.signUp({email:em,password:pw}));
+   if(!r.session)throw new Error('Account created. Confirm the email we sent, then log in.');return{user:wrap(r.user)}},
+  signInWithEmailAndPassword:async(em,pw)=>{ok(await sb.auth.signInWithPassword({email:em,password:pw}))},
+  signOut:async()=>{await sb.auth.signOut()},
+  sendPasswordResetEmail:async em=>{ok(await sb.auth.resetPasswordForEmail(em))}};
+ return{initializeApp:()=>{},auth:()=>authObj,firestore:Object.assign(()=>db,{FieldValue:{increment:n=>({__inc:n})}})}}
+
+if(DEMO)window.firebase=demoFirebase();else window.firebase=supaFirebase();
 init();
 </script>
 </body>
