@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SwachhSetu – Clean Ganga Ghats Network</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#EAF2F1;--card:#fff;--ink:#10242B;--mute:#5B7178;--river:#0E4D64;--gold:#F2A900;--red:#C8452D;--blue:#2F7FBF;--green:#2E8B57;--line:#CFE0DE;--onriver:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#0B1B21;--card:#12292F;--ink:#E6F1F0;--mute:#8FA8AE;--river:#5FB3CF;--line:#244047;--onriver:#08202A}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Mukta',system-ui,sans-serif;font-size:16px;line-height:1.45}
+header{background:var(--river);color:var(--onriver);padding:14px 16px 12px}
+header h1{margin:0;font-size:26px;font-weight:800}header p{margin:0;font-size:13px;opacity:.92}
+.who{font-size:12px;margin-top:6px}.who a{text-decoration:underline;cursor:pointer}
+.role{display:none;gap:6px;margin-top:8px}
+.role button{flex:1;border:1.5px solid currentColor;background:transparent;color:inherit;border-radius:20px;padding:5px;font:600 14px Mukta,sans-serif;cursor:pointer}
+.role button.on{background:var(--gold);border-color:var(--gold);color:#10242B}
+main{padding:14px 14px 90px;max-width:680px;margin:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+h2{font-size:18px;margin:0 0 10px}
+label.l{display:block;font-weight:600;font-size:14px;margin:10px 0 4px}
+select,textarea,input[type=text],input[type=password],input[type=email],input[type=number]{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:16px Mukta,sans-serif}
+.btn{display:inline-block;border:0;border-radius:8px;padding:9px 14px;font:700 14px Mukta,sans-serif;background:var(--river);color:var(--onriver);cursor:pointer;text-align:center;text-decoration:none}
+.btn.alt{background:var(--gold);color:#10242B}.btn.full{width:100%;margin-top:12px;padding:12px;font-size:15px}.btn.red{background:var(--red);color:#fff}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.fi{margin-top:8px;font-size:13px;font-weight:600}.fi span{display:block;margin-bottom:3px}
+input.file{width:100%;font:14px Mukta,sans-serif;color:var(--ink)}
+input.file::file-selector-button{border:0;border-radius:8px;padding:9px 14px;margin-right:10px;background:var(--gold);color:#10242B;font:700 14px Mukta,sans-serif;cursor:pointer}
+.prev{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-top:10px}
+.gps,.note{font-size:13px;color:var(--mute)}.note{font-size:12px}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700;color:#fff}
+.s-Reported{background:var(--red)}.s-Assigned{background:var(--blue)}.s-Cleaned{background:var(--green)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.steps{display:flex;margin:10px 0 4px;font-size:12px;color:var(--mute)}
+.steps span{flex:1;text-align:center;border-top:4px solid var(--line);padding-top:3px}
+.steps span.done{border-color:var(--green);color:var(--ink);font-weight:600}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.ba figure{margin:0;font-size:12px;color:var(--mute)}.ba img,.ph{width:100%;height:110px;object-fit:cover;border-radius:6px;background:var(--line);display:block}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}
+.chips button{flex:none;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:16px;padding:4px 12px;font:600 13px Mukta,sans-serif;cursor:pointer}
+.chips button.on{background:var(--river);color:var(--onriver);border-color:var(--river)}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:none;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;border:0;background:none;color:var(--mute);padding:8px 2px;font:600 11px Mukta,sans-serif;cursor:pointer}
+nav button.on{color:var(--river);box-shadow:inset 0 3px 0 var(--gold)}nav b{display:block;font-size:19px}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:4px 0 6px}.bar i{display:block;height:100%;background:var(--red)}
+.toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:20px;font-size:14px;z-index:9;max-width:90%;text-align:center}
+.empty{text-align:center;color:var(--mute);padding:20px}
+.tot{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}.tot b{display:block;font-size:26px}
+.lb{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.lb:last-child{border:0}.lb .nm{flex:1}.lb.me{font-weight:800}
+.ic{border:1.5px solid var(--line);background:none;color:var(--ink);border-radius:6px;padding:4px 10px;font:600 13px Mukta,sans-serif;cursor:pointer}
+.tag{background:var(--gold);color:#10242B;border-radius:10px;padding:1px 8px;font-size:12px;font-weight:700;margin-left:6px}
+.feed{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.feed:last-child{border:0}.feed i{font-style:normal;font-size:20px}
+code{background:var(--bg);padding:1px 5px;border-radius:4px;font-size:13px}
+.quote{background:var(--river);color:var(--onriver);border:0}.quote p{font-size:19px;font-weight:600;margin:6px 0 0}.quote .note{color:inherit;opacity:.85}
+</style>
+</head>
+<body>
+<header>
+  <h1>SwachhSetu</h1>
+  <p>The bridge between citizens and volunteers for clean Ganga ghats · Namami Gange</p>
+  <div class="role" id="roles" role="group" aria-label="Choose role"><button id="r-citizen" onclick="setRole('citizen')">Citizen</button><button id="r-volunteer" onclick="setRole('volunteer')">Volunteer</button></div>
+  <div class="who" id="who"></div>
+</header>
+<main id="app"></main>
+<nav id="nav">
+  <button data-t="report" onclick="go('report')"><b>📸</b>Report</button>
+  <button data-t="map" onclick="go('map')"><b>🗺️</b>Hotspots</button>
+  <button data-t="list" onclick="go('list')"><b>📋</b>Status</button>
+  <button data-t="board" onclick="go('board')"><b>🏅</b>Leaders</button>
+  <button data-t="comm" onclick="go('comm')"><b>👥</b>Community</button>
+  <button data-t="admin" onclick="go('admin')"><b>🛠️</b>Admin</button>
+</nav>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ====== STEP 1: PASTE YOUR FIREBASE CONFIG HERE (Firebase Console > Project settings > Your apps > Web app) ====== */
+const firebaseConfig={apiKey:"PASTE_API_KEY",authDomain:"PASTE_AUTH_DOMAIN",projectId:"PASTE_PROJECT_ID",storageBucket:"",messagingSenderId:"",appId:"PASTE_APP_ID"};
+/* ================================================================================================================ */
+const READY=!/^PASTE/.test(firebaseConfig.apiKey),DEMO=!READY;
+const GH=[
+ {n:'NIT Patna Campus',q:'NIT Patna, Ashok Rajpath, Patna, Bihar'},{n:'NIT Ghat',q:'NIT Ghat, Patna, Bihar'},
+ {n:'Gandhi Ghat',q:'Gandhi Ghat, Patna, Bihar'},{n:'Gulabi Ghat',q:'Gulabi Ghat, Patna, Bihar'},
+ {n:'Kangan Ghat',q:'Kangan Ghat, Patna, Bihar'},{n:'LCT Ghat',q:'LCT Ghat, Patna, Bihar'},{n:'Collectorate Ghat',q:'Collectorate Ghat, Patna, Bihar'}];
+const BADGES=[[10,'First Step'],[50,'Ghat Friend'],[120,'Ganga Guardian'],[250,'Namami Hero']];
+const ICON={report:'📸',accept:'🤝',clean:'✅',admin:'🛠️',sponsor:'🤝',pledge:'🙏',join:'👋'};
+let auth,db,U=null,ME=null,users=[],reports=[],acts=[],sponsors=[],offs=[],firstAct=true;
+let tab='report',ctab='mot',rmId=null,filter='All',mode='login',confirmReset=false,busy=false;
+let adminOn=false;
+let draft={photo:null,lat:null,lon:null,g:0,note:'',gpsMsg:''};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ago=t=>{const m=Math.floor((Date.now()-t)/6e4);return m<1?'just now':m<60?m+' min ago':m<1440?Math.floor(m/60)+' h ago':Math.floor(m/1440)+' d ago'};
+function toast(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3200)}
+const errMsg=e=>String(e&&e.message||e).replace('Firebase: ','');
+function go(t){tab=t;confirmReset=false;adminOn=false;rmId=null;draw()}
+const rep=id=>reports.find(r=>r.id===id);
+const isVol=()=>!!(ME&&ME.role==='volunteer');
+const inc=n=>firebase.firestore.FieldValue.increment(n);
+async function log(type,text){try{await db.collection('activity').add({type,text,uid:U.uid,t:Date.now()})}catch(e){}}
+function notify(text){toast('🔔 '+text);try{if(window.Notification&&Notification.permission==='granted')new Notification('SwachhSetu',{body:text})}catch(e){}}
+async function enableAlerts(){try{const p=await Notification.requestPermission();toast(p==='granted'?'Phone alerts enabled':'Alerts blocked. In-app alerts still work.')}catch(e){toast('Alerts are not supported here. In-app alerts still work.')}}
+/* ---------- init ---------- */
+function init(){
+ firebase.initializeApp(firebaseConfig);auth=firebase.auth();db=firebase.firestore();
+ auth.onAuthStateChanged(async u=>{
+  offs.forEach(f=>f());offs=[];U=u;ME=null;firstAct=true;
+  if(u){
+   try{const ref=db.collection('users').doc(u.uid),s=await ref.get();
+    if(!s.exists)await ref.set({name:u.displayName||(u.email||'User').split('@')[0],email:u.email||'',pts:0,role:'citizen',t:Date.now()})}catch(e){toast(errMsg(e))}
+   const fail=e=>toast(errMsg(e));
+   offs.push(db.collection('users').onSnapshot(s=>{users=s.docs.map(d=>({id:d.id,...d.data()}));const had=!!ME;ME=users.find(x=>x.id===u.uid)||null;if(had&&!ME){toast('You were removed by the admin.');auth.signOut();return}sd()},fail));
+   offs.push(db.collection('reports').orderBy('t','desc').limit(100).onSnapshot(s=>{reports=s.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));
+   offs.push(db.collection('activity').orderBy('t','desc').limit(40).onSnapshot(s=>{
+    if(!firstAct)s.docChanges().forEach(c=>{if(c.type==='added'&&c.doc.data().uid!==u.uid)notify(c.doc.data().text)});
+    firstAct=false;acts=s.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));
+   offs.push(db.collection('sponsors').orderBy('t','desc').limit(50).onSnapshot(s=>{sponsors=s.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));
+  }
+  draw()})}
+function sd(){const a=document.activeElement;if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return;draw()}
+/* ---------- auth ---------- */
+async function doLogin(){try{await auth.signInWithEmailAndPassword($('em').value.trim(),$('pw').value)}catch(e){toast(errMsg(e))}}
+async function doRegister(){
+ const nm=$('nm').value.trim(),em=$('em').value.trim(),pw=$('pw').value,rl=$('rl').value;
+ if(!nm){toast('Enter your name');return}
+ try{const c=await auth.createUserWithEmailAndPassword(em,pw);await c.user.updateProfile({displayName:nm});
+  await db.collection('users').doc(c.user.uid).set({name:nm.slice(0,30),email:em,pts:0,role:rl,t:Date.now()},{merge:true});db.collection('activity').add({type:'join',text:nm+' joined SwachhSetu as a '+rl,uid:c.user.uid,t:Date.now()}).catch(()=>{});toast('Welcome, '+nm+'!')}catch(e){toast(errMsg(e))}}
+async function resetPw(){const em=$('em').value.trim();if(!em){toast('Enter your email first');return}try{await auth.sendPasswordResetEmail(em);toast('Password reset email sent')}catch(e){toast(errMsg(e))}}
+function logout(){auth.signOut();tab='report'}
+async function setRole(r){try{await db.collection('users').doc(U.uid).update({role:r})}catch(e){toast(errMsg(e))}}
+/* ---------- photos ---------- */
+document.addEventListener('change',e=>{const t=e.target;if(t&&t.classList&&t.classList.contains('file'))onPhoto(t)});
+function onPhoto(t){
+ const f=t.files&&t.files[0],kind=t.getAttribute('data-kind'),id=t.getAttribute('data-id');
+ if(!f)return;toast('Processing photo...');
+ readPhoto(f,async u=>{try{
+  if(kind==='new'){draft.photo=u;draw();toast('Photo added')}
+  else if(kind==='before'){await db.collection('reports').doc(id).update({photo:u});toast('Before photo saved')}
+  else if(kind==='after'){const r=rep(id);await db.collection('reports').doc(id).update({st:'Cleaned',after:u,byUid:U.uid,byName:ME.name});
+   await db.collection('users').doc(U.uid).update({pts:inc(30)});await log('clean',ME.name+' cleaned '+GH[r.g].n);toast('Cleanup recorded. +30 points')}
+ }catch(e){toast(errMsg(e))}})}
+function readPhoto(file,cb){
+ const r=new FileReader();r.onerror=()=>toast('Could not read this photo');
+ r.onload=()=>{const raw=r.result,im=new Image();
+  im.onload=()=>{try{const k=Math.min(1,720/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*k));c.height=Math.max(1,Math.round(im.height*k));c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.7))}catch(e){cb(raw)}};
+  im.onerror=()=>{if(String(raw).length<700000)cb(raw);else toast('Photo format not supported. Use JPG or PNG.')};im.src=raw};
+ r.readAsDataURL(file)}
+const fileIn=(kind,id,label)=>`<div class="fi"><span>${label}</span><input class="file" type="file" accept="image/*" data-kind="${kind}" data-id="${id}"></div>`;
+/* ---------- actions ---------- */
+function getGPS(){
+ if(!window.isSecureContext||!navigator.geolocation){draft.gpsMsg='GPS needs the https link (not a downloaded file). The selected ghat will be used.';draw();return}
+ draft.gpsMsg='Finding your location...';draw();
+ navigator.geolocation.getCurrentPosition(p=>{draft.lat=p.coords.latitude.toFixed(5);draft.lon=p.coords.longitude.toFixed(5);draft.gpsMsg='📍 Location added: '+draft.lat+', '+draft.lon;draw()},
+ e=>{draft.lat=null;draft.gpsMsg=e.code===1?'Location permission denied. In Chrome tap the lock icon > Permissions > Location > Allow, then try again.':'Could not get location. Turn on phone GPS and try again. The ghat will be used meanwhile.';draw()},{timeout:10000,enableHighAccuracy:true})}
+async function submitReport(){
+ if(busy)return;if(!draft.photo){toast('Add a photo of the waste first');return}
+ const note=draft.note.trim()||'Waste reported';busy=true;
+ try{await db.collection('reports').add({g:draft.g,note,st:'Reported',t:Date.now(),photo:draft.photo,after:null,lat:draft.lat,lon:draft.lon,repUid:U.uid,repName:ME.name,byUid:null,byName:null});
+  await db.collection('users').doc(U.uid).update({pts:inc(10)});await log('report',ME.name+' reported waste at '+GH[draft.g].n);
+  draft={photo:null,lat:null,lon:null,g:draft.g,note:'',gpsMsg:''};toast('Report submitted. +10 points');tab='list';filter='All'}catch(e){toast(errMsg(e))}
+ busy=false;draw()}
+async function takeTask(id){try{const r=rep(id);await db.collection('reports').doc(id).update({st:'Assigned',byUid:U.uid,byName:ME.name});
+ await db.collection('users').doc(U.uid).update({pts:inc(5)});await log('accept',ME.name+' accepted the task at '+GH[r.g].n);toast('Task accepted. +5 points')}catch(e){toast(errMsg(e))}}
+async function delReport(id){try{await db.collection('reports').doc(id).delete();toast('Report deleted')}catch(e){toast(errMsg(e))}}
+async function reopen(id){try{await db.collection('reports').doc(id).update({st:'Reported',after:null,byUid:null,byName:null});toast('Report reopened')}catch(e){toast(errMsg(e))}}
+const navUrl=r=>'https://www.google.com/maps/dir/?api=1&destination='+(r.lat?r.lat+','+r.lon:encodeURIComponent(GH[r.g].q));
+const gUrl=i=>'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(GH[i].q);
+const stats=i=>{const f=s=>reports.filter(r=>r.g===i&&r.st===s).length,a=f('Assigned'),r=f('Reported');return{r,a,c:f('Cleaned'),p:r+a}};
+/* ---------- views ---------- */
+function vSetup(){return `<div class="card"><h2>One-time Firebase setup</h2><p>Open this file in a text editor and paste your Firebase web config where it says <code>PASTE_API_KEY</code>. Then host the file (Firebase Hosting or Netlify) and open the https link.</p></div>`}
+function vAuth(){const reg=mode==='register';return `<div class="card"><h2>${reg?'Create account':'Log in'}</h2>
+ ${reg?`<label class="l" for="nm">Full name</label><input type="text" id="nm" maxlength="30" autocomplete="name">`:''}
+ <label class="l" for="em">Email</label><input type="email" id="em" autocomplete="email">
+ <label class="l" for="pw">Password (min 6 characters)</label><input type="password" id="pw" autocomplete="${reg?'new-password':'current-password'}">
+ ${reg?`<label class="l" for="rl">I want to join as</label><select id="rl"><option value="citizen">Citizen (report waste)</option><option value="volunteer">Volunteer (clean waste)</option></select>`:''}
+ <button class="btn full" onclick="${reg?'doRegister()':'doLogin()'}">${reg?'Register':'Log in'}</button>
+ <div class="acts"><button class="ic" onclick="mode='${reg?'login':'register'}';draw()">${reg?'I already have an account':'Create a new account'}</button>${reg?'':'<button class="ic" onclick="resetPw()">Forgot password</button>'}</div></div>`}
+function vReport(){return `<div class="card"><h2>Report waste</h2>${fileIn('new',0,'1. Photo of the waste (camera or gallery)')}
+ ${draft.photo?`<img class="prev" src="${draft.photo}" alt="Photo preview">`:'<p class="note">A photo is required.</p>'}
+ <label class="l" for="g">2. Ghat or location</label><select id="g" onchange="draft.g=+this.value">${GH.map((g,i)=>`<option value="${i}"${i===draft.g?' selected':''}>${esc(g.n)}</option>`).join('')}</select>
+ <div class="acts"><button class="btn" onclick="getGPS()">📍 Add my exact location</button></div>
+ <div class="gps" style="margin-top:6px">${draft.gpsMsg||'Optional. With exact location, volunteers get a Google Maps route to the exact spot.'}</div>
+ <label class="l" for="note">3. What kind of waste is it?</label><textarea id="note" rows="2" oninput="draft.note=this.value" placeholder="Example: plastic, puja flowers, drain waste">${esc(draft.note)}</textarea>
+ <button class="btn full" onclick="submitReport()">Submit report</button></div><p class="note">You earn 10 points per report. Everyone sees it instantly.</p>`}
+function vMap(){
+ const st=GH.map((g,i)=>stats(i)),max=Math.max(1,...st.map(s=>s.p)),T=k=>st.reduce((a,s)=>a+s[k],0);
+ const col=p=>p?`hsl(${Math.round(30-22*p/max)} 80% 40%)`:'#2E8B57';
+ const mk=(x,y,i)=>`<circle cx="${x}" cy="${y}" r="${14+st[i].p/max*6}" fill="${col(st[i].p)}" stroke="#fff" stroke-width="2"/><text x="${x}" y="${y+5}" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">${st[i].p}</text>`;
+ let lab='';[4,5,1,2,3,6].forEach((i,k)=>{const y=45+k*55;lab+=mk(72,y,i)+`<text x="100" y="${y-2}" font-size="13" font-weight="700" fill="currentColor">${GH[i].n}</text><text x="100" y="${y+13}" font-size="11" fill="currentColor" opacity=".75">${st[i].p} pending · ${st[i].c} cleaned</text>`});
+ const svg=`<svg viewBox="0 0 340 360" width="100%" style="color:var(--ink)" role="img" aria-label="Hotspot map"><path d="M45 0 C15 60,80 100,45 160 S15 280,50 360" fill="none" stroke="#2F7FBF" stroke-width="34" opacity=".3"/><path d="M45 0 C15 60,80 100,45 160 S15 280,50 360" fill="none" stroke="#2F7FBF" stroke-width="2.5" stroke-dasharray="2 7"/><text transform="translate(22 200) rotate(-90)" font-size="12" font-weight="700" fill="#2F7FBF">River Ganga</text><rect x="238" y="140" width="98" height="105" rx="8" style="fill:var(--card);stroke:var(--river)" stroke-width="2"/><text x="287" y="165" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">NIT Patna</text><text x="287" y="181" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">Campus</text>${mk(287,215,0)}${lab}</svg>`;
+ return `<div class="card"><div class="tot"><div><b style="color:var(--red)">${T('r')}</b>Reported</div><div><b style="color:var(--blue)">${T('a')}</b>In progress</div><div><b style="color:var(--green)">${T('c')}</b>Cleaned</div></div></div>
+ <div class="card"><h2>Live hotspot map near NIT Patna</h2><p class="note" style="margin-top:0">Number in each circle = pending waste. Green = clean. Updates live for everyone.</p>${svg}<p class="note">Schematic map, not to scale. Use the Google Maps buttons for real locations.</p></div>
+ <div class="card"><h2>Locations</h2>${GH.map((g,i)=>({g,i,s:st[i]})).sort((a,b)=>b.s.p-a.s.p).map(o=>`<div style="margin-bottom:12px"><div class="row"><b>${esc(o.g.n)}</b><b>${o.s.p} pending</b></div><div class="bar"><i style="width:${o.s.p/max*100}%"></i></div><div class="row"><span class="note">Reported ${o.s.r} · In progress ${o.s.a} · Cleaned ${o.s.c}</span><a class="btn" href="${gUrl(o.i)}" target="_blank" rel="noopener">🧭 Google Maps</a></div></div>`).join('')}</div>`}
+function card(r){
+ const vol=isVol();let a=`<a class="btn" href="${navUrl(r)}" target="_blank" rel="noopener">🧭 Navigate in Google Maps</a>`,x='';
+ if(vol&&r.st==='Reported')a+=`<button class="btn alt" onclick="takeTask('${r.id}')">Accept task</button>`;
+ if(!r.photo)x+=fileIn('before',r.id,'Add before photo');
+ if(vol&&r.st==='Assigned')x+=fileIn('after',r.id,'Upload after photo (marks the task as cleaned)');
+ if(!vol&&r.st!=='Cleaned')x+='<p class="note">Switch to Volunteer (top) to accept or clean this task.</p>';
+ const L=['Reported','Assigned','Cleaned'],i=L.indexOf(r.st);
+ return `<div class="card"><div class="row"><b>${esc(GH[r.g].n)}</b><span class="badge s-${r.st}">${r.st}</span></div>
+ <div class="gps">${esc(r.note)} · ${ago(r.t)} · by ${esc(r.repName)}${r.byName?' · cleaner: '+esc(r.byName):''}</div>
+ <div class="steps">${L.map((s,k)=>`<span class="${k<=i?'done':''}">${s}</span>`).join('')}</div>
+ <div class="ba"><figure>${r.photo?`<img src="${r.photo}" alt="Before">`:'<div class="ph"></div>'}Before</figure><figure>${r.after?`<img src="${r.after}" alt="After">`:'<div class="ph"></div>'}After</figure></div>
+ <div class="acts">${a}</div>${x}</div>`}
+function vList(){
+ const L=['All','Reported','Assigned','Cleaned'],rs=reports.filter(r=>filter==='All'||r.st===filter);
+ return `<div class="chips">${L.map(l=>`<button class="${l===filter?'on':''}" onclick="filter='${l}';draw()">${l} (${l==='All'?reports.length:reports.filter(r=>r.st===l).length})</button>`).join('')}</div>${rs.length?rs.map(card).join(''):'<div class="empty">No reports here yet.</div>'}`}
+function vBoard(){
+ const m=ME,next=BADGES.find(b=>m.pts<b[0]),got=BADGES.filter(b=>m.pts>=b[0]),o=users.slice().sort((a,b)=>b.pts-a.pts);
+ return `<div class="card"><h2>${esc(m.name)}: ${m.pts} points</h2>${next?`<div class="bar" style="margin:4px 0"><i style="width:${Math.min(100,m.pts/next[0]*100)}%;background:var(--gold)"></i></div><p class="note">${next[0]-m.pts} more points for "${next[1]}"</p>`:'<p>All badges earned! 🎉</p>'}
+ <div>${got.length?got.map(b=>`<span class="tag">🏅 ${b[1]}</span>`).join(''):'<span class="note">No badges yet.</span>'}</div><p class="note">Report +10 · Accept task +5 · Cleanup with after photo +30</p></div>
+ <div class="card"><h2>Leaderboard</h2>${o.map((b,i)=>`<div class="lb${b.id===U.uid?' me':''}"><span class="nm">${i+1}. ${esc(b.name)}${b.id===U.uid?'<span class="tag">You</span>':''}${b.role==='volunteer'?' <span class="note">volunteer</span>':''}</span><b>${b.pts}</b></div>`).join('')}<div class="acts"><button class="btn" onclick="go('admin')">✏️ Edit leaderboard (Admin only)</button></div></div>`}
+function vFeed(){
+ const cl=reports.filter(r=>r.st==='Cleaned').length;
+ return `<div class="card"><h2>Community</h2><div class="tot"><div><b>${users.length}</b>Members</div><div><b>${users.filter(u=>u.role==='volunteer').length}</b>Volunteers</div><div><b style="color:var(--green)">${cl}</b>Cleanups</div></div>
+ <div class="acts"><button class="btn alt" onclick="enableAlerts()">🔔 Enable phone alerts</button></div></div>
+ <div class="card"><h2>Live activity</h2>${acts.length?acts.map(a=>`<div class="feed"><i>${ICON[a.type]||'•'}</i><div>${esc(a.text)}<div class="note">${ago(a.t)}</div></div></div>`).join(''):'<div class="empty">No activity yet.</div>'}</div>`}
+const QUOTES=['Small steps at the ghat today become a cleaner Ganga tomorrow.','One bag of waste picked up is one less bag in the river.','A clean river is a habit we build together, not a one-day project.','Be the reason a ghat looks better than you found it.','Every report is a promise that someone will care.','Great rivers are saved by ordinary people who showed up.','Do not wait for the perfect day. Pick up the first bottle.'];
+const TIERS={supporter:['🥉','Supporter','Gloves and waste bags (suggested ₹500)'],partner:['🥈','Partner','A full cleanup kit (suggested ₹2,000)'],champion:['🥇','Champion','A complete ghat cleanup drive (suggested ₹10,000)']};
+const tier=k=>TIERS[k]||TIERS.supporter;
+const SHARE_DEFAULT='https://claude.ai/artifact/UxXj8STmEFEdZSXkFXhrY2';
+const shareUrl=()=>{try{return localStorage.getItem('ss_share')||SHARE_DEFAULT}catch(e){return SHARE_DEFAULT}};
+const shareMsg=()=>'Join SwachhSetu! Report waste at the Ganga ghats near NIT Patna, volunteer to clean, and earn points.';
+async function doShare(){
+ try{if(navigator.share){await navigator.share({title:'SwachhSetu',text:shareMsg(),url:shareUrl()});return}}catch(e){if(e&&e.name==='AbortError')return}
+ copyLink()}
+function copyLink(){
+ const u=shareUrl(),ok=()=>toast('Link copied'),fb=()=>{const i=$('sh-url');if(i){i.focus();i.select();try{if(document.execCommand('copy')){ok();return}}catch(e){}}toast('Press and hold the link box to copy it')};
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,fb);else fb()}
+function saveShare(v){v=v.trim();try{v?localStorage.setItem('ss_share',v):localStorage.removeItem('ss_share')}catch(e){}draw()}
+function vShare(){
+ const u=shareUrl(),t=encodeURIComponent(shareMsg()+' '+u);
+ return `<div class="card"><h2>📤 Share SwachhSetu</h2><p class="note" style="margin-top:0">Invite friends, classmates and volunteers. More people means cleaner ghats.</p>
+ <div class="acts" style="margin-top:0"><button class="btn alt" onclick="doShare()">📤 Share</button>
+ <a class="btn" href="https://wa.me/?text=${t}" target="_blank" rel="noopener">💬 WhatsApp</a>
+ <a class="btn" href="https://t.me/share/url?url=${encodeURIComponent(u)}&text=${encodeURIComponent(shareMsg())}" target="_blank" rel="noopener">✈️ Telegram</a>
+ <a class="btn" href="mailto:?subject=${encodeURIComponent('Join SwachhSetu')}&body=${t}">✉️ Email</a>
+ <button class="btn" onclick="copyLink()">📋 Copy link</button></div>
+ <label class="l" for="sh-url">Link being shared (you can change it)</label><input type="text" id="sh-url" value="${esc(u)}" onchange="saveShare(this.value)"></div>`}
+function vComm(){
+ const subs=[['mot','💪 Motivation'],['spo','🤝 Sponsors'],['feed','📰 Activity']];
+ return vShare()+`<div class="chips">${subs.map(x=>`<button class="${x[0]===ctab?'on':''}" onclick="ctab='${x[0]}';draw()">${x[1]}</button>`).join('')}</div>`+(ctab==='spo'?vSpons():ctab==='feed'?vFeed():vMot())}
+function vMot(){
+ const cl=reports.filter(r=>r.st==='Cleaned'),q=QUOTES[Math.floor(Date.now()/864e5)%QUOTES.length],goal=3;
+ const mine=reports.filter(r=>r.t>Date.now()-7*864e5&&(r.repUid===U.uid||r.byUid===U.uid)).length;
+ const cnt={};cl.forEach(r=>{if(r.byName)cnt[r.byName]=(cnt[r.byName]||0)+1});
+ const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0],zero=GH.filter((g,i)=>stats(i).p===0).length;
+ const pl=localStorage.getItem('ss_pledge')==='1';
+ return `<div class="card quote"><div class="note">Today's motivation</div><p>“${esc(q)}”</p></div>
+ <div class="card"><h2>🎯 Your weekly challenge</h2><p class="note" style="margin-top:0">Make ${goal} reports or cleanups in 7 days.</p><div class="bar"><i style="width:${Math.min(100,mine/goal*100)}%;background:var(--green)"></i></div><b>${Math.min(mine,goal)} / ${goal}</b>${mine>=goal?' 🎉 Challenge complete!':''}</div>
+ <div class="card"><h2>🌟 Top cleaner</h2>${top?`<p style="margin:0"><b>${esc(top[0])}</b> has cleaned ${top[1]} spot${top[1]>1?'s':''}. Can you beat that?</p>`:'<p style="margin:0">No cleanups yet. Be the first volunteer to clean a spot!</p>'}</div>
+ <div class="card"><h2>🌊 Our impact</h2><div class="tot"><div><b style="color:var(--green)">${cl.length}</b>Cleanups</div><div><b>${zero}/${GH.length}</b>Spots at 0</div><div><b>${users.length}</b>Members</div></div></div>
+ <div class="card"><h2>🙏 Clean Ganga pledge</h2>${pl?'<p style="margin:0">You have taken the pledge. Thank you!</p>':'<p class="note" style="margin-top:0">I will not throw waste in the Ganga, and I will report waste when I see it.</p><button class="btn alt" onclick="pledge()">I take the pledge</button>'}</div>
+ <div class="card"><h2>💡 Quick tips</h2><p style="margin:0">Keep puja flowers and plastic separate. Never throw polythene in the river. Carry a cloth bag to the ghat.</p></div>`}
+function pledge(){localStorage.setItem('ss_pledge','1');log('pledge',ME.name+' took the Clean Ganga pledge');toast('Thank you for the pledge!');draw()}
+function sCard(s){const t=tier(s.tier);return `<div class="feed"><i>${t[0]}</i><div><b>${esc(s.name)}</b> <span class="note">${t[1]} · ${s.g>=0&&GH[s.g]?esc(GH[s.g].n):'Any ghat'}</span>${s.msg?`<div class="note">“${esc(s.msg)}”</div>`:''}</div></div>`}
+function vSpons(){
+ const ok=sponsors.filter(s=>s.status==='approved'),mp=sponsors.filter(s=>s.status==='pending'&&s.uid===U.uid);
+ return `<div class="card"><h2>Sponsor a cleanup</h2><p class="note" style="margin-top:0">Shops, colleges and companies can fund supplies for volunteers. Your name appears on the Sponsor Wall after admin approval.</p>
+ ${Object.keys(TIERS).map(k=>`<div class="row" style="padding:5px 0"><span>${TIERS[k][0]} <b>${TIERS[k][1]}</b></span><span class="note" style="text-align:right">${TIERS[k][2]}</span></div>`).join('')}</div>
+ <div class="card"><h2>Become a sponsor</h2>
+ <label class="l" for="sp-name">Name or organisation</label><input type="text" id="sp-name" maxlength="40" value="${esc(ME.name)}">
+ <label class="l" for="sp-tier">Tier</label><select id="sp-tier">${Object.keys(TIERS).map(k=>`<option value="${k}">${TIERS[k][0]} ${TIERS[k][1]}</option>`).join('')}</select>
+ <label class="l" for="sp-g">Support which location?</label><select id="sp-g"><option value="-1">Any ghat</option>${GH.map((g,i)=>`<option value="${i}">${esc(g.n)}</option>`).join('')}</select>
+ <label class="l" for="sp-msg">Message (optional)</label><textarea id="sp-msg" rows="2" maxlength="140"></textarea>
+ <button class="btn full" onclick="submitSponsor()">Send sponsorship request</button><p class="note">No payment happens in this app. The admin will contact you to arrange the support.</p></div>
+ ${mp.length?`<div class="card"><h2>Your pending request</h2>${mp.map(s=>sCard(s)+'<p class="note">Waiting for admin approval.</p>').join('')}</div>`:''}
+ <div class="card"><h2>🏅 Sponsor wall</h2>${ok.length?ok.map(sCard).join(''):'<div class="empty">No sponsors yet. Be the first!</div>'}</div>`}
+async function submitSponsor(){const n=$('sp-name').value.trim();if(!n){toast('Enter a name');return}
+ try{await db.collection('sponsors').add({name:n.slice(0,40),tier:$('sp-tier').value,g:+$('sp-g').value,msg:$('sp-msg').value.trim().slice(0,140),status:'pending',uid:U.uid,t:Date.now()});toast('Request sent. Waiting for admin approval.');draw()}catch(e){toast(errMsg(e))}}
+async function approveSponsor(id){try{const x=sponsors.find(s=>s.id===id);await db.collection('sponsors').doc(id).update({status:'approved'});await log('sponsor',x.name+' became a '+tier(x.tier)[1]+' sponsor');toast('Sponsor approved')}catch(e){toast(errMsg(e))}}
+async function delSponsor(id){try{await db.collection('sponsors').doc(id).delete();toast('Removed')}catch(e){toast(errMsg(e))}}
+function sRow(s,pend){const t=tier(s.tier);return `<div class="lb"><span class="nm">${t[0]} <b>${esc(s.name)}</b><div class="note">${t[1]} · ${s.g>=0&&GH[s.g]?esc(GH[s.g].n):'Any ghat'}${s.msg?' · '+esc(s.msg):''}</div></span>${pend?`<button class="btn" onclick="approveSponsor('${s.id}')">Approve</button>`:''}<button class="ic" onclick="delSponsor('${s.id}')" aria-label="Remove">✕</button></div>`}
+function vSponsorAdmin(){const p=sponsors.filter(s=>s.status==='pending'),a=sponsors.filter(s=>s.status==='approved');
+ return `<div class="card"><h2>Sponsor requests</h2>${p.length?p.map(s=>sRow(s,1)).join(''):'<p class="note">No pending requests.</p>'}${a.length?'<p class="note" style="margin-top:12px">Approved sponsors</p>'+a.map(s=>sRow(s,0)).join(''):''}</div>`}
+async function sha(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('ss:'+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return 'p:'+s}}
+async function adminLogin(){try{const s=await db.doc('config/admin').get(),want=s.exists?s.data().h:await sha('2646');
+ if(await sha($('pin').value)===want){adminOn=true;toast('Admin unlocked');draw()}else toast('Wrong PIN')}catch(e){toast(errMsg(e))}}
+function adminLock(){adminOn=false;localStorage.removeItem('ss_admin');draw()}
+async function setPin(){const v=$('np').value.trim();if(!/^\d{4,8}$/.test(v)){toast('PIN must be 4 to 8 digits');return}try{await db.doc('config/admin').set({h:await sha(v)});toast('PIN changed for everyone');$('np').value=''}catch(e){toast(errMsg(e))}}
+async function addMember(){const n=$('am-name').value.trim(),role=$('am-role').value,pts=Math.max(0,parseInt($('am-pts').value,10)||0);if(!n){toast('Enter a name');return}
+ try{await db.collection('users').add({name:n.slice(0,30),email:'',pts,role,t:Date.now(),manual:true});await log('join',n+' was added as a '+role+' by the admin');toast(n+' added')}catch(e){toast(errMsg(e))}}
+async function removeUser(id){if(id===U.uid){toast('You cannot remove your own account');rmId=null;draw();return}
+ const u=users.find(x=>x.id===id);try{rmId=null;await db.collection('users').doc(id).delete();await log('admin',(u?u.name:'A member')+' was removed by the admin');toast('Member removed')}catch(e){toast(errMsg(e))}}
+async function saveUser(id){const n=$('un-'+id).value.trim();if(!n){toast('Name cannot be empty');return}try{await db.collection('users').doc(id).update({name:n.slice(0,30),pts:Math.max(0,parseInt($('up-'+id).value,10)||0)});toast('Saved')}catch(e){toast(errMsg(e))}}
+async function saveAll(){const v=users.map(u=>({id:u.id,n:$('un-'+u.id).value.trim(),p:Math.max(0,parseInt($('up-'+u.id).value,10)||0)}));if(v.some(x=>!x.n)){toast('Name cannot be empty');return}try{const b=db.batch();v.forEach(x=>b.update(db.collection('users').doc(x.id),{name:x.n.slice(0,30),pts:x.p}));await b.commit();toast('All changes saved')}catch(e){toast(errMsg(e))}}
+async function uName(id,v){v=v.trim();if(!v){toast('Name cannot be empty');return}try{await db.collection('users').doc(id).update({name:v.slice(0,30)});toast('Name updated')}catch(e){toast(errMsg(e))}}
+async function uPts(id,v){try{await db.collection('users').doc(id).update({pts:Math.max(0,parseInt(v,10)||0)});toast('Points updated')}catch(e){toast(errMsg(e))}}
+async function wipe(col){for(;;){const s=await db.collection(col).limit(300).get();if(s.empty)break;const b=db.batch();s.docs.forEach(d=>b.delete(d.ref));await b.commit()}}
+async function doReset(){
+ try{toast('Resetting...');await wipe('reports');await wipe('activity');
+  for(let i=0;i<users.length;i+=400){const b=db.batch();users.slice(i,i+400).forEach(u=>b.update(db.collection('users').doc(u.id),{pts:0}));await b.commit()}
+  await log('admin','Admin reset the app. All reports and points are cleared.');confirmReset=false;toast('Everything was reset for all users');draw()}catch(e){toast(errMsg(e))}}
+function vAdmin(){
+ if(!adminOn)return `<div class="card"><h2>Admin login</h2><p class="note">Only the admin can edit the leaderboard, delete reports and reset the app.</p><label class="l" for="pin">Admin PIN</label><input type="password" id="pin" inputmode="numeric" onkeydown="if(event.key==='Enter')adminLogin()"><button class="btn full" onclick="adminLogin()">Unlock admin</button></div>`;
+ const T=s=>reports.filter(r=>r.st===s).length;
+ return `<div class="card"><div class="row"><h2>Admin dashboard</h2><button class="ic" onclick="adminLock()">Lock</button></div><div class="tot"><div><b>${users.length}</b>Users</div><div><b>${reports.length}</b>Reports</div><div><b style="color:var(--green)">${T('Cleaned')}</b>Cleaned</div></div><p class="note">Manage reports and the leaderboard below.</p></div>
+ <div class="card"><h2>Edit leaderboard</h2>${users.map(u=>`<div class="lb"><input type="text" id="un-${u.id}" maxlength="30" value="${esc(u.name)}" aria-label="Name"><input type="number" id="up-${u.id}" min="0" value="${u.pts}" style="width:84px" aria-label="Points"><button class="btn" onclick="saveUser('${u.id}')">Save</button><button class="ic" onclick="rmId='${u.id}';draw()" aria-label="Remove member">✕</button></div>${rmId===u.id?`<div class="lb" style="background:var(--bg);padding:8px;border-radius:8px"><span class="nm">Remove <b>${esc(u.name)}</b> from SwachhSetu?</span><button class="btn red" onclick="removeUser('${u.id}')">Yes, remove</button><button class="ic" onclick="rmId=null;draw()">Cancel</button></div>`:''}`).join('')}<div class="acts"><button class="btn alt" onclick="saveAll()">Save all changes</button></div><p class="note">Change a name or points, then press Save. It updates for everyone.</p></div>
+ <div class="card"><h2>Add member</h2><label class="l" for="am-name">Name</label><input type="text" id="am-name" maxlength="30"><label class="l" for="am-role">Role</label><select id="am-role"><option value="volunteer">Volunteer</option><option value="citizen">Citizen</option></select><label class="l" for="am-pts">Starting points</label><input type="number" id="am-pts" min="0" value="0"><button class="btn full" onclick="addMember()">Add member</button><p class="note">Volunteers and citizens who register themselves are added automatically. Use this for people without a phone or account.</p></div>
+ <div class="card"><h2>Manage reports</h2>${reports.length?reports.map(r=>`<div class="lb"><span class="nm"><b>${esc(GH[r.g].n)}</b> <span class="badge s-${r.st}">${r.st}</span><div class="note">${esc(r.note)} · ${ago(r.t)}</div></span>${r.st==='Cleaned'?`<button class="ic" onclick="reopen('${r.id}')">Reopen</button>`:''}<button class="ic" onclick="delReport('${r.id}')">Delete</button></div>`).join(''):'<p class="note">No reports.</p>'}</div>
+ ${vSponsorAdmin()}
+ <div class="card"><h2>Change admin PIN</h2><input type="password" id="np" inputmode="numeric" placeholder="New PIN (4 to 8 digits)"><div class="acts"><button class="btn" onclick="setPin()">Change PIN</button></div></div>
+ <div class="card"><h2>Reset the whole app</h2><p class="note">Deletes every report, photo and activity item for ALL users and sets all points to 0. Accounts stay.</p>${confirmReset?`<div class="acts"><button class="btn red" onclick="doReset()">Yes, erase everything</button><button class="ic" onclick="confirmReset=false;draw()">Cancel</button></div>`:`<div class="acts"><button class="btn red" onclick="confirmReset=true;draw()">Reset app</button></div>`}</div>`}
+function draw(){
+ const gate=!U||!ME;
+ $('roles').style.display=!gate?'flex':'none';
+ if(!gate)['citizen','volunteer'].forEach(x=>$('r-'+x).classList.toggle('on',ME.role===x));
+ $('who').innerHTML=U&&ME?`Signed in as <b>${esc(ME.name)}</b>${adminOn?' (Admin)':''} · <a onclick="logout()">Log out</a>`:'';
+ $('nav').style.display=gate?'none':'flex';
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.getAttribute('data-t')===tab));
+ let h;
+ if(!U)h=vAuth();else if(!ME)h='<div class="empty">Loading...</div>';
+ else h=({report:vReport,map:vMap,list:vList,board:vBoard,comm:vComm,admin:vAdmin})[tab]();
+ $('app').innerHTML=(DEMO?'<div class="card" style="background:var(--gold);color:#10242B;border:0"><b>Demo mode.</b> Data is saved only in this browser. Open this page in two tabs and log in as two different users to see live sync. Real multi-device sync starts when Firebase is connected.</div>':'')+h}
+
+/* ---------- DEMO MODE: a tiny offline stand-in for Firebase (used only until a real config is pasted) ---------- */
+function demoFirebase(){
+ const K='ssd3',AK='ssd3a',CK='ssd3c';let D;try{D=JSON.parse(localStorage.getItem(K))}catch(e){}
+ if(!D){const n=Date.now(),H=36e5;D={users:{},reports:{},activity:{},sponsors:{},config:{}};
+  [['Yash Dev',210],['Raj Kapoor',165],['Rabee Ahmed',40],['Ishan Singh',90],['Pranjal Mishra',60]].forEach((x,i)=>{D.users['seed'+i]={name:x[0],email:'',pts:x[1],role:i%2?'citizen':'volunteer',t:n}});
+  const R=(g,note,st,h,by)=>({g,note,st,t:n-H*h,photo:null,after:null,lat:null,lon:null,repUid:'seed3',repName:'Ishan Singh',byUid:by?'seed1':null,byName:by||null});
+  D.reports.s1=R(2,'Plastic bottles and puja flowers on the steps','Reported',30);D.reports.s2=R(1,'Garbage piled near the drain','Reported',20);
+  D.reports.s3=R(0,'Packaging waste behind the boundary wall','Assigned',12,'Raj Kapoor');D.reports.s4=R(3,'Coconut shells and plastic bags','Cleaned',60,'Yash Dev');D.reports.s5=R(6,'Construction debris on the bank','Reported',6);
+  D.sponsors.p1={name:'Patna Green Club',tier:'partner',g:-1,msg:'Together for a cleaner Ganga',status:'approved',uid:'seed0',t:n-H*5};
+  D.activity.a1={type:'clean',text:'Yash Dev cleaned Gulabi Ghat',uid:'seed0',t:n-H*58};D.activity.a2={type:'accept',text:'Raj Kapoor accepted the task at NIT Patna Campus',uid:'seed1',t:n-H*11};D.activity.a3={type:'report',text:'Ishan Singh reported waste at Collectorate Ghat',uid:'seed3',t:n-H*6}}
+ const sv=()=>{try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}},L=[],tick=()=>L.slice().forEach(f=>f());
+ const merge=(b,u)=>{const o={...b};for(const k in u){const v=u[k];o[k]=(v&&typeof v==='object'&&v.__inc!==undefined)?(o[k]||0)+v.__inc:v}return o};
+ const dref=(c,id)=>({id,get:async()=>{const v=D[c]&&D[c][id];return{id,exists:!!v,data:()=>v?{...v}:undefined}},
+  set:async(o,op)=>{D[c]=D[c]||{};D[c][id]=merge(op&&op.merge?D[c][id]||{}:{},o);sv();tick()},
+  update:async o=>{if(!(D[c]&&D[c][id]))throw new Error('Document not found');D[c][id]=merge(D[c][id],o);sv();tick()},
+  delete:async()=>{if(D[c])delete D[c][id];sv();tick()}});
+ const qry=(c,ord,lim)=>{
+  const build=()=>{let a=Object.keys(D[c]||{}).map(id=>({id,v:D[c][id]}));
+   if(ord)a.sort((x,y)=>(ord[1]==='desc'?-1:1)*((x.v[ord[0]]>y.v[ord[0]])-(x.v[ord[0]]<y.v[ord[0]])));return lim?a.slice(0,lim):a};
+  const mk=(a,prev)=>({docs:a.map(x=>({id:x.id,data:()=>({...x.v}),ref:dref(c,x.id)})),empty:!a.length,docChanges:()=>a.filter(x=>!prev.has(x.id)).map(x=>({type:'added',doc:{id:x.id,data:()=>({...x.v})}}))});
+  return{orderBy:(f,d)=>qry(c,[f,d||'asc'],lim),limit:n=>qry(c,ord,n),get:async()=>mk(build(),new Set()),
+   onSnapshot:cb=>{let prev=new Set();const f=()=>{const a=build();cb(mk(a,prev));prev=new Set(a.map(x=>x.id))};L.push(f);setTimeout(f,0);return()=>{const i=L.indexOf(f);if(i>=0)L.splice(i,1)}}}};
+ const db={collection:c=>Object.assign(qry(c,null,0),{doc:id=>dref(c,id),add:async o=>{const id='d'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);D[c]=D[c]||{};D[c][id]={...o};sv();tick();return dref(c,id)}}),
+  doc:q=>{const a=q.split('/');return dref(a[0],a[1])},
+  batch:()=>{const ops=[];return{delete:r=>ops.push(()=>r.delete()),update:(r,o)=>ops.push(()=>r.update(o)),commit:async()=>{for(const f of ops)await f()}}}};
+ window.addEventListener('storage',e=>{if(e.key===K){try{D=JSON.parse(e.newValue);tick()}catch(x){}}});
+ const A=()=>{try{return JSON.parse(localStorage.getItem(AK))||{}}catch(e){return{}}},AS=a=>{try{localStorage.setItem(AK,JSON.stringify(a))}catch(e){}};
+ let cur=null;try{cur=sessionStorage.getItem(CK)}catch(e){}
+ const setCur=v=>{cur=v;try{v?sessionStorage.setItem(CK,v):sessionStorage.removeItem(CK)}catch(e){}};
+ const AL=[],user=()=>{const a=cur&&A()[cur];return a?{uid:a.uid,email:cur,displayName:a.name,updateProfile:async o=>{const all=A();all[cur].name=o.displayName;AS(all)}}:null},fire=()=>{const u=user();AL.forEach(f=>f(u))};
+ const authObj={onAuthStateChanged:f=>{AL.push(f);setTimeout(()=>f(user()),0)},
+  createUserWithEmailAndPassword:async(em,pw)=>{em=em.toLowerCase();const all=A();if(!/.+@.+\..+/.test(em))throw new Error('Firebase: Invalid email');if(pw.length<6)throw new Error('Firebase: Password should be at least 6 characters');if(all[em])throw new Error('Firebase: Email already in use');
+   all[em]={pw,uid:'u'+Date.now().toString(36),name:''};AS(all);setCur(em);const u=user();fire();return{user:u}},
+  signInWithEmailAndPassword:async(em,pw)=>{em=em.toLowerCase();const a=A()[em];if(!a||a.pw!==pw)throw new Error('Firebase: Wrong email or password');setCur(em);fire()},
+  signOut:async()=>{setCur(null);fire()},sendPasswordResetEmail:async()=>{}};
+ return{initializeApp:()=>{},auth:()=>authObj,firestore:Object.assign(()=>db,{FieldValue:{increment:n=>({__inc:n})}})}}
+if(DEMO)window.firebase=demoFirebase();
+init();
+</script>
+</body>
+</html>
