@@ -127,6 +127,17 @@ html.rm .a0,html.rm .a1,html.rm .a2,html.rm .a3{animation:none!important}@media(
 @keyframes df{0%,100%{transform:translate(0,0)}50%{transform:translate(14px,-10px)}}
 html.rm #sky *{animation:none!important}html.rm #sky .sc{transition:none;transform:none}
 html.nt #app>.note,html.nt #app>p{color:#dbe7ff}
+
+.sl{aspect-ratio:auto;height:62vw;min-height:300px;max-height:520px}.sl .tx{font-size:24px;padding:22px;line-height:1.35}.sl .cp{font-size:15px;padding:10px 14px}
+#bgl.bga{animation:bgshift 20s ease-in-out infinite alternate}@keyframes bgshift{from{background-position:0% 50%}to{background-position:100% 50%}}
+@keyframes sail{from{transform:translate3d(-20vw,0,0)}to{transform:translate3d(120vw,0,0)}}@keyframes ff{0%,100%{opacity:.1;transform:translate(0,0)}50%{opacity:1;transform:translate(18px,-22px)}}
+
+.ssw{position:relative;flex:1 1 160px;min-width:0;width:100%}.ssb{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:8px;padding:11px 12px;font:600 15px Mukta,sans-serif;cursor:pointer}
+.ssp{position:absolute;z-index:60;left:0;right:0;top:calc(100% + 4px);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.28);padding:8px}.ssp input{width:100%;margin:0 0 6px}
+.ssl{max-height:240px;overflow:auto}.sso{padding:10px;border-radius:6px;cursor:pointer;color:var(--ink)}.sso:hover,.sso.on{background:var(--river);color:var(--onriver)}
+html.cs .card,html.cs nav,html.cs .tile{background:color-mix(in srgb,var(--card) 94%,transparent)}html.cg .card,html.cg nav,html.cg .tile{background:color-mix(in srgb,var(--card) 84%,transparent);backdrop-filter:blur(10px)}
+html.cs .quote,html.cg .quote{background:color-mix(in srgb,var(--river) 92%,transparent);color:var(--onriver)}.quote p,.quote .note{text-shadow:none}
+.ic{-webkit-appearance:none;appearance:none;background:var(--card);color:var(--ink)}.ic:disabled{color:var(--ink)}
 </style>
 </head>
 <body><div id="bgl"></div><div id="fx"></div>
@@ -193,7 +204,7 @@ const mkUser=u=>u?{uid:u.id,email:u.email,displayName:(u.user_metadata&&u.user_m
 const authShim={
  onAuthStateChanged:f=>{let last;sb.auth.onAuthStateChange((ev,s)=>{
   if(ev==='PASSWORD_RECOVERY')setTimeout(()=>{const p=prompt('Enter your new password (min 6 characters)');if(p&&p.length>=6)sb.auth.updateUser({password:p}).then(r=>toast(r.error?r.error.message:'Password updated'));else if(p)toast('Password must be at least 6 characters')},600);
-  const u=s&&s.user||null,id=u?u.id:null;if(last!==undefined&&id===last)return;last=id;setTimeout(()=>{f(mkUser(u));if(u)loadEff();else eff='user'},0)})},
+  const u=s&&s.user||null,id=u?u.id:null;if(last!==undefined&&id===last)return;last=id;setTimeout(()=>{f(mkUser(u));if(u){sb.rpc('lock_access').then(()=>loadEff(),()=>loadEff())}else eff='user'},0)})},
  createUserWithEmailAndPassword:async(em,pw,meta)=>{const {data,error}=await sb.auth.signUp({email:em,password:pw,options:{data:meta||{}}});if(error)throw error;
   if(!data.session)throw new Error('Account created. Please confirm your email, then log in.');return{user:mkUser(data.user)}},
  signInWithEmailAndPassword:async(em,pw)=>{const {error}=await sb.auth.signInWithPassword({email:em,password:pw});if(error)throw error;try{await sb.rpc('lock_access')}catch(e){}eff='user'},
@@ -220,7 +231,7 @@ const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;',
 const ago=t=>{const m=Math.floor((Date.now()-t)/6e4);return m<1?'just now':m<60?m+' min ago':m<1440?Math.floor(m/60)+' h ago':Math.floor(m/1440)+' d ago'};
 function toast(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3200)}
 const errMsg=e=>String(e&&e.message||e).replace('Firebase: ','');
-function go(t){tab=t;if(t==='profile')sset='';if(t==='admin')ahub='';try{const a=$('app');a.classList.remove('pe');void a.offsetWidth;a.classList.add('pe')}catch(e){}confirmReset=false;adminOn=false;adminPin=null;rmId=null;if(!['profile','team','admin'].includes(t)&&eff!=='user'){eff='user';sb.rpc('lock_access').then(()=>{})}draw()}
+function go(t){tab=t;if(t==='profile')sset='';if(t==='admin')ahub='';try{const a=$('app');a.classList.remove('pe');void a.offsetWidth;a.classList.add('pe')}catch(e){}confirmReset=false;adminOn=false;adminPin=null;rmId=null;draw()}
 const rep=id=>reports.find(r=>r.id===id);
 const isVol=()=>!!(ME&&ME.role==='volunteer');
 async function log(type,text){try{await db.collection('activity').add({type,text,uid:U.uid,t:Date.now()})}catch(e){}}
@@ -230,7 +241,7 @@ async function enableAlerts(){try{const p=await Notification.requestPermission()
 function init(){
  auth=authShim;db=dbShim;
  auth.onAuthStateChanged(async u=>{
-  offs.forEach(f=>f());offs=[];U=u;ME=null;firstAct=true;
+  offs.forEach(f=>f());offs=[];U=u;ME=null;firstAct=true;unFirst=true;unotes=[];
   if(u){
    try{const ref=db.collection('users').doc(u.uid),s=await ref.get();
     if(!s.exists)await ref.set({name:u.displayName||(u.email||'User').split('@')[0],email:u.email||'',pts:0,role:'citizen',t:Date.now()})}catch(e){toast(errMsg(e))}
@@ -240,7 +251,7 @@ function init(){
    offs.push(db.collection('activity').orderBy('t','desc').limit(40).onSnapshot(s=>{
     if(!firstAct)s.docChanges().forEach(c=>{if(c.type==='added'&&c.doc.data().uid!==u.uid)notify(c.doc.data().text)});
     firstAct=false;acts=s.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));
-   offs.push(db.collection('ads').orderBy('t','desc').limit(20).onSnapshot(q=>{ads=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('notices').orderBy('t','desc').limit(20).onSnapshot(q=>{notices=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('campus_places').orderBy('idx','asc').limit(300).onSnapshot(q=>{places=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('member_proposals').orderBy('t','desc').limit(50).onSnapshot(q=>{props=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('app_settings').onSnapshot(q=>{settings={};q.docs.forEach(d=>{const x=d.data();settings[x.key]=x.value});try{applyPrefs()}catch(e){}sd()},fail));offs.push(db.collection('locations').orderBy('idx','asc').limit(200).onSnapshot(q=>{locs=q.docs.map(d=>({id:d.id,...d.data()}));syncGH();sd()},fail));offs.push(db.collection('motivations').orderBy('t','desc').limit(1).onSnapshot(q=>{mots=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('user_private').onSnapshot(q=>{priv=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('idea_messages').orderBy('t','desc').limit(400).onSnapshot(q=>{ideas=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('default_avatars').onSnapshot(q=>{dav=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('flags').orderBy('t','desc').limit(50).onSnapshot(q=>{flags=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));
+   offs.push(db.collection('ads').orderBy('t','desc').limit(20).onSnapshot(q=>{ads=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('notices').orderBy('t','desc').limit(20).onSnapshot(q=>{notices=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('campus_places').orderBy('idx','asc').limit(300).onSnapshot(q=>{places=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('member_proposals').orderBy('t','desc').limit(50).onSnapshot(q=>{props=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('app_settings').onSnapshot(q=>{settings={};q.docs.forEach(d=>{const x=d.data();settings[x.key]=x.value});try{applyPrefs()}catch(e){}sd()},fail));offs.push(db.collection('locations').orderBy('idx','asc').limit(200).onSnapshot(q=>{locs=q.docs.map(d=>({id:d.id,...d.data()}));syncGH();sd()},fail));offs.push(db.collection('default_quotes').orderBy('t','asc').limit(60).onSnapshot(q=>{dq=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('motivations').orderBy('t','desc').limit(1).onSnapshot(q=>{mots=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('user_private').onSnapshot(q=>{priv=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('idea_messages').orderBy('t','desc').limit(400).onSnapshot(q=>{ideas=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('default_avatars').onSnapshot(q=>{dav=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('user_notices').orderBy('t','desc').limit(30).onSnapshot(q=>{if(!unFirst)q.docChanges().forEach(c=>notify(c.doc.data().body));unFirst=false;unotes=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));offs.push(db.collection('bg_themes').orderBy('t','desc').limit(50).onSnapshot(q=>{bgThemes=q.docs.map(d=>({id:d.id,...d.data()}));try{applyPrefs()}catch(e){}sd()},fail));offs.push(db.collection('flags').orderBy('t','desc').limit(50).onSnapshot(q=>{flags=q.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));
    offs.push(db.collection('sponsors').orderBy('t','desc').limit(50).onSnapshot(s=>{sponsors=s.docs.map(d=>({id:d.id,...d.data()}));sd()},fail));
   }
   draw()})}
@@ -305,7 +316,7 @@ function vAuth(){const reg=mode==='register';return `<div class="card"><h2>${reg
  ${reg?`<label class="l" for="rl">I want to join as</label><select id="rl"><option value="citizen">Citizen (report waste)</option><option value="volunteer">Volunteer (clean waste)</option></select>`:''}
  <button class="btn full" onclick="${reg?'doRegister()':'doLogin()'}">${reg?'Register':'Log in'}</button>
  <div class="acts"><button class="ic" onclick="mode='${reg?'login':'register'}';draw()">${reg?'I already have an account':'Create a new account'}</button>${reg?'':'<button class="ic" onclick="resetPw()">Forgot password</button>'}</div></div>`}
-function vReport(){return vNeedPhoto()+`<div class="card"><h2>Report waste</h2>${fileIn('new',0,'1. Photo of the waste (camera or gallery)')}
+function vReport(){return vUNotes()+vNeedPhoto()+`<div class="card"><h2>Report waste</h2>${fileIn('new',0,'1. Photo of the waste (camera or gallery)')}
  ${draft.photo?`<img class="prev" src="${draft.photo}" alt="Photo preview">`:'<p class="note">A photo is required.</p>'}
  <label class="l" for="g">2. Ghat or location</label><select id="g" onchange="draft.g=+this.value;draw()">${GH.map((g,i)=>g.gone?'':`<option value="${i}"${i===draft.g?' selected':''}>${esc(g.n)}</option>`).join('')}</select>${draft.g===0?bldSel():''}
  <div class="acts"><button class="btn" onclick="getGPS()">📍 Add my exact location</button></div>${draft.manual?`<div class="acts" style="margin-top:0"><input type="text" id="mlat" placeholder="25.6205, 85.1730" inputmode="decimal" style="flex:1"><button class="btn" onclick="useManual()">Use these</button></div><p class="note" style="margin-top:0">Open Google Maps, press and hold on your spot, then copy the two numbers shown at the top.</p>`:''}
@@ -375,7 +386,7 @@ function vComm(){
  const subs=[['mot','💪 Motivation'],['spo','🤝 Sponsors'],['feed','📰 Activity'],['notice','📌 Notices'],['ads','📢 Ads']];
  return vShare()+`<div class="chips">${subs.map(x=>`<button class="${x[0]===ctab?'on':''}" onclick="ctab='${x[0]}';draw()">${x[1]}</button>`).join('')}</div>`+(ctab==='spo'?vSpons():ctab==='feed'?vFeed():ctab==='notice'?vNoticesL():ctab==='ads'?vAdsL():vMot())}
 function vMot(){
- const cl=reports.filter(r=>r.st==='Cleaned'),q=(mots[0]&&mots[0].text)||QUOTES[Math.floor(Date.now()/864e5)%QUOTES.length],goal=3;
+ const cl=reports.filter(r=>r.st==='Cleaned'),q=(mots[0]&&mots[0].text)||dayQuote(),goal=3;
  const mine=reports.filter(r=>r.t>Date.now()-7*864e5&&(r.repUid===U.uid||r.byUid===U.uid)).length;
  const cnt={};cl.forEach(r=>{if(r.byName)cnt[r.byName]=(cnt[r.byName]||0)+1});
  const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0],zero=GH.filter((g,i)=>!g.gone&&stats(i).p===0).length;
@@ -444,12 +455,12 @@ function draw(){
  let h;
  if(!U)h=vAuth();else if(!ME)h='<div class="empty">Loading...</div>';
  else h=({report:vReport,map:vMap,list:vList,board:vBoard,comm:vComm,admin:vAdmin,team:vTeam,profile:vProfile})[tab]();
- $('app').innerHTML=h+(U&&ME&&['map','list','board','comm'].includes(tab)?vBanner():'');startBanner()}
+ $('app').innerHTML=h+(U&&ME&&['map','list','board','comm'].includes(tab)?vBanner():'');startBanner();enhanceSelects()}
 
 /* ---------- Swach Nova additions ---------- */
 function vRealMap(){const g=gh(mapG);return `<div class="card"><h2>Map</h2><div class="acts" style="margin-top:0"><select onchange="mapG=+this.value;draw()" style="flex:1">${GH.map((x,i)=>x.gone?'':`<option value="${i}"${i===mapG?' selected':''}>${esc(x.n)}</option>`).join('')}</select><button class="btn${mapT==='m'?'':' alt'}" onclick="mapT='m';draw()">Map</button><button class="btn${mapT==='k'?'':' alt'}" onclick="mapT='k';draw()">Satellite</button></div><iframe title="Map" style="width:100%;height:280px;border:0;border-radius:10px;margin-top:8px" loading="lazy" src="https://www.google.com/maps?q=${encodeURIComponent(g.q)}&t=${mapT}&z=16&output=embed"></iframe></div>`}
 function slides(){return notices.slice(0,6).map(n=>({img:n.img,t:n.text,l:'',c:'Notice'})).concat(ads.slice(0,6).map(a=>({img:a.img,t:a.name,l:a.link,c:'Ad · '+a.name}))).concat(sponsors.filter(x=>x.status==='approved').slice(0,6).map(x=>({img:null,t:'🤝 '+x.name+(x.msg?' · '+x.msg:''),l:'',c:tier(x.tier)[1]+' sponsor'})))}
-function vBanner(){return '<div class="sl" id="bn"><span class="note">Ads and notices appear here</span></div>'}
+function vBanner(){return '<div class="note" style="margin:6px 2px 4px;font-weight:700;letter-spacing:.6px;text-transform:uppercase">Ad · Notice · Sponsor</div><div class="sl" id="bn"><span class="note">Ads and notices appear here</span></div>'}
 function startBanner(){clearInterval(bt);const it=slides(),e=$('bn');if(!e||!it.length)return;const show=()=>{const el=$('bn');if(!el)return;const x=it[bi%it.length];bi++;
  el.innerHTML=(x.img?`<img src="${x.img}" alt="" onclick="openImg(this.src)">`:`<div class="tx">${esc(x.t)}</div>`)+`<div class="cp">${esc(x.c)}${x.l?` · <a href="${esc(x.l)}" target="_blank" rel="noopener" style="color:#fff">Visit</a>`:''}</div>`};show();if(it.length>1)bt=setInterval(show,4000)}
 async function review(id,ok){try{await rpcT('review_report',{p_id:id,p_ok:ok});toast(ok?'Approved':'Declined')}catch(e){toast(errMsg(e))}}
@@ -524,7 +535,7 @@ async function saveSlide(){if(nsl.k==='ad'&&!nsl.a.trim()){toast('Enter the comp
 async function delSlide(k,id){try{await rpcT(k==='ad'?'adm_del_ad':'adm_del_notice',{p_id:id});toast('Deleted')}catch(e){toast(errMsg(e))}}
 async function approveSponsor(id){try{const x=sponsors.find(s=>s.id===id);await rpcT('admin_approve_sponsor',{p_id:id});await log('sponsor',x.name+' became a '+tier(x.tier)[1]+' sponsor');toast('Sponsor approved')}catch(e){toast(errMsg(e))}}
 async function delSponsor(id){try{await rpcT('admin_delete_sponsor',{p_id:id});toast('Removed')}catch(e){toast(errMsg(e))}}
-async function doReset(){if(!confirm('Reset all reports, points, notices, ads and sponsors for everyone?'))return;try{await rpcT('admin_reset');await log('admin','Admin reset the app. All reports and points are cleared.');toast('Everything was reset')}catch(e){toast(errMsg(e))}}
+async function doReset(){if(!confirm('Reset all reports, points, notices, ads and sponsors for everyone?'))return;try{await rpcT('admin_reset');await log('admin','Admin reset the app. All reports and points are cleared.');eff='user';sb.rpc('lock_access').then(()=>{});tab='profile';toast('Everything was reset')}catch(e){toast(errMsg(e))}}
 
 /* ---------- location, notices/slides, motivation, photo removal ---------- */
 function vAddLoc(){return `<div class="card"><div class="row"><h2 style="margin:0">Add location</h2><span class="note">Member only</span></div><p class="note" style="margin-top:6px">Add a ghat or spot near NIT Patna. It shows in the map above and in the report form.</p>${ld.open&&isMem()?`<label class="l" for="ln">Name</label><input type="text" id="ln" maxlength="40" value="${esc(ld.n)}" oninput="ld.n=this.value"><label class="l" for="lq">Place name or coordinates (optional)</label><input type="text" id="lq" maxlength="100" placeholder="Example: 25.6205, 85.1730" value="${esc(ld.q)}" oninput="ld.q=this.value"><div class="acts"><button class="btn" onclick="addLoc()">Add</button><button class="ic" onclick="ld.open=false;draw()">Cancel</button></div>`:`<button class="btn full" onclick="openLoc()">📍 Add location</button>`}</div>`}
@@ -538,7 +549,14 @@ function vSlideBox(){const op=nsl.open&&isAdm();
 function openSl(k){if(!isAdm()){toast('Only the admin can add notices and slides');return}nsl.k=k;nsl.open=true;draw()}
 function vNoticesL(){return `<div class="card"><h2>📌 Notices</h2>${notices.length?notices.map(n=>`<div style="margin-bottom:12px"><div class="note" style="margin-top:0">${ago(n.t)}</div>${n.text?`<b>${esc(n.text)}</b>`:''}${n.img?`<img class="prev" src="${n.img}" alt="" onclick="openImg(this.src)">`:''}</div>`).join(''):'<div class="empty">No notices yet.</div>'}</div>`}
 function vAdsL(){return `<div class="card"><h2>📢 Ads</h2>${ads.length?ads.map(a=>`<div style="margin-bottom:12px"><b>${esc(a.name)}</b>${a.link?` · <a href="${esc(a.link)}" target="_blank" rel="noopener">Visit</a>`:''}${a.img?`<img class="prev" src="${a.img}" alt="" onclick="openImg(this.src)">`:''}</div>`).join(''):'<div class="empty">No ads yet.</div>'}</div>`}
-function vMotEdit(){return `<div class="card"><div class="row"><b>Edit motivation</b><span class="note">Admin only</span></div>${motOpen&&isAdm()?`<textarea id="mt" rows="3" maxlength="200" oninput="mtxt=this.value" placeholder="Write the motivation everyone will see">${esc(mtxt)}</textarea><div class="acts"><button class="btn" onclick="saveMot()">Save</button><button class="ic" onclick="clearMot()">Use default quotes</button><button class="ic" onclick="motOpen=false;draw()">Cancel</button></div>`:`<button class="btn full" onclick="openMot()">✏️ Edit</button>`}</div>`}
+let dq=[],newDq='';
+const dqList=()=>dq.length?dq.map(x=>x.text):QUOTES;
+const dayQuote=()=>{const L=dqList();return L[Math.floor((Date.now()+19800000)/864e5)%L.length]};
+function vMotEdit(){const cur=mots[0]&&mots[0].text,L=dq.length?dq:QUOTES.map(t=>({text:t}));
+ return `<div class="card"><div class="row"><b>Message of the day</b><span class="note">Admin only</span></div><p class="note" style="margin:4px 0 8px">${cur?'Everyone sees this message until you change it or go back to the default ones.':'You have not written your own. The default motivations below change every day.'}</p>${cur?`<p style="margin:0 0 8px">“${esc(cur)}”</p>`:''}${motOpen&&isAdm()?`<textarea id="mt" rows="3" maxlength="200" oninput="mtxt=this.value" placeholder="Write the motivation everyone will see">${esc(mtxt)}</textarea><div class="acts"><button class="btn" onclick="saveMot()">Save</button><button class="ic" onclick="motOpen=false;draw()">Cancel</button></div>`:`<div class="acts" style="margin-top:0"><button class="btn" onclick="openMot()">✏️ ${cur?'Change my message':'Write my own'}</button>${cur?'<button class="ic" onclick="clearMot()">Use default motivations</button>':''}</div>`}</div>
+ <div class="card"><h2>Default motivations (${L.length})</h2><p class="note" style="margin-top:0">When you have not written your own message, one of these shows each day, in turn. Add or remove as you like.</p>${L.map(x=>`<div class="lb"><span class="nm">${esc(x.text)}</span>${x.id?`<button class="ic" onclick="delQuote('${x.id}')">Remove</button>`:''}</div>`).join('')}<textarea id="nq" rows="2" maxlength="200" placeholder="Add a new default motivation" oninput="newDq=this.value" style="margin-top:8px">${esc(newDq)}</textarea><button class="btn full" onclick="addQuote()">Add motivation</button></div>`}
+async function addQuote(){if(newDq.trim().length<3){toast('Write a motivation first');return}try{await rpcT('adm_add_quote',{p_text:newDq.trim()});newDq='';toast('Motivation added');draw()}catch(e){toast(errMsg(e))}}
+async function delQuote(id){if(!confirm('Remove this motivation?'))return;try{await rpcT('adm_del_quote',{p_id:id});toast('Removed')}catch(e){toast(errMsg(e))}}
 function openMot(){if(!isAdm()){toast('Only the admin can edit this');return}mtxt=(mots[0]&&mots[0].text)||'';motOpen=true;draw()}
 async function saveMot(){if(!mtxt.trim()){toast('Write something first');return}try{await rpcT('adm_set_motivation',{p_text:mtxt.trim()});motOpen=false;toast('Motivation updated');draw()}catch(e){toast(errMsg(e))}}
 async function clearMot(){try{await rpcT('adm_clear_motivation');motOpen=false;toast('Default quotes are back');draw()}catch(e){toast(errMsg(e))}}
@@ -580,7 +598,7 @@ function vReportsAdmin(){const rs=reports.slice(0,40);
 async function delR(id){if(!confirm('Delete this report for good?'))return;try{await rpcT('admin_delete_report',{p_id:id});reports=reports.filter(x=>x.id!==id);toast('Report deleted');draw()}catch(e){toast(errMsg(e))}}
 async function reopenR(id){try{await rpcT('admin_reopen_report',{p_id:id});toast('Report reopened')}catch(e){toast(errMsg(e))}}
 function vBlockAdmin(){const bl=users.filter(u=>u.blocked);
- return `<div class="card"><h2>Reported users</h2>${flags.length?flags.map(f=>{const u=users.find(x=>x.id===f.target);return `<div class="lb"><span class="nm"><b>${esc(u?u.name:'Removed user')}</b>${u&&u.blocked?' · blocked':''}<div class="note">${esc(f.reason)} · by ${esc(f.byName)} · ${ago(f.t)}</div></span>${u&&u.access!=='admin'?`${blkBtns(u)}`:''}</div>`}).join(''):'<p class="note">No reports.</p>'}${bl.length?`<p class="note" style="margin-top:12px">Blocked users</p>${bl.map(u=>`<div class="lb"><span class="nm">${esc(u.name)}</span><button class="ic" onclick="blockU('${u.id}',false)">Unblock</button></div>`).join('')}`:''}</div>`}
+ return `<div class="card"><h2>Reported users</h2>${flags.length?flags.map(f=>{const u=users.find(x=>x.id===f.target);return `<div class="lb"><span class="nm"><b>${esc(u?u.name:'Removed user')}</b>${u&&u.blocked?' · blocked':''}<div class="note">${esc(f.reason)} · by ${esc(f.byName)} · ${ago(f.t)}</div></span>${flagBtns(u,f.id)}</div>`}).join(''):'<p class="note">No reports.</p>'}${bl.length?`<p class="note" style="margin-top:12px">Blocked users</p>${bl.map(u=>`<div class="lb"><span class="nm">${esc(u.name)}</span><button class="ic" onclick="blockU('${u.id}',false)">Unblock</button></div>`).join('')}`:''}</div>`}
 function vAdmin(){if(!isAdm())return vProfile();
  const req=users.filter(u=>u.pendingAccess==='member'),mems=users.filter(u=>u.access==='member');
  return `<div class="card"><div class="acts" style="margin-top:0"><button class="ic" onclick="go('profile')">← Back to settings</button><button class="ic" onclick="go('team')">Member page</button></div></div>
@@ -647,7 +665,7 @@ function vGuide(){return `<div class="card"><details><summary style="font-weight
  <p><b>7. Photos.</b> Tap a photo to see it bigger. You can remove your own photo. That cancels the report and brings it back to the Report page with your comment. If an admin or member removes your photo, add a new one or delete that report.</p>
  <p><b>8. Members.</b> In Settings, open Member section, enter the member password and send a request. After the admin approves you, enter the member password each time to open the Member page. Members vote on new reports, report a user, suggest new members and remove wrong photos.</p>
  <p><b>9. Admin.</b> Admin section has its own password. It opens only after you enter it. Admins manage members, users, notices, ads, places, passwords and the share link.</p>
- <p><b>10. Safety.</b> Member and Admin pages lock when you leave them or after 15 minutes without using them. Enter the password again to open them.</p>
+ <p><b>10. Safety.</b> Enter the member or admin password once. The page stays open until you log out or close the app, then the password is asked again.</p>
  <p><b>Settings.</b> Change your name, phone, email and password, pick a background and set accessibility options. Background and accessibility choices are saved on your own device only.</p>
  <p><b>Need help?</b> Contact the admin using the details at the bottom of this page.</p></div></details></div>`}
 
@@ -655,13 +673,15 @@ function vGuide(){return `<div class="card"><details><summary style="font-weight
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}};
 const PRDEF={theme:'auto',size:'n',font:'d',dens:'n',round:'r',pe:'slide',lay:'a',rm:false,hc:false,ul:false,big:false,cb:false,ah:false};
 let PR=Object.assign({},PRDEF,LS.get('sn_prefs',{}));
-let BG=Object.assign({mode:'preset',preset:'',color:'#EAF2F1',pat:'none',fx:'none',cnt:'n',spd:'n',dim:0,card:'solid'},LS.get('sn_bg',{}));
+let LOOK=LS.get('sn_look',{})||{},bgThemes=[],unotes=[],unFirst=true,lk={},lkIc={},thN='',thImg=null,bc={q:'',sel:{},body:''};
+const BGDEF={mode:'preset',preset:'',color:'#EAF2F1',pat:'none',fx:'none',cnt:'n',spd:'n',dim:0,card:'solid'};
+const _sv=LS.get('sn_bg',null);let BG=Object.assign({},BGDEF,_sv||{});if(_sv&&_sv.own===undefined)BG.own=true;
 let bgImg='';try{bgImg=localStorage.getItem('sn_bgimg')||''}catch(e){}
 let sset='',ahub='',lkd={bg:'',ac:''};
-const PRESETS={default:null,dawn:'linear-gradient(160deg,#ffe0b2,#ffb7c5 55%,#b3d4ff)',aarti:'linear-gradient(170deg,#ffb347,#e8590c 55%,#6b1d00)',monsoon:'linear-gradient(170deg,#cfd8dc,#78909c 60%,#37474f)',lotus:'linear-gradient(160deg,#fde2ee,#f6a5c8 60%,#c8a2e8)',forest:'linear-gradient(170deg,#d7f0d2,#5fa86b 60%,#1f4d36)',ocean:'linear-gradient(170deg,#c9f1ff,#4cb5e8 55%,#14507a)',dusk:'linear-gradient(170deg,#ffd6a5,#c77dff 55%,#2b1b5c)',midnight:'linear-gradient(170deg,#1b2a4a,#0e1730 70%,#050a18)',sand:'linear-gradient(170deg,#fff3d6,#f1d9a5 60%,#d8b774)',mint:'linear-gradient(160deg,#e6fff6,#a7f0d4 60%,#6fd3b0)',white:'linear-gradient(#fff,#fff)'};
-const PL=[['default','Day & night'],['white','White'],['dawn','Dawn'],['aarti','Aarti'],['monsoon','Monsoon'],['lotus','Lotus'],['forest','Forest'],['ocean','Ocean'],['dusk','Dusk'],['midnight','Midnight'],['sand','Sand'],['mint','Mint']];
+const PRESETS={default:null,dawn:'linear-gradient(160deg,#ffe0b2,#ffb7c5 55%,#b3d4ff)',aarti:'linear-gradient(170deg,#ffb347,#e8590c 55%,#6b1d00)',monsoon:'linear-gradient(170deg,#cfd8dc,#78909c 60%,#37474f)',lotus:'linear-gradient(160deg,#fde2ee,#f6a5c8 60%,#c8a2e8)',forest:'linear-gradient(170deg,#d7f0d2,#5fa86b 60%,#1f4d36)',ocean:'linear-gradient(170deg,#c9f1ff,#4cb5e8 55%,#14507a)',dusk:'linear-gradient(170deg,#ffd6a5,#c77dff 55%,#2b1b5c)',midnight:'linear-gradient(170deg,#1b2a4a,#0e1730 70%,#050a18)',sand:'linear-gradient(170deg,#fff3d6,#f1d9a5 60%,#d8b774)',mint:'linear-gradient(160deg,#e6fff6,#a7f0d4 60%,#6fd3b0)',white:'linear-gradient(#fff,#fff)',aurora:'linear-gradient(120deg,#0f2027,#2c7a7b,#6fd3b0,#7b5ea7,#0f2027)',gangaflow:'linear-gradient(120deg,#c9f1ff,#4cb5e8,#14507a,#6fd3b0,#c9f1ff)',sunrise:'linear-gradient(120deg,#ffd6a5,#ff9a76,#ff6f91,#c77dff,#ffd6a5)'};const ANIM=['aurora','gangaflow','sunrise'];
+const PL=[['default','Day & night'],['white','White'],['dawn','Dawn'],['aarti','Aarti'],['monsoon','Monsoon'],['lotus','Lotus'],['forest','Forest'],['ocean','Ocean'],['dusk','Dusk'],['midnight','Midnight'],['sand','Sand'],['mint','Mint'],['aurora','Aurora ✨'],['gangaflow','Ganga flow ✨'],['sunrise','Sunrise ✨']];
 const ACC=[['','Default'],['#0E4D64','Teal'],['#1F6B45','Green'],['#5B3A8C','Purple'],['#8C2F39','Maroon'],['#1F3A8A','Navy'],['#A04A00','Amber'],['#374151','Slate'],['#A12B6B','Rose']];
-const FXE={petals:['🌸','fall'],leaves:['🍃','fall'],rain:['💧','fall'],diyas:['🪔','rise'],bubbles:['🫧','rise'],stars:['✨','tw']};
+const FXE={petals:['🌸','fall'],leaves:['🍃','fall'],rain:['💧','fall'],diyas:['🪔','rise'],bubbles:['🫧','rise'],stars:['✨','tw'],clouds:['☁️','sail'],river:['🌊','sail'],fireflies:['●','ff']};
 function isDark(){try{return PR.theme==='dark'||(PR.theme==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches)}catch(e){return PR.theme==='dark'}}
 function applyPrefs(){const h=document.documentElement,c=h.classList;
  if(PR.theme==='auto')h.removeAttribute('data-theme');else h.setAttribute('data-theme',PR.theme);
@@ -733,16 +753,16 @@ function vA11y(){return `<div class="card"><h2>Accessibility and display</h2><p 
  ${tog('rm','Reduce motion','Stops animations and floating effects')}${tog('hc','High contrast','Stronger borders and text')}${tog('ul','Underline links','Makes links easy to spot')}${tog('big','Large buttons','Bigger tap areas')}${tog('cb','Colour-blind friendly colours','Changes red, green and blue status colours')}${tog('ah','Auto-hide tabs','Hides the tab bar while you scroll down')}
  <button class="btn red full" onclick="resetP()">Reset to defaults</button></div>`}
 function vBgPage(){const pid=BG.preset||settings.look_bg||'default';
- return `<div class="card"><h2>Background</h2><p class="note" style="margin-top:0">Changes apply at once. Saved on this device only.${settings.look_bg&&!BG.preset?' The admin chose the default background for everyone.':''}</p>
- <b>Style</b><div class="opts">${bopt('mode','preset','Scenes')}${bopt('mode','color','One colour')}${bopt('mode','photo','My photo')}</div>
- ${BG.mode==='preset'?`<div class="opts">${PL.map(x=>`<button class="sw ${pid===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${(x[0]==='default'||x[0]==='white')?'color:var(--ink);text-shadow:none':''}" onclick="setB({mode:'preset',preset:'${x[0]}'})">${x[1]}</button>`).join('')}</div>`:''}
- ${BG.mode==='color'?`<input type="color" value="${BG.color}" style="width:100%;height:46px;border:0;background:none" oninput="BG.color=this.value;LS.set('sn_bg',BG);applyBg()">`:''}
+ return `<div class="card"><h2>Background</h2><p class="note" style="margin-top:0">Changes apply at once. Saved on this device only.${BG.own?'':' You are using the default look chosen by the admin.'}</p>
+ ${adminLookBtn()}<b>Style</b><div class="opts">${bopt('mode','preset','Scenes')}${bopt('mode','color','One colour')}${bopt('mode','photo','My photo')}</div>
+ ${BG.mode==='preset'?`<div class="opts">${PL.map(x=>`<button class="sw ${pid===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${(x[0]==='default'||x[0]==='white')?'color:var(--ink);text-shadow:none':''}" onclick="setB({mode:'preset',preset:'${x[0]}'})">${x[1]}</button>`).join('')}${themeTiles('me')}</div>`:''}
+ ${BG.mode==='color'?`<input type="color" value="${BG.color}" style="width:100%;height:46px;border:0;background:none" oninput="BG.color=this.value;BG.own=true;LS.set('sn_bg',BG);applyBg()">`:''}
  ${BG.mode==='photo'?`<label class="fi"><span>Choose a photo (it stays on this device)</span><input class="file" type="file" accept="image/*" onchange="onBgPhoto(this)"></label>${bgImg?'':'<p class="note">No photo chosen yet.</p>'}`:''}
  <b>Pattern</b><div class="opts">${bopt('pat','none','None')}${bopt('pat','dots','Dots')}${bopt('pat','grid','Grid')}${bopt('pat','waves','Waves')}</div>
- <b>Floating effect</b><div class="opts">${bopt('fx','none','None')}${bopt('fx','petals','🌸 Petals')}${bopt('fx','leaves','🍃 Leaves')}${bopt('fx','diyas','🪔 Diyas')}${bopt('fx','bubbles','🫧 Bubbles')}${bopt('fx','stars','✨ Stars')}${bopt('fx','rain','💧 Rain')}</div>
+ <b>Floating effect</b><div class="opts">${bopt('fx','none','None')}${bopt('fx','petals','🌸 Petals')}${bopt('fx','leaves','🍃 Leaves')}${bopt('fx','diyas','🪔 Diyas')}${bopt('fx','bubbles','🫧 Bubbles')}${bopt('fx','stars','✨ Stars')}${bopt('fx','rain','💧 Rain')}${bopt('fx','clouds','☁️ Clouds')}${bopt('fx','fireflies','🟡 Fireflies')}${bopt('fx','river','🌊 River')}</div>
  <b>How many</b><div class="opts">${bopt('cnt','f','Few')}${bopt('cnt','n','Normal')}${bopt('cnt','m','Many')}</div>
  <b>Motion speed</b><div class="opts">${bopt('spd','c','Calm')}${bopt('spd','n','Normal')}${bopt('spd','l','Lively')}</div>
- <b>Dim the background</b><input type="range" min="0" max="70" value="${BG.dim}" style="width:100%" oninput="BG.dim=+this.value;LS.set('sn_bg',BG);applyBg()">
+ <b>Dim the background</b><input type="range" min="0" max="70" value="${BG.dim}" style="width:100%" oninput="BG.dim=+this.value;BG.own=true;LS.set('sn_bg',BG);applyBg()">
  <b>Card look</b><div class="opts">${bopt('card','solid','Solid')}${bopt('card','soft','Soft')}${bopt('card','glass','Glass')}</div>
  <div class="acts"><button class="btn alt" onclick="surprise()">🎲 Surprise me</button><button class="btn red" onclick="resetBg()">Reset background</button></div></div>`}
 function vAccount(){return `<div class="card"><h2>Profile photo</h2>${avHtml('big')}<div class="acts" style="justify-content:center"><label class="btn alt" style="cursor:pointer">${avatarOf(U.uid)?'Change photo':'Add photo'}<input type="file" accept="image/*" style="display:none" onchange="onAvatar(this)"></label>${avatarOf(U.uid)?'<button class="btn red" onclick="rmAvatar()">Remove photo</button>':''}</div><p class="note" style="text-align:center;margin-bottom:4px">Or pick an avatar</p><div class="avg">${avPick()}</div><p class="note" style="text-align:center">Only you and the admin can see your profile photo.</p></div>
@@ -773,21 +793,23 @@ function vProfile(){const B=backTo("sset='';draw()");
  if(sset==='guide')return B+vGuide().replace('<details>','<details open>');if(sset==='member')return B+vMemberSec();if(sset==='adminpw')return B+vAdminSec();
  const role=(ME.role||'citizen').toUpperCase()+(ME.access==='admin'?' · ADMIN':ME.access==='member'?' · MEMBER':'');
  return `<div class="card"><div class="hero">${avHtml('')}<div style="min-width:0"><b style="font-size:18px">${esc(ME.name)}</b><div class="note">${esc(U.email||'')}</div><span class="tag" style="margin:4px 0 0">${role}</span></div></div></div>
- <div class="card" style="padding:12px 16px"><h2 style="margin:0">Settings</h2><p class="note" style="margin:4px 0 0">Pick what you want to change. Background and accessibility choices are saved on this device only.</p></div>
- ${tile('👤','My account','Display name, phone, email and password',"sset='account';draw()")}
- ${tile('💡','Share an idea','Private chat with the admin',"sset='ideas';draw()")}
- ${tile('🤖','Ask Swachh AI','Questions about cleanliness and the app',"sset='ai';draw()")}
- ${tile('🎨','Background','Scenes, colours, effects, your own photo',"sset='bg';draw()")}
- ${tile('♿','Accessibility and display','Theme, text size, motion, contrast',"sset='a11y';draw()")}
- ${tile('📖','How it works','A guide to using Swach Nova',"sset='guide';draw()")}
- ${tile('🛡️','Member section',isMem()?'Unlocked':ME.access==='user'?'Join with the member password':'Password protected',"sset='member';draw()")}
- ${tile('🛠️','Admin section',isAdm()?'Unlocked':'Admin password and tools',"sset='adminpw';draw()")}
+ <div class="card" style="padding:12px 16px"><h2 style="margin:0">${nm('settings','Settings')}</h2><p class="note" style="margin:4px 0 0">Pick what you want to change. Background and accessibility choices are saved on this device only.</p></div>
+ ${tile(ico('account'),nm('account','My account'),'Display name, phone, email and password',"sset='account';draw()")}
+ ${tile(ico('ideas'),nm('ideas','Share an idea'),'Private chat with the admin',"sset='ideas';draw()")}
+ ${tile(ico('ai'),nm('ai','Ask Swachh AI'),'Questions about cleanliness and the app',"sset='ai';draw()")}
+ ${tile(ico('bg'),nm('bg','Background'),'Scenes, colours, effects, your own photo',"sset='bg';draw()")}
+ ${tile(ico('a11y'),nm('a11y','Accessibility and display'),'Theme, text size, motion, contrast',"sset='a11y';draw()")}
+ ${tile(ico('guide'),nm('guide','How it works'),'A guide to using Swach Nova',"sset='guide';draw()")}
+ ${tile(ico('member'),nm('member','Member section'),isMem()?'Unlocked':ME.access==='user'?'Join with the member password':'Password protected',"sset='member';draw()")}
+ ${tile(ico('adminpw'),nm('adminpw','Admin section'),isAdm()?'Unlocked':'Admin password and tools',"sset='adminpw';draw()")}
  ${vContact()}
  <div class="card"><button class="btn red full" style="margin-top:0" onclick="logout()">Log out</button></div>`}
 /* ---------- admin page as tiles ---------- */
+const flagBtns=(u,fid)=>{const r=`<button class="ic" onclick="delFlag('${fid}')">Remove report</button>`,w=u?wbtns(u):'';return w?w.replace('<span class="wb one">','<span class="wb one">'+r).replace('>Remove</button>','>Remove user</button>'):`<span class="wb one">${r}</span>`};
+async function delFlag(id){try{await rpcT('adm_del_flag',{p_id:id});flags=flags.filter(f=>f.id!==id);toast('Report removed');draw()}catch(e){toast(errMsg(e))}}
 const wbtns=(u,sv)=>{const b=u.access==='admin'?'':`<button class="ic" onclick="rmUser('${u.id}')">Remove</button><button class="ic" ${u.blocked?'disabled style="opacity:.4"':''} onclick="blockU('${u.id}',true)">Block</button><button class="ic" ${u.blocked?'':'disabled style="opacity:.4"'} onclick="blockU('${u.id}',false)">Unblock</button>`;if(!sv&&!b)return '';return `<span class="wb one">${sv?`<button class="btn" onclick="editU('${u.id}')">Save</button>`:''}${b}</span>`};
 function vBlockAdmin(){const bl=users.filter(u=>u.blocked);
- return `<div class="card"><h2>Reported users</h2>${flags.length?flags.map(f=>{const u=users.find(x=>x.id===f.target);return `<div class="lb"><span class="nm"><b>${esc(u?u.name:'Removed user')}</b>${u&&u.blocked?' · blocked':''}<div class="note">${esc(f.reason)} · by ${esc(f.byName)} · ${ago(f.t)}</div></span>${u?wbtns(u):''}</div>`}).join(''):'<p class="note">No reports.</p>'}${bl.length?`<p class="note" style="margin-top:12px">Blocked users</p>${bl.map(u=>`<div class="lb"><span class="nm">${esc(u.name)}</span>${wbtns(u)}</div>`).join('')}`:''}</div>`}
+ return `<div class="card"><h2>Reported users</h2>${flags.length?flags.map(f=>{const u=users.find(x=>x.id===f.target);return `<div class="lb"><span class="nm"><b>${esc(u?u.name:'Removed user')}</b>${u&&u.blocked?' · blocked':''}<div class="note">${esc(f.reason)} · by ${esc(f.byName)} · ${ago(f.t)}</div></span>${flagBtns(u,f.id)}</div>`}).join(''):'<p class="note">No reports.</p>'}${bl.length?`<p class="note" style="margin-top:12px">Blocked users</p>${bl.map(u=>`<div class="lb"><span class="nm">${esc(u.name)}</span>${wbtns(u)}</div>`).join('')}`:''}</div>`}
 function vUsersAdmin(){return `<div class="card"><h2>Edit leaderboard and users</h2>${users.map(u=>{const lock=u.access==='admin'&&u.id!==U.uid;return `<div style="padding:10px 0;border-bottom:1px solid var(--line)"><div class="row"><b>${esc(u.name)}</b><span class="note">${u.access}${u.blocked?' · blocked':''}</span></div>${lock?'':`<div class="uin"><input type="text" id="ea-${u.id}" value="${esc(u.name)}" maxlength="30" placeholder="Name"><input type="text" id="ep-${u.id}" value="${esc(phoneOf(u.id))}" maxlength="15" placeholder="Phone"><input type="number" id="ept-${u.id}" value="${u.pts}" min="0" placeholder="Points"></div>`}${wbtns(u,!lock)}</div>`}).join('')}</div>`}
 function vMemReq(){const req=users.filter(u=>u.pendingAccess==='member'),mems=users.filter(u=>u.access==='member');
  return `<div class="card"><h2>Member requests</h2>${req.length?req.map(u=>`<div class="lb"><span class="nm">${esc(u.name)}</span><span class="wb one"><button class="btn" onclick="apMem('${u.id}',true)">Approve</button><button class="ic" onclick="apMem('${u.id}',false)">Decline</button></span></div>`).join(''):'<p class="note">No requests.</p>'}${mems.length?`<h2 style="margin-top:14px">Members</h2>`+mems.map(u=>`<div class="lb"><span class="nm">${esc(u.name)}</span><span class="wb one"><button class="ic" onclick="rmMem('${u.id}')">Remove</button></span></div>`).join(''):''}</div>`}
@@ -796,9 +818,9 @@ function vLookAdmin0(){return `<div class="card"><h2>Look for everyone</h2><p cl
 async function saveLook(){try{await rpcT('adm_set_look',{p_bg:lkd.bg,p_accent:lkd.ac});toast('Saved for everyone')}catch(e){toast(errMsg(e))}}
 function vAdmin(){if(!isAdm()){sset='adminpw';return vProfile()}
  const reqN=users.filter(u=>u.pendingAccess==='member').length+props.length,spN=sponsors.filter(s=>s.status==='pending').length;
- const sub={members:()=>vMemReq()+vMembersAdmin(),share:vShareAdmin,slides:()=>vSlideAdmin()+vSponsorAdmin(),reports:vReportsAdmin,places:()=>vLocAdmin()+vPlacesAdmin(),motiv:vMotEdit,users:vUsersAdmin,flagged:vBlockAdmin,look:vLookAdmin,pw:vPwAdmin,contact:vContactAdmin,ideas:vIdeasAdmin};
- if(sub[ahub])return backTo("ahub='';draw()")+sub[ahub]();
- const T=(k,ic,t,d)=>tile(ic,t,d,`ahub='${k}';${k==='look'?"lkd={bg:settings.look_bg||'',ac:settings.look_accent||''};":''}draw()`);
+ const sub={members:()=>vMemReq()+vMembersAdmin()+vRemAll(),share:vShareAdmin,slides:()=>vSlideAdmin()+vSponsorAdmin(),reports:vReportsAdmin,places:()=>vLocAdmin()+vPlacesAdmin(),motiv:vMotEdit,users:vUsersAdmin,flagged:vBlockAdmin,look:vLookAdmin,names:vNamesAdmin,pw:vPwAdmin,contact:vContactAdmin,ideas:vIdeasAdmin,msg:vMsgAdmin,admins:vAdminsAdmin};
+ if(sub[ahub])return backTo("ahub='';lks='';draw()")+sub[ahub]();
+ const T=(k,ic,t,d)=>tile(ico('ah_'+k),t,d,`ahub='${k}';${k==='look'?"lkInit();":''}draw()`);
  return `<div class="card"><div class="acts" style="margin-top:0"><button class="ic" onclick="go('profile')">← Back to settings</button><button class="ic" onclick="go('team')">Member page</button></div></div>
  <div class="card" style="padding:12px 16px"><h2 style="margin:0">Admin</h2><p class="note" style="margin:4px 0 0">Everything here is for admins only.</p></div>
  ${T('members','👥','Members',reqN?reqN+' waiting · requests, add, remove':'Requests, add and remove members')}
@@ -809,8 +831,11 @@ function vAdmin(){if(!isAdm()){sset='adminpw';return vProfile()}
  ${T('motiv','💪','Edit motivation','The quote everyone sees')}
  ${T('users','🏆','Edit leaderboard and users','Names, points, block, unblock, remove')}
  ${T('ideas','💬','Ideas and chats',ideas.some(m=>!m.fromAdmin)?'Private chats with users':'No messages yet')}
+ ${U.uid===OWNER_ID?T('admins','🛡️','Admins','Add, remove, block or unblock admins (owner only)'):''}
+ ${T('msg','✉️','Message users','Send one message to one, many or all users')}
  ${T('flagged','🚩','Reported users',flags.length?flags.length+' report(s)':'Block, unblock or remove')}
  ${T('look','🎨','Look for everyone','Default background and colour on every device')}
+ ${T('names','✏️','Rename sections','Change the names on the Settings page')}
  ${T('pw','🔑','Passwords','Member and admin passwords')}
  ${T('contact','☎️','Contact details','Shown to users in Settings')}
  <div class="card"><button class="btn red full" style="margin-top:0" onclick="doReset()">Reset all reports, points, notices, ads and sponsors</button></div>`}
@@ -821,7 +846,7 @@ const avatarOf=id=>(priv.find(x=>x.id===id)||{}).avatar||'';
 const AVS=[['🐼','#bae6fd','#38bdf8',0],['🦊','#fed7aa','#fb923c',1],['🐯','#fde68a','#f59e0b',2],['🐸','#bbf7d0','#22c55e',3],['🐧','#c7d2fe','#6366f1',0],['🦉','#e9d5ff','#a855f7',1],['🐬','#a5f3fc','#06b6d4',2],['🐢','#d9f99d','#84cc16',3],['🦋','#fbcfe8','#ec4899',0],['🐙','#fecaca','#ef4444',1],['🦄','#f5d0fe','#d946ef',2],['🐨','#e2e8f0','#64748b',3]];
 const presetOf=a=>{const m=/^preset:(\d{1,2})$/.exec(a||'');return m&&AVS[+m[1]]};
 const avHtml=sz=>{const a=avatarOf(U.uid),p=presetOf(a);return `<div class="av ${sz}${p?' pa':''}"${p?` style="background:linear-gradient(135deg,${p[1]},${p[2]})"`:''}>${p?`<span class="a${p[3]}">${p[0]}</span>`:a?`<img src="${a}" alt="My profile photo" onclick="openImg(this.src)">`:esc((ME.name||'?').slice(0,1).toUpperCase())}</div>`};
-const bub=(m,mine)=>`<div style="display:flex;justify-content:${mine?'flex-end':'flex-start'};margin:6px 0 2px"><div style="max-width:85%;padding:8px 12px;border-radius:14px;background:${mine?'var(--river)':'var(--line)'};color:${mine?'#fff':'var(--ink)'};overflow-wrap:anywhere;white-space:pre-wrap">${esc(m)}</div></div>`;
+const bub=(m,mine)=>`<div style="display:flex;justify-content:${mine?'flex-end':'flex-start'};margin:6px 0 2px"><div style="max-width:85%;padding:8px 12px;border-radius:14px;background:${mine?'var(--river)':'var(--card)'};border:1px solid var(--line);color:${mine?'var(--onriver)':'var(--ink)'};overflow-wrap:anywhere;white-space:pre-wrap">${esc(m)}</div></div>`;
 function vIdeas(){const my=ideas.filter(m=>m.threadUid===U.uid).sort((a,b)=>a.t-b.t);
  return `<div class="card"><h2>💡 Share an idea</h2><p class="note" style="margin-top:0">Only you and the admin can see this chat. Please do not write passwords here.</p>${my.length?my.map(m=>bub(m.body,!m.fromAdmin)+`<div class="note" style="text-align:${m.fromAdmin?'left':'right'};margin:0">${m.fromAdmin?'Admin · ':''}${ago(m.t)}</div>`).join(''):'<p class="note">No messages yet.</p>'}<textarea id="ideaTx" rows="3" maxlength="600" placeholder="Write your idea or suggestion" style="margin-top:10px"></textarea><button class="btn full" onclick="sendIdea()">Send to admin</button></div>`}
 async function sendIdea(){const v=$('ideaTx').value.trim();if(!v){toast('Write your idea first');return}try{await rpcT('send_idea',{p_body:v});$('ideaTx').value='';toast('Sent to admin')}catch(e){toast(errMsg(e))}}
@@ -830,7 +855,7 @@ function vIdeasAdmin(){
   return `<div class="card"><button class="ic" onclick="idT='';draw()">← All chats</button></div><div class="card"><div class="row"><h2 style="margin:0">${esc(u?u.name:'User')}</h2><button class="ic" onclick="clearThread()">Clear chat</button></div>${ms.length?ms.map(m=>bub(m.body,m.fromAdmin)+`<div class="wb one" style="margin:0 0 6px;justify-content:${m.fromAdmin?'flex-end':'flex-start'}"><span class="note" style="align-self:center;flex:0 0 auto">${ago(m.t)}${m.shared?' · members can see':''}</span>${m.fromAdmin?'':`<button class="ic" style="flex:0 0 auto;padding:6px 8px" onclick="shareIdea('${m.id}',${!m.shared})">${m.shared?'Hide from members':'Send to members'}</button>`}<button class="ic" style="flex:0 0 auto;padding:6px 8px" onclick="delIdea('${m.id}')">Delete</button></div>`).join(''):'<p class="note">Chat is empty.</p>'}<textarea id="idR" rows="2" maxlength="600" placeholder="Reply" style="margin-top:10px"></textarea><button class="btn full" onclick="replyIdea()">Send reply</button></div>`}
  const g={};ideas.forEach(m=>{(g[m.threadUid]=g[m.threadUid]||[]).push(m)});
  const th=Object.keys(g).map(k=>({k,last:g[k].reduce((a,b)=>b.t>a.t?b:a),n:g[k].length})).sort((a,b)=>b.last.t-a.last.t);
- return `<div class="card"><h2>Ideas and chats</h2><p class="note" style="margin-top:0">Each person has a separate private chat. Only the sender and admins can read it, until you send a message to members.</p></div>${th.length?th.map(x=>{const u=users.find(y=>y.id===x.k);return tile('💬',esc(u?u.name:'User'),(x.last.fromAdmin?'You: ':'')+esc(x.last.body.slice(0,50))+' · '+x.n,`idT='${x.k}';draw()`)}).join(''):'<div class="card"><p class="note" style="margin:0">No chats yet.</p></div>'}`}
+ return `<div class="card"><h2>Ideas and chats</h2><p class="note" style="margin-top:0">Each person has a separate private chat. Only the sender and admins can read it, until you send a message to members.</p></div>${vNewChat()}${th.length?th.map(x=>{const u=users.find(y=>y.id===x.k);return tile('💬',esc(u?u.name:'User'),(x.last.fromAdmin?'You: ':'')+esc(x.last.body.slice(0,50))+' · '+x.n,`idT='${x.k}';draw()`)}).join(''):'<div class="card"><p class="note" style="margin:0">No chats yet.</p></div>'}`}
 async function replyIdea(){const v=$('idR').value.trim();if(!v){toast('Write a message');return}try{await rpcT('adm_reply_idea',{p_uid:idT,p_body:v});$('idR').value=''}catch(e){toast(errMsg(e))}}
 async function shareIdea(id,sh){try{await rpcT('adm_share_idea',{p_id:id,p_share:sh});toast(sh?'Members can now see it':'Hidden from members')}catch(e){toast(errMsg(e))}}
 async function delIdea(id){if(!confirm('Delete this message?'))return;try{await rpcT('adm_del_idea',{p_id:id})}catch(e){toast(errMsg(e))}}
@@ -858,6 +883,151 @@ function onAvatar(t){const f=t.files&&t.files[0];if(!f)return;toast('Processing 
  readPhoto(f,async u=>{try{const url=await upPhoto(u);await db.collection('user_private').doc(U.uid).update({avatar:url});const r=priv.find(x=>x.id===U.uid);if(r)r.avatar=url;draw();toast('Profile photo saved')}catch(e){toast(errMsg(e))}})}
 async function rmAvatar(){try{await db.collection('user_private').doc(U.uid).update({avatar:null});const r=priv.find(x=>x.id===U.uid);if(r)r.avatar=null;draw();toast('Profile photo removed')}catch(e){toast(errMsg(e))}}
 
+/* ================= v2 additions ================= */
+/* look for everyone (also used on the login page) */
+async function loadLook(){try{const {data}=await sb.from('app_look').select('data').eq('id',1).maybeSingle();LOOK=(data&&data.data)||{};LS.set('sn_look',LOOK);try{applyPrefs()}catch(e){}const a=document.activeElement;if(!a||!/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))draw()}catch(e){}}
+try{sb.channel('look-rt').on('postgres_changes',{event:'*',schema:'public',table:'app_look'},()=>loadLook()).subscribe()}catch(e){}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadLook()});
+function syncBgFromLook(){if(BG.own)return;const l=LOOK||{};Object.assign(BG,{mode:l.mode||'preset',preset:l.preset||settings.look_bg||'',color:l.color||'#EAF2F1',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid'})}
+function et(){return PR.theme!=='auto'?PR.theme:(LOOK&&LOOK.theme&&LOOK.theme!=='auto'?LOOK.theme:'auto')}
+function isDark(){try{const t=et();return t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches)}catch(e){return et()==='dark'}}
+function applyPrefs(){syncBgFromLook();const h=document.documentElement,c=h.classList,T=et();
+ if(T==='auto')h.removeAttribute('data-theme');else h.setAttribute('data-theme',T);
+ const dk=isDark();c.toggle('dk',dk);
+ ['t2','t3','fr','fs','d1','d3','sq','rm','hc','ul','big','cb','cs','cg'].forEach(x=>c.remove(x));
+ if(PR.size==='l')c.add('t2');if(PR.size==='x')c.add('t3');if(PR.font==='r')c.add('fr');if(PR.font==='s')c.add('fs');
+ if(PR.dens==='c')c.add('d1');if(PR.dens==='r')c.add('d3');if(PR.round==='s')c.add('sq');
+ if(PR.rm)c.add('rm');if(PR.hc)c.add('hc');if(PR.ul)c.add('ul');if(PR.big)c.add('big');if(PR.cb)c.add('cb');
+ if(BG.card==='soft')c.add('cs');if(BG.card==='glass')c.add('cg');
+ h.setAttribute('data-pe',PR.pe);h.style.setProperty('--mw',{m:'480px',a:'680px',d:'940px'}[PR.lay]||'680px');
+ const ac=(LOOK&&LOOK.accent)||settings.look_accent;if(ac&&!dk)h.style.setProperty('--river',ac);else h.style.removeProperty('--river');
+ applyBg()}
+function bgNow(){return U?BG:loginBg()}
+function loginBg(){const l=LOOK||{};return {mode:l.mode||'preset',preset:l.preset||settings.look_bg||'mint',color:l.color||'#EAF2F1',pat:l.pat||'none',fx:l.fx||(l.preset||settings.look_bg?'none':'leaves'),cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid',own:false}}
+function applyBg(){const el=$('bgl');if(!el)return;const BG=bgNow(),L=[],D=BG.dim/100;
+ if(D>0)L.push(['linear-gradient(rgba(0,0,0,'+D+'),rgba(0,0,0,'+D+'))','auto','no-repeat']);
+ if(BG.pat==='dots')L.push(['radial-gradient(rgba(0,0,0,.14) 1.5px,transparent 1.7px)','22px 22px','repeat']);
+ if(BG.pat==='grid'){L.push(['linear-gradient(rgba(0,0,0,.08) 1px,transparent 1px)','28px 28px','repeat']);L.push(['linear-gradient(90deg,rgba(0,0,0,.08) 1px,transparent 1px)','28px 28px','repeat'])}
+ if(BG.pat==='waves')L.push(['url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2760%27 height=%2730%27%3E%3Cpath d=%27M0 15 Q15 0 30 15 T60 15%27 fill=%27none%27 stroke=%27rgba(0,0,0,.12)%27 stroke-width=%271.5%27/%3E%3C/svg%3E")','60px 30px','repeat']);
+ const pid=BG.preset||'default',photo=BG.mode==='photo'?(BG.own?bgImg:((LOOK&&LOOK.img)||'')):'';let anim=false;
+ if(photo)L.push(['url('+photo+')','cover','no-repeat']);
+ else if(BG.mode==='color')L.push(['linear-gradient('+BG.color+','+BG.color+')','auto','no-repeat']);
+ else if(pid.startsWith('t:')){const t=bgThemes.find(x=>'t:'+x.id===pid);if(t)L.push(['url('+t.img+')','cover','no-repeat'])}
+ else if(PRESETS[pid]){anim=ANIM.includes(pid);L.push([PRESETS[pid],anim?'300% 300%':'auto','no-repeat'])}
+ el.classList.toggle('bga',anim);
+ el.style.backgroundImage=L.map(x=>x[0]).join(',');el.style.backgroundSize=L.map(x=>x[1]).join(',');el.style.backgroundRepeat=L.map(x=>x[2]).join(',');el.style.backgroundPosition='center';
+ buildSky(!!U&&!photo&&BG.mode!=='color'&&pid==='default');buildFx()}
+function buildFx(){const f=$('fx');if(!f)return;const BG=bgNow();f.innerHTML='';const e=FXE[BG.fx];if(!e||PR.rm)return;
+ const n={f:8,n:16,m:28}[BG.cnt]||16,sp={c:1.7,n:1,l:.6}[BG.spd]||1;
+ for(let i=0;i<n;i++){const x=document.createElement('span');x.className='fp';x.textContent=e[0];const d=(9+Math.random()*10)*sp;
+  x.style.left=(Math.random()*100)+'%';x.style.fontSize=(14+Math.random()*16)+'px';x.style.setProperty('--dx',(Math.random()*80-40)+'px');
+  if(e[1]==='tw'){x.style.top=(Math.random()*100)+'%';x.style.animation='tw '+((2+Math.random()*3)*sp)+'s ease-in-out infinite';x.style.animationDelay=(-Math.random()*4)+'s'}
+  else if(e[1]==='sail'){const dd=d*3;x.style.left='0';x.style.top=(Math.random()*90)+'%';x.style.opacity=.7;x.style.animation='sail '+dd+'s linear infinite';x.style.animationDelay=(-Math.random()*dd)+'s'}
+  else if(e[1]==='ff'){x.style.top=(Math.random()*100)+'%';x.style.fontSize=(6+Math.random()*7)+'px';x.style.color='#ffe066';x.style.textShadow='0 0 8px #ffd54a,0 0 16px #ffb300';x.style.animation='ff '+(d*.6)+'s ease-in-out infinite';x.style.animationDelay=(-Math.random()*d)+'s'}
+  else{x.style.animation=e[1]+' '+d+'s linear infinite';x.style.animationDelay=(-Math.random()*d)+'s'}
+  f.appendChild(x)}}
+function setB(o){Object.assign(BG,o,{own:true});LS.set('sn_bg',BG);try{applyPrefs()}catch(e){}draw()}
+function resetBg(){BG.own=false;bgImg='';try{localStorage.removeItem('sn_bg');localStorage.removeItem('sn_bgimg')}catch(e){}syncBgFromLook();try{applyPrefs()}catch(e){}draw();toast("Using the admin's default look")}
+const adminLookBtn=()=>`<div class="acts" style="margin:0 0 10px"><button class="btn ${BG.own?'alt':''}" onclick="resetBg()">✨ ${BG.own?"Use admin's default look":"Using admin's default look"}</button></div>`;
+const themeTiles=sc=>bgThemes.map(t=>{const cur=(sc==='lk'?lk.preset:BG.preset)==='t:'+t.id;return `<button class="sw ${cur?'on':''}" style="background:url('${esc(t.img)}') center/cover" onclick="${sc==='lk'?`lk.preset='t:${t.id}';draw()`:`setB({mode:'preset',preset:'t:${t.id}'})`}">${esc(t.name)}</button>`}).join('');
+
+/* searchable selects */
+function enhanceSelects(){
+ if(!window._ssOut){window._ssOut=1;document.addEventListener('click',e=>{document.querySelectorAll('.ssp').forEach(p=>{if(p.style.display!=='none'&&!p.parentNode.contains(e.target))p.style.display='none'})})}
+ document.querySelectorAll('#app select').forEach(s=>{if(s.dataset.se||s.options.length<3)return;s.dataset.se=1;
+  const w=document.createElement('div'),b=document.createElement('button'),p=document.createElement('div'),q=document.createElement('input'),l=document.createElement('div');
+  w.className='ssw';if(s.style.flex)w.style.flex=s.style.flex;b.type='button';b.className='ssb';b.setAttribute('aria-haspopup','listbox');
+  p.className='ssp';p.style.display='none';q.type='text';q.placeholder='Type to search';q.setAttribute('aria-label','Search the list');q.autocomplete='off';l.className='ssl';p.appendChild(q);p.appendChild(l);
+  s.parentNode.insertBefore(w,s);w.appendChild(b);w.appendChild(p);w.appendChild(s);s.style.display='none';
+  const items=[...s.options].map(o=>({v:o.value,t:o.text})),lab=()=>{const o=s.options[s.selectedIndex];b.textContent=(o?o.text:'Select')+'  ▾'},close=()=>{p.style.display='none'};
+  const pick=o=>{close();if(s.value!==o.v){s.value=o.v;lab();s.dispatchEvent(new Event('change',{bubbles:true}))}else lab()};
+  const show=()=>{const f=q.value.trim().toLowerCase(),m=items.filter(o=>!f||o.t.toLowerCase().includes(f));l.innerHTML='';
+   if(!m.length){const d=document.createElement('div');d.className='sso';d.textContent='No match';l.appendChild(d);return m}
+   m.forEach(o=>{const d=document.createElement('div');d.className='sso'+(o.v===s.value?' on':'');d.textContent=o.t;d.onclick=()=>pick(o);l.appendChild(d)});return m};
+  b.onclick=()=>{if(p.style.display!=='none'){close();return}document.querySelectorAll('.ssp').forEach(x=>x.style.display='none');q.value='';show();p.style.display='block';q.focus()};
+  q.oninput=show;q.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();const m=show();if(m.length)pick(m[0])}else if(e.key==='Escape')close()};
+  lab()})}
+
+/* notices for this user (shown on the Report page) */
+function vUNotes(){if(!unotes.length)return '';return `<div class="card" style="border:2px solid var(--gold)"><div class="row"><h2 style="margin:0">📣 Notices for you</h2><button class="ic" onclick="dismissN(null)">Clear all</button></div>${unotes.map(n=>`<div class="lb"><span class="nm">${esc(n.body)}<div class="note">${ago(n.t)}</div></span><button class="ic" onclick="dismissN('${n.id}')">OK</button></div>`).join('')}</div>`}
+async function dismissN(id){try{await rpcT('dismiss_notice',{p_id:id});unotes=id?unotes.filter(x=>x.id!==id):[];draw()}catch(e){toast(errMsg(e))}}
+
+/* admin: remove all members, message users, new chat */
+function vRemAll(){const n=users.filter(u=>u.access==='member').length;return `<div class="card"><h2>Remove all members</h2><p class="note" style="margin-top:0">Every member becomes a normal user again. Admins (you) stay as they are.</p><button class="btn red full" ${n?'':'disabled'} onclick="remAll()">Remove all members (${n})</button></div>`}
+async function remAll(){if(!confirm('Remove ALL members? Admins stay.'))return;try{await rpcT('admin_remove_all_members');toast('All members removed')}catch(e){toast(errMsg(e))}}
+function bcRows(){const q=bc.q.trim().toLowerCase();return users.filter(u=>u.id!==U.uid&&(!q||(u.name||'').toLowerCase().includes(q))).map(u=>`<label class="tg"><span><b>${esc(u.name)}</b><small>${u.access}${u.blocked?' · blocked':''}</small></span><input type="checkbox" ${bc.sel[u.id]?'checked':''} onchange="bcTick('${u.id}',this.checked)"></label>`).join('')||'<p class="note">No match.</p>'}
+function bcTick(id,v){if(v)bc.sel[id]=1;else delete bc.sel[id];$('bcn').textContent=Object.keys(bc.sel).length}
+function bcAll(v){users.filter(u=>u.id!==U.uid).forEach(u=>{if(v)bc.sel[u.id]=1;else delete bc.sel[u.id]});draw()}
+function bcSearch(v){bc.q=v;$('bcl').innerHTML=bcRows()}
+function vMsgAdmin(){return `<div class="card"><h2>Message users</h2><p class="note" style="margin-top:0">Choose one or more people, type a message and send. It goes to each person's private chat with you, and they also get a notice on their Report page.</p><input type="text" placeholder="🔍 Search users" value="${esc(bc.q)}" oninput="bcSearch(this.value)"><div class="acts"><button class="ic" onclick="bcAll(true)">Select all</button><button class="ic" onclick="bcAll(false)">Clear</button><span class="note">Selected: <b id="bcn">${Object.keys(bc.sel).length}</b></span></div><div id="bcl">${bcRows()}</div><label class="l" for="bcb">Message</label><textarea id="bcb" rows="3" maxlength="600" oninput="bc.body=this.value">${esc(bc.body)}</textarea><button class="btn full" onclick="sendBc()">Send message</button></div>`}
+async function sendBc(){const ids=Object.keys(bc.sel),b=bc.body.trim();if(!ids.length){toast('Choose at least one user');return}if(!b){toast('Write a message');return}try{await rpcT('adm_broadcast',{p_uids:ids,p_body:b});bc={q:'',sel:{},body:''};toast('Sent to '+ids.length+' user'+(ids.length>1?'s':''));draw()}catch(e){toast(errMsg(e))}}
+function vNewChat(){const o=users.filter(u=>u.id!==U.uid);return `<div class="card"><h2>Start a new chat</h2><p class="note" style="margin-top:0">Message anyone first, even if they never wrote to you.</p><div class="acts" style="margin-top:0"><select id="nc" style="flex:1">${o.map(u=>`<option value="${u.id}">${esc(u.name)}</option>`).join('')}</select><button class="btn" onclick="idT=$('nc').value;draw()">Open chat</button></div></div>`}
+
+/* icons */
+const ICONSET={account:['👤','🧑','🪪','🙂','😊'],ideas:['💡','💬','📝','🗣️','📣'],ai:['🤖','🧠','✨','🪄','🦾'],bg:['🎨','🖼️','🌅','🌈','🪷'],a11y:['👁️','🧩','🔆','🔍','🎚️'],guide:['📖','❓','📘','🧭','ℹ️'],member:['🛡️','🏅','🎖️','🤝','👥'],adminpw:['🛠️','⚙️','🔧','🗝️','👑'],
+ ah_members:['👥','🤝','🧑','🙋','📋'],ah_share:['🔗','📤','📲','🌐','📣'],ah_slides:['📢','📌','🖼️','📰','🎞️'],ah_reports:['🗂️','📋','📁','🗃️','🧾'],ah_places:['📍','🗺️','🏞️','🧭','🏛️'],ah_motiv:['💪','🌟','🔥','🙌','🌱'],ah_users:['🏆','👤','🥇','📊','🎖️'],ah_ideas:['💬','💡','🗨️','📨','📝'],ah_admins:['🛡️','👑','🔐','🧑','⭐'],ah_msg:['✉️','📣','📨','📮','🔔'],ah_flagged:['🚩','⚠️','🚫','🛑','👮'],ah_look:['🎨','🌈','🖌️','🌅','✨'],ah_pw:['🔑','🔐','🗝️','🔒','🛡️'],ah_contact:['☎️','📞','📧','📱','🆘'],ah_names:['✏️','🔤','🏷️','📝','🔠']};
+const ICL={account:'My account',ideas:'Share an idea',ai:'Ask Swachh AI',bg:'Background',a11y:'Accessibility and display',guide:'How it works',member:'Member section',adminpw:'Admin section',ah_members:'Admin: Members',ah_share:'Admin: Share link',ah_slides:'Admin: Notices and ads',ah_reports:'Admin: All reports',ah_places:'Admin: Locations',ah_motiv:'Admin: Motivation',ah_users:'Admin: Users',ah_ideas:'Admin: Ideas and chats',ah_admins:'Admin: Admins',ah_msg:'Admin: Message users',ah_flagged:'Admin: Reported users',ah_look:'Admin: Look for everyone',ah_pw:'Admin: Passwords',ah_contact:'Admin: Contact',ah_names:'Admin: Rename sections'};
+const myIcons=()=>LS.get('sn_icons',{});
+const ico=k=>((LOOK&&LOOK.icons)||{})[k]||(ICONSET[k]||['▫️'])[0];
+const nm=(k,d)=>esc((((LOOK&&LOOK.names)||{})[k])||d);
+function vIconPicker(sc,only){return Object.keys(ICONSET).filter(k=>only==='ah'?k.startsWith('ah_'):only==='me'?!k.startsWith('ah_')||isAdm():true).map(k=>{const cur=sc==='all'?(lkIc[k]||ICONSET[k][0]):ico(k);return `<div style="margin:10px 0"><b>${ICL[k]}</b><div class="opts">${ICONSET[k].map(e=>`<button class="${cur===e?'on':''}" style="font-size:20px" onclick="pickIcon('${sc}','${k}','${e}')">${e}</button>`).join('')}</div>${sc==='all'?`<div class="acts" style="margin-top:6px"><input type="text" id="ci-${k}" maxlength="12" placeholder="Your own icon (paste an emoji)" style="flex:1"><button class="ic" onclick="customIcon('${k}')">Use</button></div>`:''}</div>`}).join('')}
+function customIcon(k){const v=(($('ci-'+k)||{}).value||'').trim();if(!v||/\s/.test(v)||Array.from(v).length>12||/[<>"'&]/.test(v)){toast('Use one emoji, no spaces');return}lkIc[k]=v;draw()}
+function pickIcon(sc,k,e){if(sc==='all'){lkIc[k]=e;draw()}else{const o=myIcons();o[k]=e;LS.set('sn_icons',o);draw()}}
+function vIconsPage(){return `<div class="card"><h2>Change icons</h2><p class="note" style="margin-top:0">Pick the icon you like for each section. Saved on this device only.</p>${vIconPicker('me','me')}<button class="btn red full" onclick="LS.set('sn_icons',{});draw();toast('Icons reset')">Reset icons</button></div>`}
+async function saveIcons(){try{await rpcT('adm_set_icons',{p_icons:lkIc});await loadLook();toast('Icons saved for everyone')}catch(e){toast(errMsg(e))}}
+
+/* admin: look for everyone (all background features + themes + icons) */
+function lkInit(){const l=LOOK||{};lk={mode:l.mode||'preset',preset:l.preset||settings.look_bg||'',color:l.color||'#EAF2F1',img:l.img||'',accent:l.accent||settings.look_accent||'',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid',theme:l.theme||'auto'};lkIc=Object.assign({},l.icons||{})}
+const lopt=(k,v,t)=>`<button class="${lk[k]===v?'on':''}" onclick="lk.${k}='${v}';draw()">${t}</button>`;
+let lks='';
+const lkSv='<button class="btn full" onclick="saveLook()">Save for everyone</button>';
+function vLookAdmin(){if(!lk.mode)lkInit();const pid=lk.preset||'default',B=backTo("lks='';draw()",'Back to Look for everyone'),H=(ic,t,d,k)=>tile(ic,t,d,`lks='${k}';draw()`);
+ if(lks==='style')return B+`<div class="card"><h2>Background, pattern and look</h2><b>Style</b><div class="opts">${lopt('mode','preset','Scenes')}${lopt('mode','color','One colour')}${lopt('mode','photo','Photo')}</div>
+ ${lk.mode==='preset'?`<div class="opts">${PL.map(x=>`<button class="sw ${pid===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${(x[0]==='default'||x[0]==='white')?'color:var(--ink);text-shadow:none':''}" onclick="lk.preset='${x[0]==='default'?'':x[0]}';draw()">${x[1]}</button>`).join('')}${themeTiles('lk')}</div>`:''}
+ ${lk.mode==='color'?`<input type="color" value="${lk.color}" style="width:100%;height:46px;border:0;background:none" oninput="lk.color=this.value">`:''}
+ ${lk.mode==='photo'?`<label class="fi"><span>Choose a photo</span><input class="file" type="file" accept="image/*" onchange="onLkPhoto(this)"></label>${lk.img?`<img class="prev" src="${esc(lk.img)}" alt="">`:'<p class="note">No photo chosen yet.</p>'}`:''}
+ <b>Pattern</b><div class="opts">${lopt('pat','none','None')}${lopt('pat','dots','Dots')}${lopt('pat','grid','Grid')}${lopt('pat','waves','Waves')}</div>
+ <b>Floating effect</b><div class="opts">${lopt('fx','none','None')}${lopt('fx','petals','🌸 Petals')}${lopt('fx','leaves','🍃 Leaves')}${lopt('fx','diyas','🪔 Diyas')}${lopt('fx','bubbles','🫧 Bubbles')}${lopt('fx','stars','✨ Stars')}${lopt('fx','rain','💧 Rain')}${lopt('fx','clouds','☁️ Clouds')}${lopt('fx','fireflies','🟡 Fireflies')}${lopt('fx','river','🌊 River')}</div>
+ <b>How many</b><div class="opts">${lopt('cnt','f','Few')}${lopt('cnt','n','Normal')}${lopt('cnt','m','Many')}</div>
+ <b>Motion speed</b><div class="opts">${lopt('spd','c','Calm')}${lopt('spd','n','Normal')}${lopt('spd','l','Lively')}</div>
+ <b>Dim the background</b><input type="range" min="0" max="70" value="${lk.dim}" style="width:100%" oninput="lk.dim=+this.value">
+ <b>Card look</b><div class="opts">${lopt('card','solid','Solid')}${lopt('card','soft','Soft')}${lopt('card','glass','Glass')}</div>
+ ${lkSv}</div>`;
+ if(lks==='theme')return B+`<div class="card"><h2>Theme and main colour</h2><b>Theme</b><div class="opts">${lopt('theme','auto','Auto')}${lopt('theme','light','☀️ Light')}${lopt('theme','dark','🌙 Dark')}</div>
+ <b>Main colour (light theme)</b><div class="opts">${ACC.map(x=>`<button class="sw ${lk.accent===x[0]?'on':''}" style="background:${x[0]||'#0E4D64'}" onclick="lk.accent='${x[0]}';draw()">${x[1]}</button>`).join('')}</div>
+ ${lkSv}</div>`;
+ if(lks==='themes')return B+`<div class="card"><h2>Add a theme</h2><p class="note" style="margin-top:0">A photo theme appears in everyone's Background page. You can also use it as the default above.</p><label class="l" for="thn">Theme name</label><input type="text" id="thn" maxlength="30" value="${esc(thN)}" oninput="thN=this.value"><label class="fi"><span>Theme photo</span><input class="file" type="file" accept="image/*" onchange="onThemePhoto(this)"></label>${thImg?`<img class="prev" src="${esc(thImg)}" alt="">`:''}<button class="btn full" onclick="addTheme()">Add theme</button>${bgThemes.length?`<p class="note" style="margin-top:12px">Themes now</p>${bgThemes.map(t=>`<div class="lb"><img src="${esc(t.img)}" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px"><span class="nm">${esc(t.name)}</span><button class="ic" onclick="delTheme('${t.id}')">Remove</button></div>`).join('')}`:''}</div>
+ `;
+ if(lks==='icons')return B+`<div class="card"><h2>Icons for everyone</h2><p class="note" style="margin-top:0">Icons everyone sees on the Settings and Admin pages.</p>${vIconPicker('all')}<button class="btn full" onclick="saveIcons()">Save icons for everyone</button></div>`;
+ if(lks==='avatars')return B+vAvAdmin();
+ return `<div class="card" style="padding:12px 16px"><h2 style="margin:0">Look for everyone</h2><p class="note" style="margin:4px 0 0">This is the default look on every device, also on the login page. Open a tile to change it. People can still choose their own look, or use yours with the Default tile in their Background page.</p></div>`
+ +H('🖼️','Background, pattern and look','Scene, effects, dim and card look','style')+H('🎨','Theme and main colour','Light, dark or auto, and the app colour','theme')+H('🌄','Photo themes','Add photo themes everyone can pick','themes')+H('🔣','Icons for everyone','Choose the icon of each section','icons')+H('🧑','Default profile photos','Avatars people can pick','avatars')}
+const NAMEKEYS=[['settings','Settings (page title)'],['account','My account'],['ideas','Share an idea'],['ai','Ask Swachh AI'],['bg','Background'],['a11y','Accessibility and display'],['guide','How it works'],['member','Member section'],['adminpw','Admin section']];
+const nmDef=k=>k[1].replace(' (page title)','');
+function vNamesAdmin(){const n=(LOOK&&LOOK.names)||{};return `<div class="card"><h2>Rename sections</h2><p class="note" style="margin-top:0">Change the names shown on the Settings page. It changes for everyone. Keep a name as it is if you do not want to change it.</p>${NAMEKEYS.map(k=>`<label class="l" for="nm-${k[0]}">${esc(k[1])}</label><input type="text" id="nm-${k[0]}" maxlength="30" value="${esc(n[k[0]]||nmDef(k))}">`).join('')}<button class="btn full" onclick="saveNames()">Save names for everyone</button><button class="btn red full" onclick="resetNames()">Back to original names</button></div>`}
+async function saveNames(){const m={};NAMEKEYS.forEach(k=>{const v=($('nm-'+k[0])||{value:''}).value.trim();if(v&&v!==nmDef(k))m[k[0]]=v});try{await rpcT('adm_set_names',{p_names:m});await loadLook();toast('Names saved for everyone')}catch(e){toast(errMsg(e))}}
+async function resetNames(){if(!confirm('Go back to the original names?'))return;try{await rpcT('adm_set_names',{p_names:{}});await loadLook();toast('Original names restored')}catch(e){toast(errMsg(e))}}
+
+function onLkPhoto(t){const f=t.files&&t.files[0];if(!f)return;toast('Uploading photo...');readPhoto(f,async u=>{try{lk.img=await upPhoto(u);lk.mode='photo';draw();toast('Photo ready. Press Save for everyone.')}catch(e){toast(errMsg(e))}})}
+function onThemePhoto(t){const f=t.files&&t.files[0];if(!f)return;toast('Uploading photo...');readPhoto(f,async u=>{try{thImg=await upPhoto(u);draw()}catch(e){toast(errMsg(e))}})}
+async function addTheme(){if(!thN.trim()){toast('Give the theme a name');return}if(!thImg){toast('Add a photo first');return}try{await rpcT('adm_add_theme',{p_name:thN.trim(),p_img:thImg});thN='';thImg=null;toast('Theme added for everyone');draw()}catch(e){toast(errMsg(e))}}
+async function delTheme(id){if(!confirm('Remove this theme for everyone?'))return;try{await rpcT('adm_del_theme',{p_id:id});toast('Theme removed')}catch(e){toast(errMsg(e))}}
+async function saveLook(){const o=Object.assign({},lk);let m=o.mode,p=o.preset||'';
+ if(p.startsWith('t:')){const t=bgThemes.find(x=>'t:'+x.id===p);if(t&&t.img){o.img=t.img;m='photo'}p=''}
+ if(m==='photo'&&!/^https:\/\/rzbythfivpsdhawodkth\.supabase\.co\/storage\//.test(o.img||''))m='preset';
+ try{await rpcT('adm_set_look_data',{p_data:{mode:m,preset:p,color:o.color,accent:o.accent||'',pat:o.pat,fx:o.fx,cnt:o.cnt,spd:o.spd,card:o.card,theme:o.theme,dim:o.dim,img:o.img||''}});await loadLook();toast('Saved for everyone')}catch(e){toast(errMsg(e))}}
+
+/* ===== owner-only: manage admins ===== */
+const OWNER_ID='1a1def4e-fc51-4250-bfe9-4b70fc859d8d';
+function vAdminsAdmin(){if(U.uid!==OWNER_ID)return '<div class="card"><p class="note" style="margin:0">Only the owner can manage admins.</p></div>';
+ const pool=users.filter(u=>u.access!=='admin'&&!u.blocked),ad=users.filter(u=>u.access==='admin'&&u.id!==U.uid);
+ return `<div class="card"><h2>Add an admin</h2><p class="note" style="margin-top:0">Only you (the owner) can add admins. They still need the admin password to open the admin page.</p>${pool.length?`<div class="acts" style="margin-top:0"><select id="aa" style="flex:1">${pool.map(u=>`<option value="${u.id}">${esc(u.name)}</option>`).join('')}</select><button class="btn" onclick="addAdminNow()">Make admin</button></div>`:'<p class="note">Nobody to add.</p>'}</div>
+ <div class="card"><h2>Other admins</h2>${ad.length?ad.map(u=>`<div class="lb"><span class="nm"><b>${esc(u.name)}</b>${u.blocked?' · blocked':''}</span><span class="wb one"><button class="ic" onclick="rmAdminNow('${u.id}')">Remove</button><button class="ic" ${u.blocked?'disabled style="opacity:.4"':''} onclick="blkAdminNow('${u.id}',true)">Block</button><button class="ic" ${u.blocked?'':'disabled style="opacity:.4"'} onclick="blkAdminNow('${u.id}',false)">Unblock</button></span></div>`).join(''):'<p class="note">No other admins.</p>'}</div>`}
+async function addAdminNow(){try{await rpcT('owner_add_admin',{p_id:$('aa').value});toast('Admin added')}catch(e){toast(errMsg(e))}}
+async function rmAdminNow(id){if(!confirm('Remove this person from admin?'))return;try{await rpcT('owner_remove_admin',{p_id:id});toast('Removed from admin')}catch(e){toast(errMsg(e))}}
+async function blkAdminNow(id,v){try{await rpcT('owner_set_admin_blocked',{p_id:id,p_val:v});toast(v?'Admin blocked':'Admin unblocked')}catch(e){toast(errMsg(e))}}
+
+loadLook();
 init();
 </script>
 </body>
