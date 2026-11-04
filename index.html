@@ -6,11 +6,11 @@
 <title>Swachh Nova – Clean Ganga Ghats Network</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap">
 <style>
-:root{--bg:#EAF2F1;--card:#fff;--ink:#10242B;--mute:#5B7178;--river:#0E4D64;--gold:#F2A900;--red:#C8452D;--blue:#2F7FBF;--green:#2E8B57;--line:#CFE0DE;--onriver:#fff}
-@media (prefers-color-scheme:dark){:root{--bg:#0B1B21;--card:#12292F;--ink:#E6F1F0;--mute:#8FA8AE;--river:#5FB3CF;--line:#244047;--onriver:#08202A}}
+:root{--bg:#EAF2F1;--card:#fff;--ink:#10242B;--mute:#5B7178;--river:#0E4D64;--gold:#F2A900;--red:#C8452D;--blue:#2F7FBF;--green:#2E8B57;--line:#CFE0DE;--onriver:#fff;--nav:var(--card);--hdr:var(--river);--hdrink:var(--onriver);color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0B1720;--card:#102A33;--ink:#EAF4F7;--mute:#8FB0BB;--river:#56B8D0;--line:#21404B;--onriver:#06202A;--nav:#183B45;--hdr:#102A33;--hdrink:#EAF4F7;color-scheme:dark}}
 *{box-sizing:border-box}html,body{margin:0}
 body{background:var(--bg);color:var(--ink);font-family:'Mukta',system-ui,sans-serif;font-size:16px;line-height:1.45}
-header{background:var(--river);color:var(--onriver);padding:14px 16px 12px}
+header{background:var(--hdr);color:var(--hdrink);padding:14px 16px 12px;border-bottom:1px solid transparent}
 header h1{margin:0;font-size:26px;font-weight:800}header p{margin:0;font-size:13px;opacity:.92}
 .who{font-size:12px;margin-top:6px}.who a{text-decoration:underline;cursor:pointer}
 .role{display:none;gap:6px;margin-top:8px}
@@ -41,7 +41,7 @@ input.file::file-selector-button{border:0;border-radius:8px;padding:9px 14px;mar
 .chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:10px}
 .chips button{flex:none;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:16px;padding:4px 12px;font:600 13px Mukta,sans-serif;cursor:pointer}
 .chips button.on{background:var(--river);color:var(--onriver);border-color:var(--river)}
-nav{position:sticky;top:0;z-index:6;background:var(--card);border-bottom:1px solid var(--line);display:none}
+nav{position:sticky;top:0;z-index:6;background:var(--nav);border-bottom:1px solid var(--line);display:none}
 nav button{flex:1;border:0;background:none;color:var(--mute);padding:8px 2px;font:600 11px Mukta,sans-serif;cursor:pointer}
 nav button.on{color:var(--river);box-shadow:inset 0 -3px 0 var(--gold)}nav b{display:block;font-size:19px}
 .prev{max-width:100%;max-height:200px;border-radius:10px;margin-top:6px}.s-Pending{background:#8a6d00}.s-Review{background:#7a3fa0}
@@ -59,8 +59,8 @@ nav button.on{color:var(--river);box-shadow:inset 0 -3px 0 var(--gold)}nav b{dis
 code{background:var(--bg);padding:1px 5px;border-radius:4px;font-size:13px}
 .quote{background:var(--river);color:var(--onriver);border:0}.quote p{font-size:19px;font-weight:600;margin:6px 0 0}.quote .note{color:inherit;opacity:.85}
 
-html[data-theme=light]{--bg:#EAF2F1;--card:#fff;--ink:#10242B;--mute:#5B7178;--river:#0E4D64;--line:#CFE0DE;--onriver:#fff}
-html[data-theme=dark]{--bg:#0B1B21;--card:#12292F;--ink:#E6F1F0;--mute:#8FA8AE;--river:#5FB3CF;--line:#244047;--onriver:#08202A}
+html[data-theme=light]{--bg:#EAF2F1;--card:#fff;--ink:#10242B;--mute:#5B7178;--river:#0E4D64;--line:#CFE0DE;--onriver:#fff;--nav:var(--card);--hdr:var(--river);--hdrink:var(--onriver);color-scheme:light}
+html[data-theme=dark]{--bg:#0B1720;--card:#102A33;--ink:#EAF4F7;--mute:#8FB0BB;--river:#56B8D0;--line:#21404B;--onriver:#06202A;--nav:#183B45;--hdr:#102A33;--hdrink:#EAF4F7;color-scheme:dark}
 #bgl,#fx{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}#bgl{background-color:var(--bg)}
 .fp{position:absolute;top:0;line-height:1;opacity:.85;will-change:transform}
 @keyframes fall{from{transform:translate3d(0,-10vh,0) rotate(0)}to{transform:translate3d(var(--dx,40px),110vh,0) rotate(360deg)}}
@@ -89,8 +89,8 @@ html.hc{--line:#000;--mute:#222}html.hc.dk{--line:#fff;--mute:#ddd}html.hc .card
 html.ul a{text-decoration:underline!important;font-weight:700}
 html.big .btn,html.big .ic,html.big nav button,html.big select,html.big input,html.big .opts button{min-height:48px}
 html.cb{--red:#D55E00;--green:#0072B2;--blue:#CC79A7}
-html.cs .card,html.cs nav,html.cs .tile{background:color-mix(in srgb,var(--card) 86%,transparent)}
-html.cg .card,html.cg nav,html.cg .tile{background:color-mix(in srgb,var(--card) 60%,transparent);backdrop-filter:blur(8px)}
+html.cs .card,html.cs .tile{background:color-mix(in srgb,var(--card) 86%,transparent)}
+html.cg .card,html.cg .tile{background:color-mix(in srgb,var(--card) 60%,transparent);backdrop-filter:blur(8px)}
 .av{overflow:hidden}.av img{width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in}.av.big{width:96px;height:96px;font-size:40px;margin:0 auto 10px}
 .wb.one{flex-wrap:nowrap;gap:5px}.wb.one>button{flex:1 1 0;min-width:0;padding:8px 2px;font-size:13px;white-space:nowrap;text-align:center}
 .lb:not(:has(.wb)){flex-wrap:nowrap}.lb>button{flex:0 0 auto;white-space:nowrap}
@@ -135,15 +135,31 @@ html.nt #app>.note,html.nt #app>p{color:#dbe7ff}
 .ssw{position:relative;flex:1 1 160px;min-width:0;width:100%}.ssb{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1.5px solid var(--line);border-radius:8px;padding:11px 12px;font:600 15px Mukta,sans-serif;cursor:pointer}
 .ssp{position:absolute;z-index:60;left:0;right:0;top:calc(100% + 4px);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.28);padding:8px}.ssp input{width:100%;margin:0 0 6px}
 .ssl{max-height:240px;overflow:auto}.sso{padding:10px;border-radius:6px;cursor:pointer;color:var(--ink)}.sso:hover,.sso.on{background:var(--river);color:var(--onriver)}
-html.cs .card,html.cs nav,html.cs .tile{background:color-mix(in srgb,var(--card) 94%,transparent)}html.cg .card,html.cg nav,html.cg .tile{background:color-mix(in srgb,var(--card) 84%,transparent);backdrop-filter:blur(10px)}
+html.cs .card,html.cs .tile{background:color-mix(in srgb,var(--card) 94%,transparent)}html.cg .card,html.cg .tile{background:color-mix(in srgb,var(--card) 84%,transparent);backdrop-filter:blur(10px)}
 html.cs .quote,html.cg .quote{background:color-mix(in srgb,var(--river) 92%,transparent);color:var(--onriver)}.quote p,.quote .note{text-shadow:none}
 .ic{-webkit-appearance:none;appearance:none;background:var(--card);color:var(--ink)}.ic:disabled{color:var(--ink)}
+
+nav,html.cs nav,html.cg nav{background:var(--nav)!important}
+header{text-align:center}.hrow{display:flex;align-items:center;justify-content:center;gap:10px}.hrow h1{margin:0;min-width:0;overflow-wrap:anywhere}.hic{display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;font-size:30px;flex:0 0 42px}.hic:empty{display:none}#htag{text-align:center;margin:6px 0 8px;font-weight:600}
+.i-sweep{display:inline-block;transform-origin:80% 10%;animation:swp 1.3s ease-in-out infinite alternate}.i-spin{display:inline-block;animation:spn 6s linear infinite}.i-bob{display:inline-block;animation:bobb 2.2s ease-in-out infinite}.i-flick{display:inline-block;animation:flk 1.4s ease-in-out infinite}
+.swp{transform-origin:45px 9px;animation:swp 1.3s ease-in-out infinite alternate}.dst{animation:dstm 1.3s ease-in-out infinite alternate}.dst.d2{animation-delay:.4s}
+@keyframes swp{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}@keyframes spn{to{transform:rotate(360deg)}}@keyframes bobb{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}@keyframes flk{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.15);opacity:.8}}@keyframes dstm{from{opacity:.1;transform:translateX(0)}to{opacity:1;transform:translateX(5px)}}
+
+@media (prefers-color-scheme:dark){html:not([data-theme=light]) header{border-bottom-color:var(--line)}}html[data-theme=dark] header{border-bottom-color:var(--line)}
+body,header,nav,.card,.tile,.btn,input,select,textarea,.ssb,.ssp{transition:background-color .25s ease,color .25s ease,border-color .25s ease}nav{transition:transform .25s,background-color .25s ease,color .25s ease}
+.xo{position:relative;display:inline-block}.xb{position:absolute;top:-7px;right:-7px;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:11px;line-height:1;cursor:pointer;padding:0;z-index:2}
+
+header{position:relative;z-index:8}header.himg{background-size:cover;background-position:center;background-repeat:no-repeat;min-height:120px}
+.adbar{background:var(--river);color:var(--onriver);font-weight:800;font-size:12px;letter-spacing:.8px;text-transform:uppercase;text-align:center;padding:7px 12px;border-radius:12px 12px 0 0;margin:6px 0 0}.adbar+.sl{border-top-left-radius:0;border-top-right-radius:0;margin-top:0}
+.dots{display:flex;justify-content:center;align-items:center;gap:8px;margin:8px 0 2px}.dot{width:9px;height:9px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer;transition:width .2s,background-color .2s}.dot.on{background:var(--river);width:24px;border-radius:6px}
+.addb{border-style:dashed!important}
+@keyframes orbup{0%{transform:translateY(0) scale(.8);opacity:0}15%{opacity:.9}100%{transform:translateY(-115vh) scale(1.25);opacity:0}}@keyframes ember{0%{transform:translate(0,0);opacity:0}10%{opacity:1}50%{transform:translate(var(--dx,20px),-55vh)}100%{transform:translate(calc(var(--dx,20px)*-1),-110vh);opacity:0}}@keyframes rip{0%{transform:scale(0);opacity:.7}100%{transform:scale(1);opacity:0}}
 </style>
 </head>
 <body><div id="bgl"></div><div id="fx"></div>
 <header>
-  <h1>Swachh Nova</h1>
-  <p>The bridge between citizens and volunteers for clean Ganga ghats · Namami Gange</p>
+  <div class="hrow"><span id="hl" class="hic"></span><h1>Swachh Nova</h1><span id="hr" class="hic"></span></div>
+  <p id="htag">Report waste, clean Ganga</p>
   <div class="role" id="roles" role="group" aria-label="Choose role"><button id="r-citizen" onclick="setRole('citizen')">Citizen</button><button id="r-volunteer" onclick="setRole('volunteer')">Volunteer</button></div>
   <div class="who" id="who"></div>
 </header>
@@ -169,7 +185,7 @@ let adminPin=null;
 const snake=k=>k.replace(/[A-Z]/g,c=>'_'+c.toLowerCase()),camel=k=>k.replace(/_([a-z])/g,(m,c)=>c.toUpperCase());
 const toDb=o=>{const r={};for(const k in o)r[snake(k)]=o[k];return r};
 const fromDb=o=>{const r={};for(const k in o)r[camel(k)]=o[k];return r};
-const COLS={users:'id,name,pts,role,t,manual,access,blocked,pending_access'};
+const COLS={users:'id,name,pts,role,t,manual,access,blocked,pending_access,is_guest'};
 let ideas=[],idT='',aiMsgs=[],aiBusy=false,dav=[],props=[],settings={},shownNeed=false,locs=[],mots=[],ld={n:'',q:'',open:false},motOpen=false,mtxt='',priv=[],ads=[],notices=[],flags=[],bi=0,bt=null,mapG=0,mapT='m',nsl={k:'ad',a:'',l:'',img:null};
 const gh=i=>GH[i]||{n:'New location',q:'Patna, Bihar'};
 function syncGH(){locs.forEach(l=>{GH[l.idx]={n:l.name,q:l.q,gone:!!l.removed}})}
@@ -309,13 +325,13 @@ const navUrl=r=>'https://www.google.com/maps/dir/?api=1&destination='+(r.lat?r.l
 const gUrl=i=>'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(gh(i).q);
 const stats=i=>{const f=s=>reports.filter(r=>r.g===i&&r.st===s).length,a=f('Assigned'),r=f('Reported');return{r,a,c:f('Cleaned'),p:r+a}};
 /* ---------- views ---------- */
-function vAuth(){const reg=mode==='register';return `<div class="card"><h2>${reg?'Create account':'Log in'}</h2>
+function vAuth(){const reg=mode==='register';return `${authHero()}<div class="card"><h2>${reg?'Create account':'Log in'}</h2>
  ${reg?`<label class="l" for="nm">Full name</label><input type="text" id="nm" maxlength="30" autocomplete="name">`:''}
  <label class="l" for="em">Email</label><input type="email" id="em" autocomplete="email">
  <label class="l" for="pw">Password (min 6 characters)</label><input type="password" id="pw" autocomplete="${reg?'new-password':'current-password'}">
  ${reg?`<label class="l" for="rl">I want to join as</label><select id="rl"><option value="citizen">Citizen (report waste)</option><option value="volunteer">Volunteer (clean waste)</option></select>`:''}
  <button class="btn full" onclick="${reg?'doRegister()':'doLogin()'}">${reg?'Register':'Log in'}</button>
- <div class="acts"><button class="ic" onclick="mode='${reg?'login':'register'}';draw()">${reg?'I already have an account':'Create a new account'}</button>${reg?'':'<button class="ic" onclick="resetPw()">Forgot password</button>'}</div></div>`}
+ <div class="acts"><button class="ic" onclick="mode='${reg?'login':'register'}';draw()">${reg?'I already have an account':'Create a new account'}</button>${reg?'':'<button class="ic" onclick="resetPw()">Forgot password</button>'}</div>${reg?'':guestBtn()}</div>`}
 function vReport(){return vUNotes()+vNeedPhoto()+`<div class="card"><h2>Report waste</h2>${fileIn('new',0,'1. Photo of the waste (camera or gallery)')}
  ${draft.photo?`<img class="prev" src="${draft.photo}" alt="Photo preview">`:'<p class="note">A photo is required.</p>'}
  <label class="l" for="g">2. Ghat or location</label><select id="g" onchange="draft.g=+this.value;draw()">${GH.map((g,i)=>g.gone?'':`<option value="${i}"${i===draft.g?' selected':''}>${esc(g.n)}</option>`).join('')}</select>${draft.g===0?bldSel():''}
@@ -348,13 +364,13 @@ function vList(){
  const L=['All','Reported','Assigned','Cleaned'],vis=reports.filter(r=>r.st!=='Pending'&&r.st!=='Review'&&r.photo),rs=vis.filter(r=>filter==='All'||r.st===filter);
  return `<div class="chips">${L.map(l=>`<button class="${l===filter?'on':''}" onclick="filter='${l}';draw()">${l} (${l==='All'?vis.length:vis.filter(r=>r.st===l).length})</button>`).join('')}</div>${rs.length?rs.map(card).join(''):'<div class="empty">No reports here yet.</div>'}`}
 function vBoard(){
- const m=ME,next=BADGES.find(b=>m.pts<b[0]),got=BADGES.filter(b=>m.pts>=b[0]),o=users.slice().sort((a,b)=>b.pts-a.pts);
+ const m=ME,next=BADGES.find(b=>m.pts<b[0]),got=BADGES.filter(b=>m.pts>=b[0]),o=users.filter(u=>!u.isGuest).sort((a,b)=>b.pts-a.pts);if(Date.now()-lavT>60000){lavT=Date.now();loadLav()}
  return `<div class="card"><h2>${esc(m.name)}: ${m.pts} points</h2>${next?`<div class="bar" style="margin:4px 0"><i style="width:${Math.min(100,m.pts/next[0]*100)}%;background:var(--gold)"></i></div><p class="note">${next[0]-m.pts} more points for "${next[1]}"</p>`:'<p>All badges earned! 🎉</p>'}
  <div>${got.length?got.map(b=>`<span class="tag">🏅 ${b[1]}</span>`).join(''):'<span class="note">No badges yet.</span>'}</div><p class="note">Report +10 · Accept task +5 · Cleanup with after photo +30</p></div>
- <div class="card"><h2>Leaderboard</h2>${o.map((b,i)=>`<div class="lb${b.id===U.uid?' me':''}"><span class="nm">${i+1}. ${esc(b.name)}${b.id===U.uid?'<span class="tag">You</span>':''}${b.role==='volunteer'?' <span class="note">volunteer</span>':''}</span><b>${b.pts}</b></div>`).join('')}</div>`}
+ <div class="card"><h2>Leaderboard</h2>${o.map((b,i)=>`<div class="lb${b.id===U.uid?' me':''}"><span class="nm">${lbAv(b)}${i+1}. ${esc(b.name)}${b.id===U.uid?'<span class="tag">You</span>':''}${b.role==='volunteer'?' <span class="note">volunteer</span>':''}</span><b>${b.pts}</b></div>`).join('')}</div>`}
 function vFeed(){
  const cl=reports.filter(r=>r.st==='Cleaned').length;
- return `<div class="card"><h2>Community</h2><div class="tot"><div><b>${users.length}</b>Members</div><div><b>${users.filter(u=>u.role==='volunteer').length}</b>Volunteers</div><div><b style="color:var(--green)">${cl}</b>Cleanups</div></div>
+ return `<div class="card"><h2>Community</h2><div class="tot"><div><b>${users.filter(u=>!u.isGuest).length}</b>Members</div><div><b>${users.filter(u=>!u.isGuest&&u.role==='volunteer').length}</b>Volunteers</div><div><b style="color:var(--green)">${cl}</b>Cleanups</div></div>
  <div class="acts"><button class="btn alt" onclick="enableAlerts()">🔔 Enable phone alerts</button></div></div>
  <div class="card"><h2>Live activity</h2>${acts.length?acts.map(a=>`<div class="feed"><i>${ICON[a.type]||'•'}</i><div>${esc(a.text)}<div class="note">${ago(a.t)}</div></div></div>`).join(''):'<div class="empty">No activity yet.</div>'}</div>`}
 const QUOTES=['Small steps at the ghat today become a cleaner Ganga tomorrow.','One bag of waste picked up is one less bag in the river.','A clean river is a habit we build together, not a one-day project.','Be the reason a ghat looks better than you found it.','Every report is a promise that someone will care.','Great rivers are saved by ordinary people who showed up.','Do not wait for the perfect day. Pick up the first bottle.'];
@@ -446,14 +462,17 @@ function vAdmin(){
  <div class="card"><h2>Change admin PIN</h2><input type="password" id="np" inputmode="numeric" placeholder="New PIN (4 to 8 digits)"><div class="acts"><button class="btn" onclick="setPin()">Change PIN</button></div></div>
  <div class="card"><h2>Reset the whole app</h2><p class="note">Deletes every report, photo and activity item for ALL users and sets all points to 0. Accounts stay.</p>${confirmReset?`<div class="acts"><button class="btn red" onclick="doReset()">Yes, erase everything</button><button class="ic" onclick="confirmReset=false;draw()">Cancel</button></div>`:`<div class="acts"><button class="btn red" onclick="confirmReset=true;draw()">Reset app</button></div>`}</div>`}
 function draw(){
- const gate=!U||!ME;
- $('roles').style.display=!gate?'flex':'none';
+ const gate=!U||!ME,G=isGuest();renderHdr();
+ if(G&&(tab==='admin'||tab==='team'))tab='report';
+ $('roles').style.display=(!gate&&!G)?'flex':'none';
  if(!gate)['citizen','volunteer'].forEach(x=>$('r-'+x).classList.toggle('on',ME.role===x));
  $('who').innerHTML='';
  $('nav').style.display=gate?'none':'flex';
  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.getAttribute('data-t')===(tab==='team'||tab==='admin'?'profile':tab)));
  let h;
  if(!U)h=vAuth();else if(!ME)h='<div class="empty">Loading...</div>';
+ else if(G&&LOOK&&LOOK.guest===false)h=vGuestOff();
+ else if(G&&tab==='profile')h=vGuestSettings();
  else h=({report:vReport,map:vMap,list:vList,board:vBoard,comm:vComm,admin:vAdmin,team:vTeam,profile:vProfile})[tab]();
  $('app').innerHTML=h+(U&&ME&&['map','list','board','comm'].includes(tab)?vBanner():'');startBanner();enhanceSelects()}
 
@@ -586,8 +605,8 @@ async function rmPhoto(id,w){try{const r=rep(id),mine=!!r&&r.repUid===U.uid;awai
 /* ---------- admin page ---------- */
 function vSlideAdmin(){const op=nsl.open;
  return `<div class="card"><h2>Notices and advertisements</h2><p class="note" style="margin-top:0">They slide in the white box on Report, Hotspots, Status, Leaders and Community.</p>
- <div class="acts"><button class="btn" onclick="openSl('notice')">Add Notice</button><button class="btn alt" onclick="openSl('ad')">Add Advertisement</button></div>
- ${op?`<label class="l" for="sa">${nsl.k==='ad'?'Company name':'Notice text (optional if you add a photo)'}</label><input type="text" id="sa" maxlength="${nsl.k==='ad'?40:500}" value="${esc(nsl.a)}" oninput="nsl.a=this.value">${nsl.k==='ad'?`<label class="l" for="sl2">Link (optional)</label><input type="text" id="sl2" maxlength="200" placeholder="https://" value="${esc(nsl.l)}" oninput="nsl.l=this.value">`:''}${fileIn('slide',0,'Photo')}${nsl.img?`<img class="prev" src="${nsl.img}" alt="">`:''}<div class="acts"><button class="btn" onclick="saveSlide()">Publish</button><button class="ic" onclick="nsl.open=false;draw()">Cancel</button></div>`:''}
+ <div class="acts"><button class="btn" onclick="openSl('notice')">Add Notice</button><button class="btn alt" onclick="openSl('ad')">Add Advertisement</button><button class="btn alt" onclick="openSl('instr')">Add Instruction</button></div>
+ ${op?`<label class="l" for="sa">${nsl.k==='ad'?'Company name':(nsl.k==='instr'?'Instruction for users (optional if you add a photo)':'Notice text (optional if you add a photo)')}</label><input type="text" id="sa" maxlength="${nsl.k==='ad'?40:500}" value="${esc(nsl.a)}" oninput="nsl.a=this.value">${nsl.k==='ad'?`<label class="l" for="sl2">Link (optional)</label><input type="text" id="sl2" maxlength="200" placeholder="https://" value="${esc(nsl.l)}" oninput="nsl.l=this.value">`:''}${fileIn('slide',0,'Photo')}${nsl.img?`<img class="prev" src="${nsl.img}" alt="">`:''}<div class="acts"><button class="btn" onclick="saveSlide()">Publish</button><button class="ic" onclick="nsl.open=false;draw()">Cancel</button></div>`:''}
  ${ads.length||notices.length?`<p class="note" style="margin-top:12px">Now in the slider</p>${ads.map(a=>`<div class="lb"><span class="nm">Ad · ${esc(a.name)}</span><button class="ic" onclick="delSlide('ad','${a.id}')">Delete</button></div>`).join('')}${notices.map(n=>`<div class="lb"><span class="nm">Notice · ${esc((n.text||'Photo').slice(0,40))}</span><button class="ic" onclick="delSlide('notice','${n.id}')">Delete</button></div>`).join('')}`:''}</div>`}
 function vLocAdmin(){const live=locs.filter(l=>!l.removed);
  return `<div class="card"><h2>Locations</h2><p class="note" style="margin-top:0">Locations you add show in the Google map selector and in the report form.</p><label class="l" for="ln">Name</label><input type="text" id="ln" maxlength="40" value="${esc(ld.n)}" oninput="ld.n=this.value"><label class="l" for="lq">Place name or coordinates (optional)</label><input type="text" id="lq" maxlength="100" placeholder="Example: 25.6205, 85.1730" value="${esc(ld.q)}" oninput="ld.q=this.value"><button class="btn full" onclick="addLoc()">Add location</button>
@@ -657,32 +676,32 @@ async function saveContact(){try{await rpcT('adm_set_contact',{p_email:$('cm').v
 function vGuide(){return `<div class="card"><details><summary style="font-weight:700;cursor:pointer;font-size:17px">📖 How Swach Nova works</summary>
  <div style="margin-top:10px;line-height:1.5;font-size:15px">
  <p><b>1. Report waste.</b> Open Report. Add a photo, choose the ghat (for NIT Patna Campus also choose the place), add your exact location if you can, and write what kind of waste it is. Then press Submit.</p>
+ <p><b>Guest mode.</b> You can enter as a guest without a login. Your name stays hidden. Guests can report waste and look at Hotspots, Leaders, Community and this guide. Volunteer, member and admin need a login. The admin can switch guest mode on or off.</p>
  <p><b>2. Members approve.</b> Every new report goes to the members first. When a member approves it, it shows in Status and you get 10 points. If a member declines it, it is deleted.</p>
  <p><b>3. Cleaning.</b> Approved reports are visible to the person who reported, to members and admins, and to the volunteer who accepts the task. Switch to Volunteer at the top, press Accept task (+5 points), clean the place and upload an after photo (+30 points).</p>
  <p><b>4. Hotspots.</b> Shows a Google map where you can change the ghat and switch to satellite, the ghats with the most waste, and the NIT Patna campus area. A red number means open reports at that place.</p>
- <p><b>5. Leaders.</b> Points ranking of everyone who helps.</p>
+ <p><b>5. Leaders.</b> Points ranking of everyone who helps, with their profile pictures.</p>
  <p><b>6. Community.</b> Share the app, read the motivation, see sponsors, activity, notices and ads. The white box at the bottom of the main pages slides through notices, ads and sponsors.</p>
  <p><b>7. Photos.</b> Tap a photo to see it bigger. You can remove your own photo. That cancels the report and brings it back to the Report page with your comment. If an admin or member removes your photo, add a new one or delete that report.</p>
  <p><b>8. Members.</b> In Settings, open Member section, enter the member password and send a request. After the admin approves you, enter the member password each time to open the Member page. Members vote on new reports, report a user, suggest new members and remove wrong photos.</p>
  <p><b>9. Admin.</b> Admin section has its own password. It opens only after you enter it. Admins manage members, users, notices, ads, places, passwords and the share link.</p>
  <p><b>10. Safety.</b> Enter the member or admin password once. The page stays open until you log out or close the app, then the password is asked again.</p>
- <p><b>Settings.</b> Change your name, phone, email and password, pick a background and set accessibility options. Background and accessibility choices are saved on your own device only.</p>
+ <p><b>Settings.</b> Change your name, phone, email and password, pick a background (with Light, Dark or Auto mode) and set accessibility options. These choices are saved on your own device only. In dark mode the background is dimmed. Admin sets the default look, icons and names for everyone.</p>
  <p><b>Need help?</b> Contact the admin using the details at the bottom of this page.</p></div></details></div>`}
 
 /* ---------- Settings: tiles, background, accessibility (saved on this device only) ---------- */
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}};
 const PRDEF={theme:'auto',size:'n',font:'d',dens:'n',round:'r',pe:'slide',lay:'a',rm:false,hc:false,ul:false,big:false,cb:false,ah:false};
-let PR=Object.assign({},PRDEF,LS.get('sn_prefs',{}));
+let PR=Object.assign({},PRDEF,LS.get('sn_prefs',{}));{const _sp=LS.get('sn_prefs',null);if(_sp&&_sp.own===undefined)PR.own=true}
 let LOOK=LS.get('sn_look',{})||{},bgThemes=[],unotes=[],unFirst=true,lk={},lkIc={},thN='',thImg=null,bc={q:'',sel:{},body:''};
 const BGDEF={mode:'preset',preset:'',color:'#EAF2F1',pat:'none',fx:'none',cnt:'n',spd:'n',dim:0,card:'solid'};
 const _sv=LS.get('sn_bg',null);let BG=Object.assign({},BGDEF,_sv||{});if(_sv&&_sv.own===undefined)BG.own=true;
 let bgImg='';try{bgImg=localStorage.getItem('sn_bgimg')||''}catch(e){}
 let sset='',ahub='',lkd={bg:'',ac:''};
 const PRESETS={default:null,dawn:'linear-gradient(160deg,#ffe0b2,#ffb7c5 55%,#b3d4ff)',aarti:'linear-gradient(170deg,#ffb347,#e8590c 55%,#6b1d00)',monsoon:'linear-gradient(170deg,#cfd8dc,#78909c 60%,#37474f)',lotus:'linear-gradient(160deg,#fde2ee,#f6a5c8 60%,#c8a2e8)',forest:'linear-gradient(170deg,#d7f0d2,#5fa86b 60%,#1f4d36)',ocean:'linear-gradient(170deg,#c9f1ff,#4cb5e8 55%,#14507a)',dusk:'linear-gradient(170deg,#ffd6a5,#c77dff 55%,#2b1b5c)',midnight:'linear-gradient(170deg,#1b2a4a,#0e1730 70%,#050a18)',sand:'linear-gradient(170deg,#fff3d6,#f1d9a5 60%,#d8b774)',mint:'linear-gradient(160deg,#e6fff6,#a7f0d4 60%,#6fd3b0)',white:'linear-gradient(#fff,#fff)',aurora:'linear-gradient(120deg,#0f2027,#2c7a7b,#6fd3b0,#7b5ea7,#0f2027)',gangaflow:'linear-gradient(120deg,#c9f1ff,#4cb5e8,#14507a,#6fd3b0,#c9f1ff)',sunrise:'linear-gradient(120deg,#ffd6a5,#ff9a76,#ff6f91,#c77dff,#ffd6a5)'};const ANIM=['aurora','gangaflow','sunrise'];
-const PL=[['default','Day & night'],['white','White'],['dawn','Dawn'],['aarti','Aarti'],['monsoon','Monsoon'],['lotus','Lotus'],['forest','Forest'],['ocean','Ocean'],['dusk','Dusk'],['midnight','Midnight'],['sand','Sand'],['mint','Mint'],['aurora','Aurora ✨'],['gangaflow','Ganga flow ✨'],['sunrise','Sunrise ✨']];
+const PL=[['white','White'],['dawn','Dawn'],['aarti','Aarti'],['monsoon','Monsoon'],['lotus','Lotus'],['forest','Forest'],['ocean','Ocean'],['dusk','Dusk'],['midnight','Midnight'],['sand','Sand'],['mint','Mint'],['aurora','Aurora ✨'],['gangaflow','Ganga flow ✨'],['sunrise','Sunrise ✨']];
 const ACC=[['','Default'],['#0E4D64','Teal'],['#1F6B45','Green'],['#5B3A8C','Purple'],['#8C2F39','Maroon'],['#1F3A8A','Navy'],['#A04A00','Amber'],['#374151','Slate'],['#A12B6B','Rose']];
 const FXE={petals:['🌸','fall'],leaves:['🍃','fall'],rain:['💧','fall'],diyas:['🪔','rise'],bubbles:['🫧','rise'],stars:['✨','tw'],clouds:['☁️','sail'],river:['🌊','sail'],fireflies:['●','ff']};
-function isDark(){try{return PR.theme==='dark'||(PR.theme==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches)}catch(e){return PR.theme==='dark'}}
 function applyPrefs(){const h=document.documentElement,c=h.classList;
  if(PR.theme==='auto')h.removeAttribute('data-theme');else h.setAttribute('data-theme',PR.theme);
  const dk=isDark();c.toggle('dk',dk);
@@ -690,7 +709,7 @@ function applyPrefs(){const h=document.documentElement,c=h.classList;
  if(PR.size==='l')c.add('t2');if(PR.size==='x')c.add('t3');if(PR.font==='r')c.add('fr');if(PR.font==='s')c.add('fs');
  if(PR.dens==='c')c.add('d1');if(PR.dens==='r')c.add('d3');if(PR.round==='s')c.add('sq');
  if(PR.rm)c.add('rm');if(PR.hc)c.add('hc');if(PR.ul)c.add('ul');if(PR.big)c.add('big');if(PR.cb)c.add('cb');
- if(BG.card==='soft')c.add('cs');if(BG.card==='glass')c.add('cg');
+ {const E=bgNow();if(E.card==='soft')c.add('cs');if(E.card==='glass')c.add('cg')}
  h.setAttribute('data-pe',PR.pe);h.style.setProperty('--mw',{m:'480px',a:'680px',d:'940px'}[PR.lay]||'680px');
  const ac=settings.look_accent;if(ac&&!dk)h.style.setProperty('--river',ac);else h.style.removeProperty('--river');
  applyBg()}
@@ -733,14 +752,14 @@ function setP(k,v){PR[k]=v;LS.set('sn_prefs',PR);try{applyPrefs()}catch(e){}draw
 function setB(o){Object.assign(BG,o);LS.set('sn_bg',BG);try{applyPrefs()}catch(e){}draw()}
 function resetP(){PR=Object.assign({},PRDEF);LS.set('sn_prefs',PR);try{applyPrefs()}catch(e){}draw();toast('Accessibility settings reset')}
 function resetBg(){BG={mode:'preset',preset:'',color:'#EAF2F1',pat:'none',fx:'none',cnt:'n',spd:'n',dim:0,card:'solid'};bgImg='';try{localStorage.removeItem('sn_bgimg')}catch(e){}LS.set('sn_bg',BG);try{applyPrefs()}catch(e){}draw();toast('Background reset')}
-function surprise(){const r=a=>a[Math.floor(Math.random()*a.length)];const ids=PL.map(x=>x[0]).filter(x=>x!=='default');setB({mode:'preset',preset:r(ids),pat:r(['none','dots','grid','waves']),fx:r(Object.keys(FXE)),card:r(['soft','glass'])})}
+function surprise(){const r=a=>a[Math.floor(Math.random()*a.length)];const ids=PL.map(x=>x[0]).filter(x=>x!=='default'&&!isOff('preset:'+x));setB({mode:'preset',preset:r(ids),pat:r(['none','dots','grid','waves']),fx:r(Object.keys(FXE).filter(k=>!isOff('fx:'+k))),card:r(['soft','glass'])})}
 function onBgPhoto(t){const f=t.files&&t.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const m=1100,k=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);const u=c.toDataURL('image/jpeg',.6);try{localStorage.setItem('sn_bgimg',u)}catch(e){toast('This photo is too big to keep on this device');return}bgImg=u;setB({mode:'photo'});toast('Background photo saved on this device')};im.src=r.result};r.readAsDataURL(f)}
-let lastY=0;try{addEventListener('scroll',()=>{if(!PR.ah)return;const y=scrollY,nv=$('nav');if(y>lastY+8&&y>120)nv.classList.add('nh');else if(y<lastY-8)nv.classList.remove('nh');lastY=y},{passive:true})}catch(e){}
-try{matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if(PR.theme==='auto')applyPrefs()})}catch(e){}
+let lastY=0;try{addEventListener('scroll',()=>{if(!PR.ah){const n0=$('nav');if(n0)n0.classList.remove('nh');return}const y=scrollY,nv=$('nav');if(y>lastY+8&&y>120)nv.classList.add('nh');else if(y<lastY-8)nv.classList.remove('nh');lastY=y},{passive:true})}catch(e){}
+try{matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if(et()==='auto')applyPrefs()})}catch(e){}
 const tile=(ic,t,d,on)=>`<button class="tile" onclick="${on}"><span class="ti">${ic}</span><span class="tt"><b>${t}</b><small>${d}</small></span><span class="tc">›</span></button>`;
 const backTo=(f,l)=>`<button class="tile back" onclick="${f}">← ${l||'Back to options'}</button>`;
 const opt=(k,v,l,cur)=>`<button class="${cur===v?'on':''}" onclick="setP('${k}','${v}')">${l}</button>`;
-const bopt=(k,v,l)=>`<button class="${BG[k]===v?'on':''}" onclick="setB({${k}:'${v}'})">${l}</button>`;
+const bopt=(k,v,l)=>isOff(k+':'+v)?'':`<button class="${BG[k]===v?'on':''}" onclick="setB({${k}:'${v}'})">${l}</button>`;
 const tog=(k,t,d)=>`<label class="tg"><span><b>${t}</b><small>${d}</small></span><input type="checkbox" ${PR[k]?'checked':''} onchange="setP('${k}',this.checked)"></label>`;
 function vA11y(){return `<div class="card"><h2>Accessibility and display</h2><p class="note" style="margin-top:0">Saved on this device only.</p>
  <b>Theme</b><div class="opts">${opt('theme','auto','Auto',PR.theme)}${opt('theme','light','☀️ Light',PR.theme)}${opt('theme','dark','🌙 Dark',PR.theme)}</div>
@@ -755,11 +774,11 @@ function vA11y(){return `<div class="card"><h2>Accessibility and display</h2><p 
 function vBgPage(){const pid=BG.preset||settings.look_bg||'default';
  return `<div class="card"><h2>Background</h2><p class="note" style="margin-top:0">Changes apply at once. Saved on this device only.${BG.own?'':' You are using the default look chosen by the admin.'}</p>
  ${adminLookBtn()}<b>Style</b><div class="opts">${bopt('mode','preset','Scenes')}${bopt('mode','color','One colour')}${bopt('mode','photo','My photo')}</div>
- ${BG.mode==='preset'?`<div class="opts">${PL.map(x=>`<button class="sw ${pid===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${(x[0]==='default'||x[0]==='white')?'color:var(--ink);text-shadow:none':''}" onclick="setB({mode:'preset',preset:'${x[0]}'})">${x[1]}</button>`).join('')}${themeTiles('me')}</div>`:''}
+ ${BG.mode==='preset'?`<div class="opts">${PL.filter(x=>!isOff('preset:'+x[0])).map(x=>`<button class="sw ${pid===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${['white','sand','mint','dawn'].includes(x[0])?'color:#10242B;text-shadow:none':''}" onclick="setB({mode:'preset',preset:'${x[0]}'})">${x[1]}</button>`).join('')}${themeTiles('me')}</div>`:''}
  ${BG.mode==='color'?`<input type="color" value="${BG.color}" style="width:100%;height:46px;border:0;background:none" oninput="BG.color=this.value;BG.own=true;LS.set('sn_bg',BG);applyBg()">`:''}
  ${BG.mode==='photo'?`<label class="fi"><span>Choose a photo (it stays on this device)</span><input class="file" type="file" accept="image/*" onchange="onBgPhoto(this)"></label>${bgImg?'':'<p class="note">No photo chosen yet.</p>'}`:''}
- <b>Pattern</b><div class="opts">${bopt('pat','none','None')}${bopt('pat','dots','Dots')}${bopt('pat','grid','Grid')}${bopt('pat','waves','Waves')}</div>
- <b>Floating effect</b><div class="opts">${bopt('fx','none','None')}${bopt('fx','petals','🌸 Petals')}${bopt('fx','leaves','🍃 Leaves')}${bopt('fx','diyas','🪔 Diyas')}${bopt('fx','bubbles','🫧 Bubbles')}${bopt('fx','stars','✨ Stars')}${bopt('fx','rain','💧 Rain')}${bopt('fx','clouds','☁️ Clouds')}${bopt('fx','fireflies','🟡 Fireflies')}${bopt('fx','river','🌊 River')}</div>
+ <b>Pattern</b><div class="opts">${bopt('pat','none','None')}${bopt('pat','dots','Dots')}${bopt('pat','grid','Grid')}${bopt('pat','waves','Waves')}${bopt('pat','lines','Lines')}${bopt('pat','diag','Diagonal')}${bopt('pat','rings','Rings')}${bopt('pat','diamond','Diamonds')}${bopt('pat','starfield','Starfield')}${customPatBtns()}</div>
+ <b>Floating effect</b><div class="opts">${bopt('fx','none','None')}${bopt('fx','petals','🌸 Petals')}${bopt('fx','leaves','🍃 Leaves')}${bopt('fx','diyas','🪔 Diyas')}${bopt('fx','bubbles','🫧 Bubbles')}${bopt('fx','stars','✨ Stars')}${bopt('fx','rain','💧 Rain')}${bopt('fx','clouds','☁️ Clouds')}${bopt('fx','fireflies','🟡 Fireflies')}${bopt('fx','river','🌊 River')}${bopt('fx','orbs','🔮 Glow orbs')}${bopt('fx','embers','🔥 Embers')}${bopt('fx','ripples','💠 Ripples')}${bopt('fx','mist','🌫️ Mist')}${bopt('fx','snow','❄️ Snow')}${bopt('fx','sparkle','✦ Sparkle')}${customFxBtns()}</div>
  <b>How many</b><div class="opts">${bopt('cnt','f','Few')}${bopt('cnt','n','Normal')}${bopt('cnt','m','Many')}</div>
  <b>Motion speed</b><div class="opts">${bopt('spd','c','Calm')}${bopt('spd','n','Normal')}${bopt('spd','l','Lively')}</div>
  <b>Dim the background</b><input type="range" min="0" max="70" value="${BG.dim}" style="width:100%" oninput="BG.dim=+this.value;BG.own=true;LS.set('sn_bg',BG);applyBg()">
@@ -814,11 +833,11 @@ function vUsersAdmin(){return `<div class="card"><h2>Edit leaderboard and users<
 function vMemReq(){const req=users.filter(u=>u.pendingAccess==='member'),mems=users.filter(u=>u.access==='member');
  return `<div class="card"><h2>Member requests</h2>${req.length?req.map(u=>`<div class="lb"><span class="nm">${esc(u.name)}</span><span class="wb one"><button class="btn" onclick="apMem('${u.id}',true)">Approve</button><button class="ic" onclick="apMem('${u.id}',false)">Decline</button></span></div>`).join(''):'<p class="note">No requests.</p>'}${mems.length?`<h2 style="margin-top:14px">Members</h2>`+mems.map(u=>`<div class="lb"><span class="nm">${esc(u.name)}</span><span class="wb one"><button class="ic" onclick="rmMem('${u.id}')">Remove</button></span></div>`).join(''):''}</div>`}
 function vPwAdmin(){return `<div class="card"><h2>Passwords</h2><p class="note" style="margin-top:0">Leave a box empty to keep the old password.</p><label class="l" for="mc">New member password</label><input type="text" id="mc" maxlength="30"><label class="l" for="ac2">New admin password</label><input type="text" id="ac2" maxlength="30"><button class="btn full" onclick="setCodes()">Save passwords</button></div>`}
-function vLookAdmin0(){return `<div class="card"><h2>Look for everyone</h2><p class="note" style="margin-top:0">This changes the default look on every device. People can still choose their own background.</p><b>Default background</b><div class="opts">${PL.map(x=>`<button class="sw ${(lkd.bg||'default')===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${(x[0]==='default'||x[0]==='white')?'color:var(--ink);text-shadow:none':''}" onclick="lkd.bg='${x[0]==='default'?'':x[0]}';draw()">${x[1]}</button>`).join('')}</div><b>Main colour (light theme)</b><div class="opts">${ACC.map(x=>`<button class="sw ${lkd.ac===x[0]?'on':''}" style="background:${x[0]||'#0E4D64'}" onclick="lkd.ac='${x[0]}';draw()">${x[1]}</button>`).join('')}</div><button class="btn full" onclick="saveLook()">Save for everyone</button></div>`}
+function vLookAdmin0(){return `<div class="card"><h2>Look for everyone</h2><p class="note" style="margin-top:0">This changes the default look on every device. People can still choose their own background.</p><b>Default background</b><div class="opts">${PL.map(x=>`<button class="sw ${(lkd.bg||'default')===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${['white','sand','mint','dawn'].includes(x[0])?'color:#10242B;text-shadow:none':''}" onclick="lkd.bg='${x[0]==='default'?'':x[0]}';draw()">${x[1]}</button>`).join('')}</div><b>Main colour (light theme)</b><div class="opts">${ACC.map(x=>`<button class="sw ${lkd.ac===x[0]?'on':''}" style="background:${x[0]||'#0E4D64'}" onclick="lkd.ac='${x[0]}';draw()">${x[1]}</button>`).join('')}</div><button class="btn full" onclick="saveLook()">Save for everyone</button></div>`}
 async function saveLook(){try{await rpcT('adm_set_look',{p_bg:lkd.bg,p_accent:lkd.ac});toast('Saved for everyone')}catch(e){toast(errMsg(e))}}
 function vAdmin(){if(!isAdm()){sset='adminpw';return vProfile()}
  const reqN=users.filter(u=>u.pendingAccess==='member').length+props.length,spN=sponsors.filter(s=>s.status==='pending').length;
- const sub={members:()=>vMemReq()+vMembersAdmin()+vRemAll(),share:vShareAdmin,slides:()=>vSlideAdmin()+vSponsorAdmin(),reports:vReportsAdmin,places:()=>vLocAdmin()+vPlacesAdmin(),motiv:vMotEdit,users:vUsersAdmin,flagged:vBlockAdmin,look:vLookAdmin,names:vNamesAdmin,pw:vPwAdmin,contact:vContactAdmin,ideas:vIdeasAdmin,msg:vMsgAdmin,admins:vAdminsAdmin};
+ const sub={members:()=>vMemReq()+vMembersAdmin()+vRemAll(),share:vShareAdmin,slides:()=>vSlideAdmin()+vSponsorAdmin(),reports:vReportsAdmin,places:()=>vLocAdmin()+vPlacesAdmin(),motiv:vMotEdit,users:vUsersAdmin,flagged:vBlockAdmin,look:vLookAdmin,names:vNamesAdmin,pw:vPwAdmin,contact:vContactAdmin,ideas:vIdeasAdmin,msg:vMsgAdmin,admins:vAdminsAdmin,guests:vGuestsAdmin,login:vLoginAdmin};
  if(sub[ahub])return backTo("ahub='';lks='';draw()")+sub[ahub]();
  const T=(k,ic,t,d)=>tile(ico('ah_'+k),t,d,`ahub='${k}';${k==='look'?"lkInit();":''}draw()`);
  return `<div class="card"><div class="acts" style="margin-top:0"><button class="ic" onclick="go('profile')">← Back to settings</button><button class="ic" onclick="go('team')">Member page</button></div></div>
@@ -832,6 +851,7 @@ function vAdmin(){if(!isAdm()){sset='adminpw';return vProfile()}
  ${T('users','🏆','Edit leaderboard and users','Names, points, block, unblock, remove')}
  ${T('ideas','💬','Ideas and chats',ideas.some(m=>!m.fromAdmin)?'Private chats with users':'No messages yet')}
  ${U.uid===OWNER_ID?T('admins','🛡️','Admins','Add, remove, block or unblock admins (owner only)'):''}
+ ${T('guests','🕶️','Guest mode','Turn guests on or off, block or unblock guests')}
  ${T('msg','✉️','Message users','Send one message to one, many or all users')}
  ${T('flagged','🚩','Reported users',flags.length?flags.length+' report(s)':'Block, unblock or remove')}
  ${T('look','🎨','Look for everyone','Default background and colour on every device')}
@@ -885,31 +905,32 @@ async function rmAvatar(){try{await db.collection('user_private').doc(U.uid).upd
 
 /* ================= v2 additions ================= */
 /* look for everyone (also used on the login page) */
-async function loadLook(){try{const {data}=await sb.from('app_look').select('data').eq('id',1).maybeSingle();LOOK=(data&&data.data)||{};LS.set('sn_look',LOOK);try{applyPrefs()}catch(e){}const a=document.activeElement;if(!a||!/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))draw()}catch(e){}}
+async function loadLook(){try{const {data}=await sb.from('app_look').select('data').eq('id',1).maybeSingle();LOOK=(data&&data.data)||{};LS.set('sn_look',LOOK);applyScenes();try{applyPrefs()}catch(e){}const a=document.activeElement;if(!a||!/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))draw()}catch(e){}}
 try{sb.channel('look-rt').on('postgres_changes',{event:'*',schema:'public',table:'app_look'},()=>loadLook()).subscribe()}catch(e){}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadLook()});
-function syncBgFromLook(){if(BG.own)return;const l=LOOK||{};Object.assign(BG,{mode:l.mode||'preset',preset:l.preset||settings.look_bg||'',color:l.color||'#EAF2F1',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid'})}
+function syncBgFromLook(){if(BG.own)return;const l=LOOK||{};Object.assign(BG,{mode:l.mode||'preset',preset:l.preset||settings.look_bg||'ocean',color:l.color||'#EAF2F1',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid'})}
 function et(){return PR.theme!=='auto'?PR.theme:(LOOK&&LOOK.theme&&LOOK.theme!=='auto'?LOOK.theme:'auto')}
 function isDark(){try{const t=et();return t==='dark'||(t==='auto'&&matchMedia('(prefers-color-scheme:dark)').matches)}catch(e){return et()==='dark'}}
-function applyPrefs(){syncBgFromLook();const h=document.documentElement,c=h.classList,T=et();
+function applyPrefs(){syncPrefsFromLook();syncBgFromLook();const h=document.documentElement,c=h.classList,T=et();
  if(T==='auto')h.removeAttribute('data-theme');else h.setAttribute('data-theme',T);
  const dk=isDark();c.toggle('dk',dk);
  ['t2','t3','fr','fs','d1','d3','sq','rm','hc','ul','big','cb','cs','cg'].forEach(x=>c.remove(x));
  if(PR.size==='l')c.add('t2');if(PR.size==='x')c.add('t3');if(PR.font==='r')c.add('fr');if(PR.font==='s')c.add('fs');
  if(PR.dens==='c')c.add('d1');if(PR.dens==='r')c.add('d3');if(PR.round==='s')c.add('sq');
  if(PR.rm)c.add('rm');if(PR.hc)c.add('hc');if(PR.ul)c.add('ul');if(PR.big)c.add('big');if(PR.cb)c.add('cb');
- if(BG.card==='soft')c.add('cs');if(BG.card==='glass')c.add('cg');
+ {const E=bgNow();if(E.card==='soft')c.add('cs');if(E.card==='glass')c.add('cg')}
  h.setAttribute('data-pe',PR.pe);h.style.setProperty('--mw',{m:'480px',a:'680px',d:'940px'}[PR.lay]||'680px');
- const ac=(LOOK&&LOOK.accent)||settings.look_accent;if(ac&&!dk)h.style.setProperty('--river',ac);else h.style.removeProperty('--river');
+ const ac=lkPrev()?lk.accent:((LOOK&&LOOK.accent)||settings.look_accent);if(ac&&!dk)h.style.setProperty('--river',ac);else h.style.removeProperty('--river');
  applyBg()}
 function bgNow(){return U?BG:loginBg()}
-function loginBg(){const l=LOOK||{};return {mode:l.mode||'preset',preset:l.preset||settings.look_bg||'mint',color:l.color||'#EAF2F1',pat:l.pat||'none',fx:l.fx||(l.preset||settings.look_bg?'none':'leaves'),cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid',own:false}}
-function applyBg(){const el=$('bgl');if(!el)return;const BG=bgNow(),L=[],D=BG.dim/100;
- if(D>0)L.push(['linear-gradient(rgba(0,0,0,'+D+'),rgba(0,0,0,'+D+'))','auto','no-repeat']);
+function loginBg(){const l=LOOK||{},lb=l.hdr&&l.hdr.lbg;if(lb)return {mode:'color',color:lb,preset:'',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:0,card:l.card||'solid',own:false};return {mode:l.mode||'preset',preset:l.preset||settings.look_bg||'mint',color:l.color||'#EAF2F1',pat:l.pat||'none',fx:l.fx||(l.preset||settings.look_bg?'none':'leaves'),cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid',own:false}}
+function applyBg(){const el=$('bgl');if(!el)return;const BG=bgNow(),L=[],dk=isDark(),D=dk?Math.max(.86,BG.dim/100):BG.dim/100;
+ if(D>0){const c=dk?'11,23,32':'0,0,0';L.push(['linear-gradient(rgba('+c+','+D+'),rgba('+c+','+D+'))','auto','no-repeat'])}
  if(BG.pat==='dots')L.push(['radial-gradient(rgba(0,0,0,.14) 1.5px,transparent 1.7px)','22px 22px','repeat']);
  if(BG.pat==='grid'){L.push(['linear-gradient(rgba(0,0,0,.08) 1px,transparent 1px)','28px 28px','repeat']);L.push(['linear-gradient(90deg,rgba(0,0,0,.08) 1px,transparent 1px)','28px 28px','repeat'])}
  if(BG.pat==='waves')L.push(['url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2760%27 height=%2730%27%3E%3Cpath d=%27M0 15 Q15 0 30 15 T60 15%27 fill=%27none%27 stroke=%27rgba(0,0,0,.12)%27 stroke-width=%271.5%27/%3E%3C/svg%3E")','60px 30px','repeat']);
- const pid=BG.preset||'default',photo=BG.mode==='photo'?(BG.own?bgImg:((LOOK&&LOOK.img)||'')):'';let anim=false;
+ const cpat=((LOOK&&LOOK.pats)||[]).find(x=>x.id===BG.pat)||bpat(BG.pat);if(cpat)patLayers(cpat).forEach(l=>L.push(l));
+ const pid=(BG.preset&&BG.preset!=='default')?BG.preset:'ocean',photo=BG.mode==='photo'?(BG.prev?(lk.img||''):(BG.own?bgImg:((LOOK&&LOOK.img)||''))):'';let anim=false;
  if(photo)L.push(['url('+photo+')','cover','no-repeat']);
  else if(BG.mode==='color')L.push(['linear-gradient('+BG.color+','+BG.color+')','auto','no-repeat']);
  else if(pid.startsWith('t:')){const t=bgThemes.find(x=>'t:'+x.id===pid);if(t)L.push(['url('+t.img+')','cover','no-repeat'])}
@@ -927,8 +948,8 @@ function buildFx(){const f=$('fx');if(!f)return;const BG=bgNow();f.innerHTML='';
   else{x.style.animation=e[1]+' '+d+'s linear infinite';x.style.animationDelay=(-Math.random()*d)+'s'}
   f.appendChild(x)}}
 function setB(o){Object.assign(BG,o,{own:true});LS.set('sn_bg',BG);try{applyPrefs()}catch(e){}draw()}
-function resetBg(){BG.own=false;bgImg='';try{localStorage.removeItem('sn_bg');localStorage.removeItem('sn_bgimg')}catch(e){}syncBgFromLook();try{applyPrefs()}catch(e){}draw();toast("Using the admin's default look")}
-const adminLookBtn=()=>`<div class="acts" style="margin:0 0 10px"><button class="btn ${BG.own?'alt':''}" onclick="resetBg()">✨ ${BG.own?"Use admin's default look":"Using admin's default look"}</button></div>`;
+function resetBg(){PR=Object.assign({},PRDEF,(LOOK&&LOOK.acc)||{},{theme:'auto',own:false});LS.set('sn_prefs',PR);BG.own=false;bgImg='';try{localStorage.removeItem('sn_bg');localStorage.removeItem('sn_bgimg')}catch(e){}syncBgFromLook();try{applyPrefs()}catch(e){}draw();toast("Using the admin's default look")}
+const adminLookBtn=()=>`<div class="acts" style="margin:0 0 10px"><button class="btn ${BG.own?'alt':''}" onclick="resetBg()">✨ ${BG.own?"Use admin's default look":"Using admin's default look"}</button></div><b>Mode</b><div class="opts" style="margin-bottom:10px">${opt('theme','auto','Auto',PR.theme)}${opt('theme','light','☀️ Light',PR.theme)}${opt('theme','dark','🌙 Dark',PR.theme)}</div>`;
 const themeTiles=sc=>bgThemes.map(t=>{const cur=(sc==='lk'?lk.preset:BG.preset)==='t:'+t.id;return `<button class="sw ${cur?'on':''}" style="background:url('${esc(t.img)}') center/cover" onclick="${sc==='lk'?`lk.preset='t:${t.id}';draw()`:`setB({mode:'preset',preset:'t:${t.id}'})`}">${esc(t.name)}</button>`}).join('');
 
 /* searchable selects */
@@ -955,53 +976,45 @@ async function dismissN(id){try{await rpcT('dismiss_notice',{p_id:id});unotes=id
 /* admin: remove all members, message users, new chat */
 function vRemAll(){const n=users.filter(u=>u.access==='member').length;return `<div class="card"><h2>Remove all members</h2><p class="note" style="margin-top:0">Every member becomes a normal user again. Admins (you) stay as they are.</p><button class="btn red full" ${n?'':'disabled'} onclick="remAll()">Remove all members (${n})</button></div>`}
 async function remAll(){if(!confirm('Remove ALL members? Admins stay.'))return;try{await rpcT('admin_remove_all_members');toast('All members removed')}catch(e){toast(errMsg(e))}}
-function bcRows(){const q=bc.q.trim().toLowerCase();return users.filter(u=>u.id!==U.uid&&(!q||(u.name||'').toLowerCase().includes(q))).map(u=>`<label class="tg"><span><b>${esc(u.name)}</b><small>${u.access}${u.blocked?' · blocked':''}</small></span><input type="checkbox" ${bc.sel[u.id]?'checked':''} onchange="bcTick('${u.id}',this.checked)"></label>`).join('')||'<p class="note">No match.</p>'}
+function bcRows(){const q=bc.q.trim().toLowerCase();return users.filter(u=>!u.isGuest&&u.id!==U.uid&&(!q||(u.name||'').toLowerCase().includes(q))).map(u=>`<label class="tg"><span><b>${esc(u.name)}</b><small>${u.access}${u.blocked?' · blocked':''}</small></span><input type="checkbox" ${bc.sel[u.id]?'checked':''} onchange="bcTick('${u.id}',this.checked)"></label>`).join('')||'<p class="note">No match.</p>'}
 function bcTick(id,v){if(v)bc.sel[id]=1;else delete bc.sel[id];$('bcn').textContent=Object.keys(bc.sel).length}
 function bcAll(v){users.filter(u=>u.id!==U.uid).forEach(u=>{if(v)bc.sel[u.id]=1;else delete bc.sel[u.id]});draw()}
 function bcSearch(v){bc.q=v;$('bcl').innerHTML=bcRows()}
 function vMsgAdmin(){return `<div class="card"><h2>Message users</h2><p class="note" style="margin-top:0">Choose one or more people, type a message and send. It goes to each person's private chat with you, and they also get a notice on their Report page.</p><input type="text" placeholder="🔍 Search users" value="${esc(bc.q)}" oninput="bcSearch(this.value)"><div class="acts"><button class="ic" onclick="bcAll(true)">Select all</button><button class="ic" onclick="bcAll(false)">Clear</button><span class="note">Selected: <b id="bcn">${Object.keys(bc.sel).length}</b></span></div><div id="bcl">${bcRows()}</div><label class="l" for="bcb">Message</label><textarea id="bcb" rows="3" maxlength="600" oninput="bc.body=this.value">${esc(bc.body)}</textarea><button class="btn full" onclick="sendBc()">Send message</button></div>`}
 async function sendBc(){const ids=Object.keys(bc.sel),b=bc.body.trim();if(!ids.length){toast('Choose at least one user');return}if(!b){toast('Write a message');return}try{await rpcT('adm_broadcast',{p_uids:ids,p_body:b});bc={q:'',sel:{},body:''};toast('Sent to '+ids.length+' user'+(ids.length>1?'s':''));draw()}catch(e){toast(errMsg(e))}}
-function vNewChat(){const o=users.filter(u=>u.id!==U.uid);return `<div class="card"><h2>Start a new chat</h2><p class="note" style="margin-top:0">Message anyone first, even if they never wrote to you.</p><div class="acts" style="margin-top:0"><select id="nc" style="flex:1">${o.map(u=>`<option value="${u.id}">${esc(u.name)}</option>`).join('')}</select><button class="btn" onclick="idT=$('nc').value;draw()">Open chat</button></div></div>`}
+function vNewChat(){const o=users.filter(u=>!u.isGuest&&u.id!==U.uid);return `<div class="card"><h2>Start a new chat</h2><p class="note" style="margin-top:0">Message anyone first, even if they never wrote to you.</p><div class="acts" style="margin-top:0"><select id="nc" style="flex:1">${o.map(u=>`<option value="${u.id}">${esc(u.name)}</option>`).join('')}</select><button class="btn" onclick="idT=$('nc').value;draw()">Open chat</button></div></div>`}
 
 /* icons */
 const ICONSET={account:['👤','🧑','🪪','🙂','😊'],ideas:['💡','💬','📝','🗣️','📣'],ai:['🤖','🧠','✨','🪄','🦾'],bg:['🎨','🖼️','🌅','🌈','🪷'],a11y:['👁️','🧩','🔆','🔍','🎚️'],guide:['📖','❓','📘','🧭','ℹ️'],member:['🛡️','🏅','🎖️','🤝','👥'],adminpw:['🛠️','⚙️','🔧','🗝️','👑'],
- ah_members:['👥','🤝','🧑','🙋','📋'],ah_share:['🔗','📤','📲','🌐','📣'],ah_slides:['📢','📌','🖼️','📰','🎞️'],ah_reports:['🗂️','📋','📁','🗃️','🧾'],ah_places:['📍','🗺️','🏞️','🧭','🏛️'],ah_motiv:['💪','🌟','🔥','🙌','🌱'],ah_users:['🏆','👤','🥇','📊','🎖️'],ah_ideas:['💬','💡','🗨️','📨','📝'],ah_admins:['🛡️','👑','🔐','🧑','⭐'],ah_msg:['✉️','📣','📨','📮','🔔'],ah_flagged:['🚩','⚠️','🚫','🛑','👮'],ah_look:['🎨','🌈','🖌️','🌅','✨'],ah_pw:['🔑','🔐','🗝️','🔒','🛡️'],ah_contact:['☎️','📞','📧','📱','🆘'],ah_names:['✏️','🔤','🏷️','📝','🔠']};
-const ICL={account:'My account',ideas:'Share an idea',ai:'Ask Swachh AI',bg:'Background',a11y:'Accessibility and display',guide:'How it works',member:'Member section',adminpw:'Admin section',ah_members:'Admin: Members',ah_share:'Admin: Share link',ah_slides:'Admin: Notices and ads',ah_reports:'Admin: All reports',ah_places:'Admin: Locations',ah_motiv:'Admin: Motivation',ah_users:'Admin: Users',ah_ideas:'Admin: Ideas and chats',ah_admins:'Admin: Admins',ah_msg:'Admin: Message users',ah_flagged:'Admin: Reported users',ah_look:'Admin: Look for everyone',ah_pw:'Admin: Passwords',ah_contact:'Admin: Contact',ah_names:'Admin: Rename sections'};
+ ah_members:['👥','🤝','🧑','🙋','📋'],ah_share:['🔗','📤','📲','🌐','📣'],ah_slides:['📢','📌','🖼️','📰','🎞️'],ah_reports:['🗂️','📋','📁','🗃️','🧾'],ah_places:['📍','🗺️','🏞️','🧭','🏛️'],ah_motiv:['💪','🌟','🔥','🙌','🌱'],ah_users:['🏆','👤','🥇','📊','🎖️'],ah_ideas:['💬','💡','🗨️','📨','📝'],ah_guests:['🕶️','👤','🎭','🚪','👥'],ah_login:['🧹','🔑','🚪','🖼️','🧭'],ah_admins:['🛡️','👑','🔐','🧑','⭐'],ah_msg:['✉️','📣','📨','📮','🔔'],ah_flagged:['🚩','⚠️','🚫','🛑','👮'],ah_look:['🎨','🌈','🖌️','🌅','✨'],ah_pw:['🔑','🔐','🗝️','🔒','🛡️'],ah_contact:['☎️','📞','📧','📱','🆘'],ah_names:['✏️','🔤','🏷️','📝','🔠']};
+const ICL={account:'My account',ideas:'Share an idea',ai:'Ask Swachh AI',bg:'Background',a11y:'Accessibility and display',guide:'How it works',member:'Member section',adminpw:'Admin section',ah_members:'Admin: Members',ah_share:'Admin: Share link',ah_slides:'Admin: Notices and ads',ah_reports:'Admin: All reports',ah_places:'Admin: Locations',ah_motiv:'Admin: Motivation',ah_users:'Admin: Users',ah_ideas:'Admin: Ideas and chats',ah_guests:'Admin: Guest mode',ah_login:'Admin: Login page and header',ah_admins:'Admin: Admins',ah_msg:'Admin: Message users',ah_flagged:'Admin: Reported users',ah_look:'Admin: Look for everyone',ah_pw:'Admin: Passwords',ah_contact:'Admin: Contact',ah_names:'Admin: Rename sections'};
 const myIcons=()=>LS.get('sn_icons',{});
 const ico=k=>((LOOK&&LOOK.icons)||{})[k]||(ICONSET[k]||['▫️'])[0];
 const nm=(k,d)=>esc((((LOOK&&LOOK.names)||{})[k])||d);
-function vIconPicker(sc,only){return Object.keys(ICONSET).filter(k=>only==='ah'?k.startsWith('ah_'):only==='me'?!k.startsWith('ah_')||isAdm():true).map(k=>{const cur=sc==='all'?(lkIc[k]||ICONSET[k][0]):ico(k);return `<div style="margin:10px 0"><b>${ICL[k]}</b><div class="opts">${ICONSET[k].map(e=>`<button class="${cur===e?'on':''}" style="font-size:20px" onclick="pickIcon('${sc}','${k}','${e}')">${e}</button>`).join('')}</div>${sc==='all'?`<div class="acts" style="margin-top:6px"><input type="text" id="ci-${k}" maxlength="12" placeholder="Your own icon (paste an emoji)" style="flex:1"><button class="ic" onclick="customIcon('${k}')">Use</button></div>`:''}</div>`}).join('')}
+function vIconPicker(sc,only){return Object.keys(ICONSET).filter(k=>only==='ah'?k.startsWith('ah_'):only==='me'?!k.startsWith('ah_')||isAdm():true).map(k=>{const cur=sc==='all'?(lkIc[k]||ICONSET[k][0]):ico(k);return `<div style="margin:10px 0"><b>${ICL[k]}</b><div class="opts">${ICONSET[k].map(e=>`<button class="${cur===e?'on':''}" style="font-size:20px" onclick="pickIcon('${sc}','${k}','${e}')">${e}</button>`).join('')}</div>${sc==='all'?`<div class="acts" style="margin-top:6px"><input type="text" id="ci-${k}" maxlength="12" placeholder="Your own icon (paste an emoji)" style="flex:1"><button class="ic" onclick="customIcon('${k}')">Use</button><button class="ic" onclick="rmIcon('${k}')">Remove icon</button></div><p class="note" style="margin:4px 0 0">Now: ${lkIc[k]||'default'}</p>`:''}</div>`}).join('')}
 function customIcon(k){const v=(($('ci-'+k)||{}).value||'').trim();if(!v||/\s/.test(v)||Array.from(v).length>12||/[<>"'&]/.test(v)){toast('Use one emoji, no spaces');return}lkIc[k]=v;draw()}
 function pickIcon(sc,k,e){if(sc==='all'){lkIc[k]=e;draw()}else{const o=myIcons();o[k]=e;LS.set('sn_icons',o);draw()}}
 function vIconsPage(){return `<div class="card"><h2>Change icons</h2><p class="note" style="margin-top:0">Pick the icon you like for each section. Saved on this device only.</p>${vIconPicker('me','me')}<button class="btn red full" onclick="LS.set('sn_icons',{});draw();toast('Icons reset')">Reset icons</button></div>`}
 async function saveIcons(){try{await rpcT('adm_set_icons',{p_icons:lkIc});await loadLook();toast('Icons saved for everyone')}catch(e){toast(errMsg(e))}}
 
 /* admin: look for everyone (all background features + themes + icons) */
-function lkInit(){const l=LOOK||{};lk={mode:l.mode||'preset',preset:l.preset||settings.look_bg||'',color:l.color||'#EAF2F1',img:l.img||'',accent:l.accent||settings.look_accent||'',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid',theme:l.theme||'auto'};lkIc=Object.assign({},l.icons||{})}
+function lkInit(){const l=LOOK||{};lk={mode:l.mode||'preset',preset:l.preset||settings.look_bg||'ocean',color:l.color||'#EAF2F1',img:l.img||'',accent:l.accent||settings.look_accent||'',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid',theme:l.theme||'auto'};lkIc=Object.assign({},l.icons||{})}
 const lopt=(k,v,t)=>`<button class="${lk[k]===v?'on':''}" onclick="lk.${k}='${v}';draw()">${t}</button>`;
 let lks='';
 const lkSv='<button class="btn full" onclick="saveLook()">Save for everyone</button>';
 function vLookAdmin(){if(!lk.mode)lkInit();const pid=lk.preset||'default',B=backTo("lks='';draw()",'Back to Look for everyone'),H=(ic,t,d,k)=>tile(ic,t,d,`lks='${k}';draw()`);
- if(lks==='style')return B+`<div class="card"><h2>Background, pattern and look</h2><b>Style</b><div class="opts">${lopt('mode','preset','Scenes')}${lopt('mode','color','One colour')}${lopt('mode','photo','Photo')}</div>
- ${lk.mode==='preset'?`<div class="opts">${PL.map(x=>`<button class="sw ${pid===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${(x[0]==='default'||x[0]==='white')?'color:var(--ink);text-shadow:none':''}" onclick="lk.preset='${x[0]==='default'?'':x[0]}';draw()">${x[1]}</button>`).join('')}${themeTiles('lk')}</div>`:''}
- ${lk.mode==='color'?`<input type="color" value="${lk.color}" style="width:100%;height:46px;border:0;background:none" oninput="lk.color=this.value">`:''}
- ${lk.mode==='photo'?`<label class="fi"><span>Choose a photo</span><input class="file" type="file" accept="image/*" onchange="onLkPhoto(this)"></label>${lk.img?`<img class="prev" src="${esc(lk.img)}" alt="">`:'<p class="note">No photo chosen yet.</p>'}`:''}
- <b>Pattern</b><div class="opts">${lopt('pat','none','None')}${lopt('pat','dots','Dots')}${lopt('pat','grid','Grid')}${lopt('pat','waves','Waves')}</div>
- <b>Floating effect</b><div class="opts">${lopt('fx','none','None')}${lopt('fx','petals','🌸 Petals')}${lopt('fx','leaves','🍃 Leaves')}${lopt('fx','diyas','🪔 Diyas')}${lopt('fx','bubbles','🫧 Bubbles')}${lopt('fx','stars','✨ Stars')}${lopt('fx','rain','💧 Rain')}${lopt('fx','clouds','☁️ Clouds')}${lopt('fx','fireflies','🟡 Fireflies')}${lopt('fx','river','🌊 River')}</div>
- <b>How many</b><div class="opts">${lopt('cnt','f','Few')}${lopt('cnt','n','Normal')}${lopt('cnt','m','Many')}</div>
- <b>Motion speed</b><div class="opts">${lopt('spd','c','Calm')}${lopt('spd','n','Normal')}${lopt('spd','l','Lively')}</div>
- <b>Dim the background</b><input type="range" min="0" max="70" value="${lk.dim}" style="width:100%" oninput="lk.dim=+this.value">
- <b>Card look</b><div class="opts">${lopt('card','solid','Solid')}${lopt('card','soft','Soft')}${lopt('card','glass','Glass')}</div>
- ${lkSv}</div>`;
+ if(lks==='style')return B+vLookStyle();
  if(lks==='theme')return B+`<div class="card"><h2>Theme and main colour</h2><b>Theme</b><div class="opts">${lopt('theme','auto','Auto')}${lopt('theme','light','☀️ Light')}${lopt('theme','dark','🌙 Dark')}</div>
- <b>Main colour (light theme)</b><div class="opts">${ACC.map(x=>`<button class="sw ${lk.accent===x[0]?'on':''}" style="background:${x[0]||'#0E4D64'}" onclick="lk.accent='${x[0]}';draw()">${x[1]}</button>`).join('')}</div>
+ <b>Main colour (light theme)</b><div class="opts">${ACC.map(x=>`<button class="sw ${lk.accent===x[0]?'on':''}" style="background:${x[0]||'#0E4D64'};color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)" onclick="lk.accent='${x[0]}';draw()">${x[1]}</button>`).join('')}</div><label class="l">Your own colour</label><input type="color" value="${/^#[0-9a-fA-F]{6}$/.test(lk.accent)?lk.accent:'#0E4D64'}" style="width:100%;height:44px;border:0;background:none" oninput="lk.accent=this.value;lkLive()">
  ${lkSv}</div>`;
  if(lks==='themes')return B+`<div class="card"><h2>Add a theme</h2><p class="note" style="margin-top:0">A photo theme appears in everyone's Background page. You can also use it as the default above.</p><label class="l" for="thn">Theme name</label><input type="text" id="thn" maxlength="30" value="${esc(thN)}" oninput="thN=this.value"><label class="fi"><span>Theme photo</span><input class="file" type="file" accept="image/*" onchange="onThemePhoto(this)"></label>${thImg?`<img class="prev" src="${esc(thImg)}" alt="">`:''}<button class="btn full" onclick="addTheme()">Add theme</button>${bgThemes.length?`<p class="note" style="margin-top:12px">Themes now</p>${bgThemes.map(t=>`<div class="lb"><img src="${esc(t.img)}" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px"><span class="nm">${esc(t.name)}</span><button class="ic" onclick="delTheme('${t.id}')">Remove</button></div>`).join('')}`:''}</div>
  `;
  if(lks==='icons')return B+`<div class="card"><h2>Icons for everyone</h2><p class="note" style="margin-top:0">Icons everyone sees on the Settings and Admin pages.</p>${vIconPicker('all')}<button class="btn full" onclick="saveIcons()">Save icons for everyone</button></div>`;
  if(lks==='avatars')return B+vAvAdmin();
+ if(lks==='login')return B+vLoginAdmin();
+ if(lks==='acc')return B+vAccAdmin();
  return `<div class="card" style="padding:12px 16px"><h2 style="margin:0">Look for everyone</h2><p class="note" style="margin:4px 0 0">This is the default look on every device, also on the login page. Open a tile to change it. People can still choose their own look, or use yours with the Default tile in their Background page.</p></div>`
- +H('🖼️','Background, pattern and look','Scene, effects, dim and card look','style')+H('🎨','Theme and main colour','Light, dark or auto, and the app colour','theme')+H('🌄','Photo themes','Add photo themes everyone can pick','themes')+H('🔣','Icons for everyone','Choose the icon of each section','icons')+H('🧑','Default profile photos','Avatars people can pick','avatars')}
+ +LKT.map(t=>H(t[0],t[1],t[2],t[3])).join('')}
 const NAMEKEYS=[['settings','Settings (page title)'],['account','My account'],['ideas','Share an idea'],['ai','Ask Swachh AI'],['bg','Background'],['a11y','Accessibility and display'],['guide','How it works'],['member','Member section'],['adminpw','Admin section']];
 const nmDef=k=>k[1].replace(' (page title)','');
 function vNamesAdmin(){const n=(LOOK&&LOOK.names)||{};return `<div class="card"><h2>Rename sections</h2><p class="note" style="margin-top:0">Change the names shown on the Settings page. It changes for everyone. Keep a name as it is if you do not want to change it.</p>${NAMEKEYS.map(k=>`<label class="l" for="nm-${k[0]}">${esc(k[1])}</label><input type="text" id="nm-${k[0]}" maxlength="30" value="${esc(n[k[0]]||nmDef(k))}">`).join('')}<button class="btn full" onclick="saveNames()">Save names for everyone</button><button class="btn red full" onclick="resetNames()">Back to original names</button></div>`}
@@ -1020,12 +1033,195 @@ async function saveLook(){const o=Object.assign({},lk);let m=o.mode,p=o.preset||
 /* ===== owner-only: manage admins ===== */
 const OWNER_ID='1a1def4e-fc51-4250-bfe9-4b70fc859d8d';
 function vAdminsAdmin(){if(U.uid!==OWNER_ID)return '<div class="card"><p class="note" style="margin:0">Only the owner can manage admins.</p></div>';
- const pool=users.filter(u=>u.access!=='admin'&&!u.blocked),ad=users.filter(u=>u.access==='admin'&&u.id!==U.uid);
+ const pool=users.filter(u=>!u.isGuest&&u.access!=='admin'&&!u.blocked),ad=users.filter(u=>u.access==='admin'&&u.id!==U.uid);
  return `<div class="card"><h2>Add an admin</h2><p class="note" style="margin-top:0">Only you (the owner) can add admins. They still need the admin password to open the admin page.</p>${pool.length?`<div class="acts" style="margin-top:0"><select id="aa" style="flex:1">${pool.map(u=>`<option value="${u.id}">${esc(u.name)}</option>`).join('')}</select><button class="btn" onclick="addAdminNow()">Make admin</button></div>`:'<p class="note">Nobody to add.</p>'}</div>
  <div class="card"><h2>Other admins</h2>${ad.length?ad.map(u=>`<div class="lb"><span class="nm"><b>${esc(u.name)}</b>${u.blocked?' · blocked':''}</span><span class="wb one"><button class="ic" onclick="rmAdminNow('${u.id}')">Remove</button><button class="ic" ${u.blocked?'disabled style="opacity:.4"':''} onclick="blkAdminNow('${u.id}',true)">Block</button><button class="ic" ${u.blocked?'':'disabled style="opacity:.4"'} onclick="blkAdminNow('${u.id}',false)">Unblock</button></span></div>`).join(''):'<p class="note">No other admins.</p>'}</div>`}
 async function addAdminNow(){try{await rpcT('owner_add_admin',{p_id:$('aa').value});toast('Admin added')}catch(e){toast(errMsg(e))}}
 async function rmAdminNow(id){if(!confirm('Remove this person from admin?'))return;try{await rpcT('owner_remove_admin',{p_id:id});toast('Removed from admin')}catch(e){toast(errMsg(e))}}
 async function blkAdminNow(id,v){try{await rpcT('owner_set_admin_blocked',{p_id:id,p_val:v});toast(v?'Admin blocked':'Admin unblocked')}catch(e){toast(errMsg(e))}}
+
+/* ===== v3: guest mode, header icons, login colour, leader photos ===== */
+const isGuest=()=>!!(ME&&ME.isGuest===true);
+function guestBtn(){if(LOOK&&LOOK.guest===false)return '';return `<button class="btn alt full" style="margin-top:12px" onclick="guestIn()">Continue as guest</button><p class="note" style="margin:6px 0 0">Guests can report waste and look at Hotspots, Leaders and Community. Volunteer, member and admin need a login.</p>`}
+async function guestIn(){try{const r=await sb.auth.signInAnonymously();if(r.error)throw r.error}catch(e){const m=String((e&&e.message)||e);toast(/anonymous/i.test(m)?'Guest mode is not switched on in Supabase yet':errMsg(e))}}
+async function guestToLogin(){try{await sb.auth.signOut()}catch(e){}}
+function vGuestSettings(){return `<div class="card"><h2>You are a guest</h2><p class="note" style="margin-top:0">Your name is hidden. You can report waste. To become a volunteer, member or admin you need an account.</p><button class="btn full" onclick="guestToLogin()">Log in or create an account</button></div>${vGuide().replace('<details>','<details open>')}`}
+function vGuestOff(){return `<div class="card"><h2>Guest mode is off</h2><p class="note" style="margin-top:0">Please log in or create an account to continue.</p><button class="btn full" onclick="guestToLogin()">Go to log in</button></div>`}
+/* live header icons */
+function logoSvg(sz){return `<svg viewBox="0 0 64 64" width="${sz}" height="${sz}" aria-hidden="true"><defs><linearGradient id="lgg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fb67d"/><stop offset="1" stop-color="#2b78d6"/></linearGradient></defs><path d="M32 61C18 45 9 36 9 24a23 23 0 0 1 46 0c0 12-9 21-23 37z" fill="url(#lgg)"/><circle cx="32" cy="24" r="14.5" fill="#eafff4"/><path d="M21 21c4-7 11-7 13-4-2 7-8 9-13 4z" fill="#2fb67d"/><g class="swp"><line x1="45" y1="9" x2="31" y2="28" stroke="#2b78d6" stroke-width="3.2" stroke-linecap="round"/><path d="M23 27l9 6-4 7-11-5z" fill="#2fb67d"/></g><circle class="dst d1" cx="40" cy="36" r="1.7" fill="#fff"/><circle class="dst d2" cx="46" cy="32" r="1.3" fill="#fff"/></svg>`}
+const HICONS={logo:s=>logoSvg(s),broom:()=>'<span class="i-sweep">🧹</span>',recycle:()=>'<span class="i-spin">♻️</span>',wave:()=>'<span class="i-bob">🌊</span>',diya:()=>'<span class="i-flick">🪔</span>'};
+const HNAMES=[['logo','Logo (broom cleans)'],['broom','🧹 Broom'],['recycle','♻️ Recycle'],['wave','🌊 Wave'],['diya','🪔 Diya'],['none','No icon']];
+function renderHdr(){const h=(LOOK&&LOOK.hdr)||{},l=h.l||'logo',r=h.r||'wave',t=h.tag||'Report waste, clean Ganga',key=l+'|'+r+'|'+t;if(renderHdr.k===key)return;renderHdr.k=key;const a=$('hl'),b=$('hr'),c=$('htag');if(a)a.innerHTML=hicon(l,40);if(b)b.innerHTML=hicon(r,40);if(c)c.textContent=t}
+function authHero(){return `<div style="text-align:center;margin:2px 0 14px">${logoSvg(96)}<div style="font-weight:800;font-size:22px;margin-top:4px">Swachh Nova</div><div class="note">Kachra Reporter</div></div>`}
+/* admin: guests + login/header */
+function vGuestsAdmin(){const on=!(LOOK&&LOOK.guest===false),gs=users.filter(u=>u.isGuest).sort((a,b)=>(b.t||0)-(a.t||0));
+ return `<div class="card"><h2>Guest mode</h2><p class="note" style="margin-top:0">When it is ON, new visitors can enter as guests and report without a login. When it is OFF, everyone must log in. Existing accounts keep working.</p><div class="opts"><button class="${on?'on':''}" onclick="setGuest(true)">ON</button><button class="${on?'':'on'}" onclick="setGuest(false)">OFF</button></div></div>
+ <div class="card"><h2>Guests (${gs.length})</h2><p class="note" style="margin-top:0">Guests have a hidden name. Use the anonymous ID to block or unblock.</p>${gs.length?gs.map(u=>{const n=reports.filter(r=>r.repUid===u.id).length;return `<div class="lb"><span class="nm"><b>${esc(u.name)}</b> <span class="note">ID ${esc(String(u.id).slice(0,8))}${u.blocked?' · blocked':''}<br>${n} report${n===1?'':'s'}</span></span><span class="wb one"><button class="ic" ${u.blocked?'disabled style="opacity:.4"':''} onclick="blockU('${u.id}',true)">Block</button><button class="ic" ${u.blocked?'':'disabled style="opacity:.4"'} onclick="blockU('${u.id}',false)">Unblock</button></span></div>`}).join(''):'<p class="note">No guests yet.</p>'}</div>`}
+async function setGuest(v){try{await rpcT('adm_set_extra',{p_data:{guest:v}});await loadLook();toast(v?'Guest mode is ON':'Guest mode is OFF')}catch(e){toast(errMsg(e))}}
+let hd=null;
+function hdInit(){const h=(LOOK&&LOOK.hdr)||{};hd={l:h.l||'logo',r:h.r||'wave',tag:h.tag||'Report waste, clean Ganga',lbg:h.lbg||''}}
+function vLoginAdmin(){if(!hd)hdInit();const pick=s=>HNAMES.map(x=>`<button class="${hd[s]===x[0]?'on':''}" style="display:inline-flex;align-items:center;gap:6px" onclick="hd.${s}='${x[0]}';draw()">${x[0]==='none'?'None':`<span style="width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:22px">${hicon(x[0],30)}</span>`}</button>`).join('');
+ return `<div class="card"><h2>Login page and header</h2><p class="note" style="margin-top:0">Pick a live icon for the left and right of "Swachh Nova". Each side can be different, or choose None.</p><b>Left icon</b><div class="opts">${pick('l')}</div><b>Right icon</b><div class="opts">${pick('r')}</div>
+ <label class="l" for="hdt">Short line under the name (2 to 5 words)</label><input type="text" id="hdt" maxlength="40" value="${esc(hd.tag)}" oninput="hd.tag=this.value">
+ <b>Login page colour</b><div class="acts" style="margin-top:6px"><input type="color" value="${hd.lbg||'#2B7A78'}" style="flex:1;height:44px;border:0;background:none" oninput="hd.lbg=this.value"><button class="ic" onclick="hd.lbg='';draw()">Follow app look</button></div><p class="note">${hd.lbg?'Login page uses your colour.':'Login page follows the look chosen for everyone.'}</p>
+ <b>Header background photo</b><p class="note" style="margin:4px 0">Best size: <b>1600 × 400 pixels</b> (wide, 4 to 1). Keep the logo or text in the middle 60% of the picture, because narrow phones show only the centre. JPG or WebP under 300 KB loads fastest. Use PNG only if you need a see-through background.</p><label class="fi"><span>Choose a photo</span><input class="file" type="file" accept="image/*" onchange="onHdrPhoto(this)"></label>${hd.img?`<img class="prev" src="${esc(hd.img)}" alt=""><button class="ic" onclick="hd.img='';draw()">Remove photo</button>`:'<p class="note">No photo yet. The header uses the app colour.</p>'}<button class="btn full" style="margin-top:12px" onclick="saveHdr()">Save for everyone</button></div>`}
+async function saveHdr(){const t=(hd.tag||'').trim();if(!t||t.split(/\s+/).length>5){toast('Write 1 to 5 words');return}const o={l:hd.l,r:hd.r,tag:t};if(hd.lbg)o.lbg=hd.lbg;try{await rpcT('adm_set_extra',{p_data:{hdr:o}});hd=null;await loadLook();toast('Saved for everyone')}catch(e){toast(errMsg(e))}}
+/* leader photos */
+let lav={},lavT=0;
+async function loadLav(){try{const r=await sb.rpc('leader_avatars');lav={};(r.data||[]).forEach(x=>{lav[x.id]=x.avatar});sd()}catch(e){}}
+function lbAv(b){const a=lav[b.id]||(b.id===U.uid?avatarOf(b.id):''),sty='width:34px;height:34px;border-radius:50%;flex:0 0 34px;display:inline-flex;align-items:center;justify-content:center;margin-right:8px;overflow:hidden;font-weight:800;vertical-align:middle;';
+ if(a&&!presetOf(a))return `<img src="${esc(a)}" alt="" style="${sty}object-fit:cover">`;const p=presetOf(a);
+ if(p)return `<span style="${sty}background:linear-gradient(135deg,${p[1]},${p[2]})">${p[0]}</span>`;
+ return `<span style="${sty}background:var(--river);color:var(--onriver)">${esc(((b.name||'?')[0]||'?').toUpperCase())}</span>`}
+
+/* ===== v4: header icon add/remove, look tiles add/remove, icon reset ===== */
+const hicon=(k,s)=>!k||k==='none'?'':HICONS[k]?HICONS[k](s||40):`<span class="i-bob">${esc(k)}</span>`;
+function hdInit(){const h=(LOOK&&LOOK.hdr)||{};hd={l:h.l||'logo',r:h.r||'wave',tag:h.tag||'Report waste, clean Ganga',lbg:h.lbg||'',ci:(h.ci||[]).slice()}}
+function hdPick(s){const keys=HNAMES.map(x=>x[0]).filter(k=>k!=='none').concat(hd.ci,['none']);
+ return keys.map(k=>{const chip=`<button class="${hd[s]===k?'on':''}" style="display:inline-flex;align-items:center;gap:6px" onclick="hd.${s}='${k}';draw()">${k==='none'?'✕ Remove':`<span style="width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:22px">${hicon(k,30)}</span>`}</button>`;
+  return hd.ci.includes(k)?`<span style="display:inline-flex;align-items:center;gap:2px">${chip}<button class="ic" aria-label="Remove this icon from the list" onclick="hdDel('${k}')">✕</button></span>`:chip}).join('')}
+function hdDel(k){hd.ci=hd.ci.filter(x=>x!==k);if(hd.l===k)hd.l='none';if(hd.r===k)hd.r='none';draw()}
+function hdAdd(){const v=(($('hdi')||{}).value||'').trim();if(!v||/[\s<>"'&\\]/.test(v)||Array.from(v).length>12){toast('Paste one emoji, no spaces');return}if(HICONS[v]||hd.ci.includes(v)){toast('That icon is already there');return}if(hd.ci.length>=12){toast('You can add up to 12 icons');return}hd.ci.push(v);draw();toast('Icon added to left and right')}
+function vLoginAdmin(){if(!hd)hdInit();
+ return `<div class="card"><h2>Login page and header</h2><p class="note" style="margin-top:0">Pick an icon for the left and right of "Swachh Nova". Each side can be different. Press Remove to show no icon on that side.</p><b>Left icon</b><div class="opts">${hdPick('l')}</div><b>Right icon</b><div class="opts">${hdPick('r')}</div>
+ <label class="l" for="hdt">Short line under the name (2 to 5 words)</label><input type="text" id="hdt" maxlength="40" value="${esc(hd.tag)}" oninput="hd.tag=this.value">
+ <b>Login page colour</b><div class="acts" style="margin-top:6px"><input type="color" value="${hd.lbg||'#2B7A78'}" style="flex:1;height:44px;border:0;background:none" oninput="hd.lbg=this.value"><button class="ic" onclick="hd.lbg='';draw()">Follow app look</button></div><p class="note">${hd.lbg?'Login page uses your colour.':'Login page follows the look chosen for everyone.'}</p>
+ <b>Add your own icon</b><div class="acts" style="margin-top:6px"><input type="text" id="hdi" maxlength="12" placeholder="Paste an emoji" style="flex:1"><button class="ic" onclick="hdAdd()">Add icon</button></div><p class="note">It appears in both the left and right lists. Use ✕ next to your own icon to remove it.</p>
+ <b>Header background photo</b><p class="note" style="margin:4px 0">Best size: <b>1600 × 400 pixels</b> (wide, 4 to 1). Keep the logo or text in the middle 60% of the picture, because narrow phones show only the centre. JPG or WebP under 300 KB loads fastest. Use PNG only if you need a see-through background.</p><label class="fi"><span>Choose a photo</span><input class="file" type="file" accept="image/*" onchange="onHdrPhoto(this)"></label>${hd.img?`<img class="prev" src="${esc(hd.img)}" alt=""><button class="ic" onclick="hd.img='';draw()">Remove photo</button>`:'<p class="note">No photo yet. The header uses the app colour.</p>'}<button class="btn full" style="margin-top:12px" onclick="saveHdr()">Save for everyone</button></div>`}
+async function saveHdr(){const t=(hd.tag||'').trim();if(!t||t.split(/\s+/).length>5){toast('Write 1 to 5 words');return}const o={l:hd.l,r:hd.r,tag:t,ci:hd.ci};if(hd.lbg)o.lbg=hd.lbg;try{await rpcT('adm_set_extra',{p_data:{hdr:o}});hd=null;await loadLook();toast('Saved for everyone')}catch(e){toast(errMsg(e))}}
+function rmIcon(k){delete lkIc[k];draw()}
+/* look tiles: hide (cross) and add back */
+const LKT=[['🖼️','Background, pattern and look','Scene, effects, dim and card look','style'],['🎨','Theme and main colour','Light, dark or auto, and the app colour','theme'],['🌄','Photo themes','Add photo themes everyone can pick','themes'],['🔣','Icons for everyone','Choose the icon of each section','icons'],['🧑','Default profile photos','Avatars people can pick','avatars'],['🔠','Display and accessibility','Text size, spacing, contrast and more for everyone','acc'],['🧹','Login page and header','Live icons, short line and login page colour','login']];
+const lkHidden=()=>LS.get('sn_lkhide',[]);
+function lkHide(k){if(!confirm('Remove this tile from Look for everyone? You can add it back with "Add tile" below.'))return;LS.set('sn_lkhide',lkHidden().concat(k));draw()}
+function lkShow(k){LS.set('sn_lkhide',lkHidden().filter(x=>x!==k));draw()}
+function lkTiles(H){const hid=lkHidden(),vis=LKT.filter(t=>!hid.includes(t[3])),off=LKT.filter(t=>hid.includes(t[3]));
+ return vis.map(t=>`<div style="position:relative">${H(t[0],t[1],t[2],t[3])}<button class="ic" aria-label="Remove tile" title="Remove tile" style="position:absolute;top:8px;right:8px;z-index:2;min-width:32px" onclick="lkHide('${t[3]}')">✕</button></div>`).join('')+(off.length?`<div class="card"><h2>Add tile</h2><p class="note" style="margin-top:0">Tiles you removed. Tap to add one back.</p><div class="opts">${off.map(t=>`<button onclick="lkShow('${t[3]}')">＋ ${esc(t[1])}</button>`).join('')}</div></div>`:'')}
+
+/* ===== v5: add / remove options inside the Background tile ===== */
+const PLBASE=PL.slice();
+const isOff=k=>!!(LOOK&&LOOK.off&&LOOK.off.includes(k));
+function applyScenes(){const sc=(LOOK&&LOOK.scenes)||[];PL.splice(0,PL.length,...PLBASE,...sc.map(x=>[x.id,x.n]));sc.forEach(x=>{PRESETS[x.id]='linear-gradient(135deg,'+x.a+','+x.b+')'})}
+applyScenes();
+let lkOff=[],lkScn=[],scN='',scA='#2B7A78',scB='#56B8D0';
+function lkInit(){const l=LOOK||{};lk={mode:l.mode||'preset',preset:l.preset||settings.look_bg||'ocean',color:l.color||'#EAF2F1',img:l.img||'',accent:l.accent||settings.look_accent||'',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid',theme:l.theme||'auto'};lkIc=Object.assign({},l.icons||{});lkOff=(l.off||[]).slice();lkScn=(l.scenes||[]).map(x=>Object.assign({},x))}
+const LKOPTS={mode:['Style',[['preset','Scenes'],['color','One colour'],['photo','Photo']]],pat:['Pattern',[['none','None'],['dots','Dots'],['grid','Grid'],['waves','Waves']]],fx:['Floating effect',[['none','None'],['petals','🌸 Petals'],['leaves','🍃 Leaves'],['diyas','🪔 Diyas'],['bubbles','🫧 Bubbles'],['stars','✨ Stars'],['rain','💧 Rain'],['clouds','☁️ Clouds'],['fireflies','🟡 Fireflies'],['river','🌊 River']]],cnt:['How many',[['f','Few'],['n','Normal'],['m','Many']]],spd:['Motion speed',[['c','Calm'],['n','Normal'],['l','Lively']]],card:['Card look',[['solid','Solid'],['soft','Soft'],['glass','Glass']]]};
+const xbtn=(label,fn)=>`<button class="xb" aria-label="Remove ${esc(label)}" title="Remove" onclick="${fn}">✕</button>`;
+function lkGroup(k){const t=LKOPTS[k][0],items=LKOPTS[k][1],on=items.filter(x=>!lkOff.includes(k+':'+x[0])),off=items.filter(x=>lkOff.includes(k+':'+x[0]));
+ return `<b>${t}</b><div class="opts">${on.map(x=>`<span class="xo"><button class="${lk[k]===x[0]?'on':''}" onclick="lk.${k}='${x[0]}';draw()">${x[1]}</button>${xbtn(x[1],`offOpt('${k}','${x[0]}')`)}</span>`).join('')}</div>${off.length?`<div class="opts" style="margin-top:2px"><span class="note">Add:</span>${off.map(x=>`<button onclick="addOpt('${k}','${x[0]}')">＋ ${x[1]}</button>`).join('')}</div>`:''}`}
+function lkSceneGrid(pid){lkScn.forEach(s=>{PRESETS[s.id]='linear-gradient(135deg,'+s.a+','+s.b+')'});
+ const all=PLBASE.map(x=>[x[0],x[1],0]).concat(lkScn.map(s=>[s.id,s.n,1])),on=all.filter(x=>!lkOff.includes('preset:'+x[0])),off=all.filter(x=>!x[2]&&lkOff.includes('preset:'+x[0]));
+ return `<div class="opts">${on.map(x=>`<span class="xo"><button class="sw ${pid===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${['white','sand','mint','dawn'].includes(x[0])?'color:#10242B;text-shadow:none':''}" onclick="lk.preset='${x[0]}';draw()">${esc(x[1])}</button>${xbtn(x[1],x[2]?`delScene('${x[0]}')`:`offOpt('preset','${x[0]}')`)}</span>`).join('')}${themeTiles('lk')}</div>${off.length?`<div class="opts" style="margin-top:2px"><span class="note">Add:</span>${off.map(x=>`<button onclick="addOpt('preset','${x[0]}')">＋ ${esc(x[1])}</button>`).join('')}</div>`:''}
+ <details style="margin:8px 0"><summary class="note" style="cursor:pointer">＋ Add your own scene</summary><label class="l" for="scn">Scene name</label><input id="scn" type="text" maxlength="16" value="${esc(scN)}" oninput="scN=this.value"><div class="acts"><input type="color" value="${scA}" style="flex:1;height:44px;border:0;background:none" oninput="scA=this.value"><input type="color" value="${scB}" style="flex:1;height:44px;border:0;background:none" oninput="scB=this.value"><button class="btn" onclick="addScene()">Add scene</button></div></details>`}
+function offOpt(k,v){const cur=k==='preset'?(lk.preset||'ocean'):lk[k];if(cur===v){toast('This one is selected. Choose another first');return}if(!confirm('Remove this option for everyone? You can add it back.'))return;lkOff.push(k+':'+v);draw()}
+function addOpt(k,v){lkOff=lkOff.filter(x=>x!==k+':'+v);draw()}
+function delScene(id){if(!confirm('Delete this scene for everyone?'))return;lkScn=lkScn.filter(x=>x.id!==id);if(lk.preset===id)lk.preset='';draw()}
+function addScene(){const n=scN.trim();if(!n||/[<>"'&]/.test(n)){toast('Give the scene a name');return}if(lkScn.length>=12){toast('You can add up to 12 scenes');return}const id='cs'+Array.from({length:5},()=>String.fromCharCode(97+Math.random()*26|0)).join('');lkScn.push({id,n,a:scA,b:scB});scN='';draw();toast('Scene added. Press Save for everyone.')}
+function vLookStyle(){const pid=lk.preset||'ocean';
+ return `<div class="card"><h2>Background, pattern and look</h2><p class="note" style="margin-top:0">Tap ✕ on an option to remove it for everyone. Removed options appear under "Add" so you can bring them back. Everything you pick shows on your own phone straight away. It reaches everyone only when you press Save for everyone.</p>${lkGroup('mode')}
+ ${lk.mode==='preset'?lkSceneGrid(pid):''}
+ ${lk.mode==='color'?`<input type="color" value="${lk.color}" style="width:100%;height:46px;border:0;background:none" oninput="lk.color=this.value;lkLive()">`:''}
+ ${lk.mode==='photo'?`<label class="fi"><span>Choose a photo</span><input class="file" type="file" accept="image/*" onchange="onLkPhoto(this)"></label>${lk.img?`<img class="prev" src="${esc(lk.img)}" alt="">`:'<p class="note">No photo chosen yet.</p>'}`:''}
+ ${lkGroup('pat')}${lkGroup('fx')}${lkGroup('cnt')}${lkGroup('spd')}
+ <b>Dim the background</b><input type="range" min="0" max="70" value="${lk.dim}" style="width:100%" oninput="lk.dim=+this.value;lkLive()">
+ ${lkGroup('card')}<button class="btn full" onclick="saveLookAll()">Save for everyone</button></div>`}
+async function saveLookAll(){try{await rpcT('adm_set_extra',{p_data:{off:lkOff,scenes:lkScn}})}catch(e){toast(errMsg(e));return}await saveLook()}
+
+/* ===== v6 ===== */
+function fixNav(){const n=$('nav');if(n&&(!PR.ah||scrollY<=120))n.classList.remove('nh')}
+function renderHdr(){fixNav();const h=(LOOK&&LOOK.hdr)||{},l=h.l||'logo',r=h.r||'wave',t=h.tag||'Report waste, clean Ganga',im=h.img||'',key=l+'|'+r+'|'+t+'|'+im;if(renderHdr.k===key)return;renderHdr.k=key;const a=$('hl'),b=$('hr'),c=$('htag'),hd0=document.querySelector('header');if(a)a.innerHTML=hicon(l,40);if(b)b.innerHTML=hicon(r,40);if(c)c.textContent=t;if(hd0){hd0.style.backgroundImage=im?'url("'+im+'")':'';hd0.classList.toggle('himg',!!im)}}
+/* custom effects, scenes, patterns */
+function applyScenes(){const sc=(LOOK&&LOOK.scenes)||[];PL.splice(0,PL.length,...PLBASE,...sc.map(x=>[x.id,x.n]));sc.forEach(x=>{PRESETS[x.id]='linear-gradient(135deg,'+x.a+','+x.b+')'});((LOOK&&LOOK.fxs)||[]).forEach(f=>{FXE[f.id]=[f.e,f.m]})}
+function patLayers(p){const c='rgba(0,0,0,.16)',s=p.s+'px '+p.s+'px';
+ if(p.t==='dots')return [['radial-gradient('+c+' 1.5px,transparent 1.8px)',s,'repeat']];
+ if(p.t==='grid')return [['linear-gradient('+c+' 1px,transparent 1px)',s,'repeat'],['linear-gradient(90deg,'+c+' 1px,transparent 1px)',s,'repeat']];
+ if(p.t==='lines')return [['linear-gradient('+c+' 1px,transparent 1px)','100% '+p.s+'px','repeat']];
+ if(p.t==='diag')return [['repeating-linear-gradient(45deg,'+c+' 0,'+c+' 1px,transparent 1px,transparent '+p.s+'px)','auto','repeat']];
+ if(p.t==='check')return [['conic-gradient('+c+' 25%,transparent 0 50%,'+c+' 0 75%,transparent 0)',s,'repeat']];
+ return []}
+const customPatBtns=()=>((LOOK&&LOOK.pats)||[]).filter(p=>!isOff('pat:'+p.id)).map(p=>bopt('pat',p.id,esc(p.n))).join('');
+const customFxBtns=()=>((LOOK&&LOOK.fxs)||[]).filter(f=>!isOff('fx:'+f.id)).map(f=>bopt('fx',f.id,esc(f.e+' '+f.n))).join('');
+/* admin look page: add tiles */
+let lkPats=[],lkFxs=[],lkAdd='',pn='',pt='dots',ps=24,fnm='',fe='',fm='fall';
+function lkInit(){const l=LOOK||{};lk={mode:l.mode||'preset',preset:l.preset||settings.look_bg||'ocean',color:l.color||'#EAF2F1',img:l.img||'',accent:l.accent||settings.look_accent||'',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid',theme:l.theme||'auto'};lkIc=Object.assign({},l.icons||{});lkOff=(l.off||[]).slice();lkScn=(l.scenes||[]).map(x=>Object.assign({},x));lkPats=(l.pats||[]).map(x=>Object.assign({},x));lkFxs=(l.fxs||[]).map(x=>Object.assign({},x));lkAcc=Object.assign({},l.acc||{});lkAdd=''}
+function lkGroup(k){const t=LKOPTS[k][0],noX=['cnt','spd','card'].includes(k);
+ let items=LKOPTS[k][1].map(x=>[x[0],x[1],0]);if(k==='pat')items=items.concat(lkPats.map(p=>[p.id,p.n,1]));if(k==='fx'){lkFxs.forEach(f=>{FXE[f.id]=[f.e,f.m]});items=items.concat(lkFxs.map(f=>[f.id,f.e+' '+f.n,1]))}
+ const on=items.filter(x=>x[2]||!lkOff.includes(k+':'+x[0])),off=items.filter(x=>!x[2]&&lkOff.includes(k+':'+x[0])),canAdd=k==='pat'||k==='fx';
+ return `<b>${t}</b><div class="opts">${on.map(x=>`<span class="xo"><button class="${lk[k]===x[0]?'on':''}" onclick="lk.${k}='${x[0]}';draw()">${x[1]}</button>${noX?'':xbtn(x[1],x[2]?`delCustom('${k}','${x[0]}')`:`offOpt('${k}','${x[0]}')`)}</span>`).join('')}${canAdd?`<button class="addb" onclick="lkAdd=lkAdd==='${k}'?'':'${k}';draw()">＋ Add</button>`:''}</div>${off.length?`<div class="opts" style="margin-top:2px"><span class="note">Add back:</span>${off.map(x=>`<button onclick="addOpt('${k}','${x[0]}')">＋ ${x[1]}</button>`).join('')}</div>`:''}${lkAdd===k?lkForm(k):''}`}
+const chipRow=(arr,cur,fn)=>`<div class="opts">${arr.map(x=>`<button class="${cur===x[0]?'on':''}" onclick="${fn}='${x[0]}';draw()">${x[1]}</button>`).join('')}</div>`;
+function lkForm(k){if(k==='pat')return `<div class="card" style="box-shadow:none;border:1px dashed var(--line)"><b>New pattern</b><label class="l" for="pnm">Name</label><input id="pnm" type="text" maxlength="16" value="${esc(pn)}" oninput="pn=this.value">${chipRow([['dots','Dots'],['grid','Grid'],['lines','Lines'],['diag','Diagonal'],['check','Checks']],pt,'pt')}<label class="l">Size: ${ps}px</label><input type="range" min="10" max="60" value="${ps}" style="width:100%" oninput="ps=+this.value;this.previousElementSibling.textContent='Size: '+ps+'px'"><div class="acts"><button class="btn" onclick="addPat()">Add pattern</button><button class="ic" onclick="lkAdd='';draw()">Cancel</button></div></div>`;
+ return `<div class="card" style="box-shadow:none;border:1px dashed var(--line)"><b>New floating effect</b><label class="l" for="fnm">Name</label><input id="fnm" type="text" maxlength="16" value="${esc(fnm)}" oninput="fnm=this.value"><label class="l" for="fem">Emoji that floats</label><input id="fem" type="text" maxlength="8" placeholder="Paste one emoji" value="${esc(fe)}" oninput="fe=this.value">${chipRow([['fall','Falling'],['rise','Rising'],['tw','Twinkle'],['sail','Drifting']],fm,'fm')}<div class="acts"><button class="btn" onclick="addFx()">Add effect</button><button class="ic" onclick="lkAdd='';draw()">Cancel</button></div></div>`}
+const rl=()=>'cdefghjkmnpqrstuvwxyz'[Math.random()*21|0];
+function addPat(){const n=pn.trim();if(!n||/[<>"'&]/.test(n)){toast('Give the pattern a name');return}if(lkPats.length>=10){toast('Up to 10 patterns');return}lkPats.push({id:'cp'+Array.from({length:5},rl).join(''),n,t:pt,s:ps});pn='';lkAdd='';draw();toast('Pattern added. Press Save for everyone.')}
+function addFx(){const n=fnm.trim(),e=fe.trim();if(!n||/[<>"'&]/.test(n)){toast('Give the effect a name');return}if(!e||/[\s<>"'&\\]/.test(e)||Array.from(e).length>8){toast('Paste one emoji');return}if(lkFxs.length>=10){toast('Up to 10 effects');return}lkFxs.push({id:'cf'+Array.from({length:5},rl).join(''),n,e,m:fm});fnm='';fe='';lkAdd='';draw();toast('Effect added. Press Save for everyone.')}
+function delCustom(k,id){if(!confirm('Delete this for everyone?'))return;if(k==='pat')lkPats=lkPats.filter(x=>x.id!==id);else lkFxs=lkFxs.filter(x=>x.id!==id);if(lk[k]===id)lk[k]='none';draw()}
+function lkSceneGrid(pid){lkScn.forEach(s=>{PRESETS[s.id]='linear-gradient(135deg,'+s.a+','+s.b+')'});
+ const all=PLBASE.map(x=>[x[0],x[1],0]).concat(lkScn.map(s=>[s.id,s.n,1])),on=all.filter(x=>!lkOff.includes('preset:'+x[0])),off=all.filter(x=>!x[2]&&lkOff.includes('preset:'+x[0]));
+ return `<div class="opts">${on.map(x=>`<span class="xo"><button class="sw ${pid===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${['white','sand','mint','dawn'].includes(x[0])?'color:#10242B;text-shadow:none':''}" onclick="lk.preset='${x[0]}';draw()">${esc(x[1])}</button>${xbtn(x[1],x[2]?`delScene('${x[0]}')`:`offOpt('preset','${x[0]}')`)}</span>`).join('')}${themeTiles('lk')}<button class="addb" onclick="lkAdd=lkAdd==='scene'?'':'scene';draw()">＋ Add scene</button><button class="addb" onclick="lkAdd=lkAdd==='theme'?'':'theme';draw()">＋ Add theme</button></div>${off.length?`<div class="opts" style="margin-top:2px"><span class="note">Add back:</span>${off.map(x=>`<button onclick="addOpt('preset','${x[0]}')">＋ ${esc(x[1])}</button>`).join('')}</div>`:''}
+ ${lkAdd==='scene'?`<div class="card" style="box-shadow:none;border:1px dashed var(--line)"><b>New scene (two colours)</b><label class="l" for="scn">Scene name</label><input id="scn" type="text" maxlength="16" value="${esc(scN)}" oninput="scN=this.value"><div class="acts"><input type="color" value="${scA}" style="flex:1;height:44px;border:0;background:none" oninput="scA=this.value"><input type="color" value="${scB}" style="flex:1;height:44px;border:0;background:none" oninput="scB=this.value"></div><div class="acts"><button class="btn" onclick="addScene()">Add scene</button><button class="ic" onclick="lkAdd='';draw()">Cancel</button></div></div>`:''}
+ ${lkAdd==='theme'?`<div class="card" style="box-shadow:none;border:1px dashed var(--line)"><b>New photo theme</b><p class="note" style="margin-top:0">It is added for everyone at once.</p><label class="l" for="thn">Theme name</label><input type="text" id="thn" maxlength="30" value="${esc(thN)}" oninput="thN=this.value"><label class="fi"><span>Theme photo</span><input class="file" type="file" accept="image/*" onchange="onThemePhoto(this)"></label>${thImg?`<img class="prev" src="${esc(thImg)}" alt="">`:''}<div class="acts"><button class="btn" onclick="addTheme()">Add theme</button><button class="ic" onclick="lkAdd='';draw()">Cancel</button></div></div>`:''}`}
+async function saveLookAll(){try{await rpcT('adm_set_extra',{p_data:{off:lkOff,scenes:lkScn,pats:lkPats,fxs:lkFxs}})}catch(e){toast(errMsg(e));return}await saveLook()}
+/* accessibility defaults for everyone */
+let lkAcc={};
+const ACCOPTS=[['lay','Page width',[['a','Auto'],['m','📱 Narrow'],['d','🖥️ Wide']]],['size','Text size',[['n','Normal'],['l','Large'],['x','Extra large']]],['font','Font style',[['d','Standard'],['r','Easy to read'],['s','Serif']]],['dens','Spacing',[['c','Compact'],['n','Normal'],['r','Roomy']]],['round','Corners',[['r','Rounded'],['s','Square']]],['pe','Page switch effect',[['slide','Slide'],['fade','Fade'],['zoom','Zoom'],['none','None']]]];
+const ACCTG=[['rm','Reduce motion','Stops animations and floating effects'],['hc','High contrast','Stronger borders and text'],['ul','Underline links','Makes links easy to spot'],['big','Large buttons','Bigger tap areas'],['cb','Colour-blind friendly colours','Changes red, green and blue status colours'],['ah','Auto-hide tabs','Hides the tab bar while you scroll down']];
+const accVal=k=>lkAcc[k]!==undefined?lkAcc[k]:PRDEF[k];
+function vAccAdmin(){return `<div class="card"><h2>Display and accessibility for everyone</h2><p class="note" style="margin-top:0">These are the starting settings for everyone. People can change their own, or tap "Use admin's default look" in their Background page to get yours.</p>${ACCOPTS.map(o=>`<b>${o[1]}</b><div class="opts">${o[2].map(x=>`<button class="${accVal(o[0])===x[0]?'on':''}" onclick="lkAcc.${o[0]}='${x[0]}';draw()">${x[1]}</button>`).join('')}</div>`).join('')}${ACCTG.map(t=>`<div class="lb"><span class="nm"><b>${t[1]}</b><div class="note" style="margin:0">${t[2]}</div></span><input type="checkbox" ${accVal(t[0])?'checked':''} onchange="lkAcc.${t[0]}=this.checked"></div>`).join('')}<div class="acts"><button class="btn" onclick="saveAcc()">Save for everyone</button><button class="ic" onclick="lkAcc={};draw()">Back to standard</button></div></div>`}
+async function saveAcc(){try{await rpcT('adm_set_extra',{p_data:{acc:lkAcc}});await loadLook();toast('Saved for everyone')}catch(e){toast(errMsg(e))}}
+function syncPrefsFromLook(){if(PR.own)return;const a=(LOOK&&LOOK.acc)||{};Object.keys(PRDEF).forEach(k=>{if(k!=='theme')PR[k]=a[k]!==undefined?a[k]:PRDEF[k]})}
+function setP(k,v){PR[k]=v;if(k!=='theme')PR.own=true;LS.set('sn_prefs',PR);try{applyPrefs()}catch(e){}draw()}
+function resetP(){PR=Object.assign({},PRDEF,(LOOK&&LOOK.acc)||{},{theme:PR.theme,own:false});LS.set('sn_prefs',PR);try{applyPrefs()}catch(e){}draw();toast('Back to the default settings')}
+/* header photo */
+function readPhotoW(file,maxW,cb){const r=new FileReader();r.onerror=()=>toast('Could not read this photo');r.onload=()=>{const im=new Image();im.onload=()=>{try{const k=Math.min(1,maxW/im.width),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*k));c.height=Math.max(1,Math.round(im.height*k));c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/webp',.88))}catch(e){cb(r.result)}};im.onerror=()=>toast('Photo format not supported. Use JPG, PNG or WebP');im.src=r.result};r.readAsDataURL(file)}
+function onHdrPhoto(t){const f=t.files&&t.files[0];if(!f)return;toast('Uploading photo...');readPhotoW(f,1600,async u=>{try{hd.img=await upPhoto(u);draw();toast('Photo ready. Press Save for everyone.')}catch(e){toast(errMsg(e))}})}
+function hdInit(){const h=(LOOK&&LOOK.hdr)||{};hd={l:h.l||'logo',r:h.r||'wave',tag:h.tag||'Report waste, clean Ganga',lbg:h.lbg||'',ci:(h.ci||[]).slice(),img:h.img||''}}
+async function saveHdr(){const t=(hd.tag||'').trim();if(!t||t.split(/\s+/).length>5){toast('Write 1 to 5 words');return}const o={l:hd.l,r:hd.r,tag:t,ci:hd.ci};if(hd.lbg)o.lbg=hd.lbg;if(hd.img)o.img=hd.img;try{await rpcT('adm_set_extra',{p_data:{hdr:o}});hd=null;await loadLook();toast('Saved for everyone')}catch(e){toast(errMsg(e))}}
+/* ad / notice / sponsor box: bar, dots, swipe, instructions */
+function vBanner(){return '<div class="adbar">Ad · Notice · Sponsor · etc.</div><div class="sl" id="bn"><span class="note">Ads and notices appear here</span></div><div class="dots" id="bdots"></div>'}
+let bsx=0;
+function bShow(i){const it=slides(),el=$('bn');if(!el||!it.length)return;bi=((i%it.length)+it.length)%it.length;const x=it[bi];el.innerHTML=(x.img?`<img src="${x.img}" alt="" onclick="openImg(this.src)">`:`<div class="tx">${esc(x.t)}</div>`)+`<div class="cp">${esc(x.c)}${x.l?` · <a href="${esc(x.l)}" target="_blank" rel="noopener" style="color:#fff">Visit</a>`:''}</div>`;const d=$('bdots');if(d)d.innerHTML=it.length>1?it.map((_,k)=>`<button class="dot${k===bi?' on':''}" aria-label="Slide ${k+1} of ${it.length}" onclick="bGo(${k})"></button>`).join(''):''}
+function bGo(k){bShow(k);clearInterval(bt);if(slides().length>1)bt=setInterval(()=>bShow(bi+1),4000)}
+function startBanner(){clearInterval(bt);const it=slides(),e=$('bn');if(!e||!it.length)return;bShow(bi);e.ontouchstart=ev=>{bsx=ev.touches[0].clientX};e.ontouchend=ev=>{const dx=ev.changedTouches[0].clientX-bsx;if(Math.abs(dx)>40)bGo(bi+(dx<0?1:-1))};if(it.length>1)bt=setInterval(()=>bShow(bi+1),4000)}
+function slides(){return notices.slice(0,6).map(n=>({img:n.img,t:n.text,l:'',c:(n.text||'').startsWith('📌 ')?'Instruction':'Notice'})).concat(ads.slice(0,6).map(a=>({img:a.img,t:a.name,l:a.link,c:'Ad · '+a.name}))).concat(sponsors.filter(x=>x.status==='approved').slice(0,6).map(x=>({img:null,t:'🤝 '+x.name+(x.msg?' · '+x.msg:''),l:'',c:tier(x.tier)[1]+' sponsor'})))}
+async function saveSlide(){if(nsl.k==='ad'&&!nsl.a.trim()){toast('Enter the company name');return}if(nsl.k!=='ad'&&!nsl.a.trim()&&!nsl.img){toast('Type the text or add a photo');return}
+ try{toast('Uploading...');const img=await up(nsl.img);if(nsl.k==='ad')await rpcT('adm_save_ad',{p_id:null,p_name:nsl.a.trim(),p_img:img,p_link:nsl.l.trim()});else await rpcT('adm_save_notice',{p_text:(nsl.k==='instr'&&nsl.a.trim()?'📌 ':'')+nsl.a.trim(),p_img:img});nsl={k:nsl.k,a:'',l:'',img:null};toast('Added to the slider');draw()}catch(e){toast(errMsg(e))}}
+
+/* ===== v7: live preview for admin + more effects and patterns ===== */
+function lkPrev(){return !!(U&&isAdm()&&tab==='admin'&&ahub==='look'&&(lks==='style'||lks==='theme')&&lk&&lk.mode)}
+function lkBg(){return {mode:lk.mode,preset:lk.preset||'ocean',color:lk.color,pat:lk.pat,fx:lk.fx,cnt:lk.cnt,spd:lk.spd,dim:lk.dim,card:lk.card,own:false,prev:true}}
+function bgNow(){return lkPrev()?lkBg():(U?BG:loginBg())}
+function lkLive(){if(lkPrev()){try{applyPrefs()}catch(e){}}}
+function et(){if(PR.theme!=='auto')return PR.theme;if(lkPrev())return lk.theme||'auto';return LOOK&&LOOK.theme&&LOOK.theme!=='auto'?LOOK.theme:'auto'}
+function renderHdr(){fixNav();const pv=lkPrev();if(pv||renderHdr.pv){try{applyPrefs()}catch(e){}}renderHdr.pv=pv;const h=(LOOK&&LOOK.hdr)||{},l=h.l||'logo',r=h.r||'wave',t=h.tag||'Report waste, clean Ganga',im=h.img||'',key=l+'|'+r+'|'+t+'|'+im;if(renderHdr.k===key)return;renderHdr.k=key;const a=$('hl'),b=$('hr'),c=$('htag'),hd0=document.querySelector('header');if(a)a.innerHTML=hicon(l,40);if(b)b.innerHTML=hicon(r,40);if(c)c.textContent=t;if(hd0){hd0.style.backgroundImage=im?'url("'+im+'")':'';hd0.classList.toggle('himg',!!im)}}
+Object.assign(FXE,{orbs:['','orb'],embers:['','ember'],ripples:['','rip'],mist:['','mist'],snow:['●','snow'],sparkle:['✦','spark']});
+LKOPTS.fx[1].push(['orbs','🔮 Glow orbs'],['embers','🔥 Embers'],['ripples','💠 Ripples'],['mist','🌫️ Mist'],['snow','❄️ Snow'],['sparkle','✦ Sparkle']);
+LKOPTS.pat[1].push(['lines','Lines'],['diag','Diagonal'],['rings','Rings'],['diamond','Diamonds'],['starfield','Starfield']);
+function bpat(id){return ({lines:{t:'lines',s:22},diag:{t:'diag',s:18},rings:{t:'rings',s:64},diamond:{t:'diamond',s:40},starfield:{t:'star',s:56}})[id]}
+function patLayers(p){const c='rgba(0,0,0,.16)',s=p.s+'px '+p.s+'px';
+ if(p.t==='dots')return [['radial-gradient('+c+' 1.5px,transparent 1.8px)',s,'repeat']];
+ if(p.t==='grid')return [['linear-gradient('+c+' 1px,transparent 1px)',s,'repeat'],['linear-gradient(90deg,'+c+' 1px,transparent 1px)',s,'repeat']];
+ if(p.t==='lines')return [['linear-gradient('+c+' 1px,transparent 1px)','100% '+p.s+'px','repeat']];
+ if(p.t==='diag')return [['repeating-linear-gradient(45deg,'+c+' 0,'+c+' 1px,transparent 1px,transparent '+p.s+'px)','auto','repeat']];
+ if(p.t==='diamond')return [['repeating-linear-gradient(45deg,'+c+' 0,'+c+' 1px,transparent 1px,transparent '+p.s+'px)','auto','repeat'],['repeating-linear-gradient(-45deg,'+c+' 0,'+c+' 1px,transparent 1px,transparent '+p.s+'px)','auto','repeat']];
+ if(p.t==='rings')return [['repeating-radial-gradient(circle at 0 0,transparent 0,transparent 13px,rgba(0,0,0,.09) 13px,rgba(0,0,0,.09) 14px)',s,'repeat']];
+ if(p.t==='star')return [['radial-gradient(rgba(255,255,255,.7) 1px,transparent 1.7px)',s,'repeat'],['radial-gradient(rgba(255,255,255,.45) 1.5px,transparent 2.2px)',Math.round(p.s*1.7)+'px '+Math.round(p.s*1.7)+'px','repeat']];
+ if(p.t==='check')return [['conic-gradient('+c+' 25%,transparent 0 50%,'+c+' 0 75%,transparent 0)',s,'repeat']];
+ return []}
+function buildFx(){const f=$('fx');if(!f)return;const BG=bgNow();f.innerHTML='';const e=FXE[BG.fx];if(!e||PR.rm)return;
+ const k=e[1],n0={f:8,n:16,m:28}[BG.cnt]||16,n=(k==='orb'||k==='mist'||k==='rip')?Math.max(4,Math.round(n0/3)):n0,sp={c:1.7,n:1,l:.6}[BG.spd]||1;
+ for(let i=0;i<n;i++){const x=document.createElement('span');x.className='fp';x.textContent=e[0];const d=(9+Math.random()*10)*sp,dl=()=>{x.style.animationDelay=(-Math.random()*d)+'s'};
+  x.style.left=(Math.random()*100)+'%';x.style.fontSize=(14+Math.random()*16)+'px';x.style.setProperty('--dx',(Math.random()*80-40)+'px');
+  if(k==='tw'){x.style.top=(Math.random()*100)+'%';x.style.animation='tw '+((2+Math.random()*3)*sp)+'s ease-in-out infinite';x.style.animationDelay=(-Math.random()*4)+'s'}
+  else if(k==='spark'){x.style.top=(Math.random()*100)+'%';x.style.fontSize=(8+Math.random()*11)+'px';x.style.color='#ffe9a8';x.style.textShadow='0 0 6px #ffd76a,0 0 14px #ffb84d';x.style.animation='tw '+((2+Math.random()*3)*sp)+'s ease-in-out infinite';x.style.animationDelay=(-Math.random()*4)+'s'}
+  else if(k==='snow'){x.style.fontSize=(4+Math.random()*7)+'px';x.style.color='#fff';x.style.animation='fall '+(d*1.2)+'s linear infinite';dl()}
+  else if(k==='orb'){const z=40+Math.random()*90;x.textContent='';x.style.cssText+=';width:'+z+'px;height:'+z+'px;border-radius:50%;top:95%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.55),rgba(255,255,255,.08) 55%,transparent 70%)';x.style.animation='orbup '+(d*1.8)+'s ease-in-out infinite';dl()}
+  else if(k==='ember'){const z=3+Math.random()*5;x.textContent='';x.style.cssText+=';width:'+z+'px;height:'+z+'px;border-radius:50%;top:95%;background:#ffb347;box-shadow:0 0 8px 2px rgba(255,140,40,.8)';x.style.animation='ember '+(d*.9)+'s ease-in infinite';dl()}
+  else if(k==='rip'){const z=120+Math.random()*120;x.textContent='';x.style.cssText+=';width:'+z+'px;height:'+z+'px;margin-left:'+(-z/2)+'px;top:'+(8+Math.random()*80)+'%;border:2px solid rgba(255,255,255,.55);border-radius:50%';x.style.animation='rip '+(d*.6)+'s ease-out infinite';dl()}
+  else if(k==='mist'){const w=200+Math.random()*220;x.textContent='';x.style.cssText+=';width:'+w+'px;height:'+(w*.35)+'px;border-radius:50%;left:0;top:'+(Math.random()*85)+'%;background:rgba(255,255,255,.22);filter:blur(26px)';x.style.animation='sail '+(d*5)+'s linear infinite';dl()}
+  else if(k==='sail'){const dd=d*3;x.style.left='0';x.style.top=(Math.random()*90)+'%';x.style.opacity=.7;x.style.animation='sail '+dd+'s linear infinite';x.style.animationDelay=(-Math.random()*dd)+'s'}
+  else if(k==='ff'){x.style.top=(Math.random()*100)+'%';x.style.fontSize=(6+Math.random()*7)+'px';x.style.color='#ffe066';x.style.textShadow='0 0 8px #ffd54a,0 0 16px #ffb300';x.style.animation='ff '+(d*.6)+'s ease-in-out infinite';dl()}
+  else{x.style.animation=k+' '+d+'s linear infinite';dl()}
+  f.appendChild(x)}}
 
 loadLook();
 init();
