@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PrepPilot</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+:root{--bg:#eef3f6;--card:#fff;--ink:#14213d;--mute:#5b6b82;--line:#d5dde6;--hl:#ffd23f;--ok:#1f9d6b;--bad:#d64545;--inp:#f7fafc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1624;--card:#18223a;--ink:#e8eef7;--mute:#9aa9c0;--line:#2b3a58;--inp:#101a2e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1624;--card:#18223a;--ink:#e8eef7;--mute:#9aa9c0;--line:#2b3a58;--inp:#101a2e;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.0rem/1.5 "Bricolage Grotesque",system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:16px 14px 80px}
+h1{font-size:1.75rem;font-weight:800;margin:6px 0 2px;letter-spacing:-.02em}
+h2{font-size:1.125rem;margin:22px 0 6px}
+.sub{color:var(--mute);margin:0 0 12px}
+nav{display:flex;gap:5px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5}
+nav button{flex:1;padding:9px 2px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font:600 0.8125rem "Bricolage Grotesque",system-ui,sans-serif;cursor:pointer}
+nav button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}
+.run{border:2px solid var(--hl)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.grow{flex:1;min-width:120px}
+input,select,button{font-family:inherit;font-size:0.9375rem}
+input,select{background:var(--inp);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px}
+input[type=number]{width:76px}
+input[type=checkbox]{width:20px;height:20px;accent-color:#e0a800;flex:none}
+button.b{background:var(--hl);color:#14213d;border:0;border-radius:8px;padding:9px 14px;font-weight:700;cursor:pointer}
+button.g{background:transparent;color:var(--mute);border:1px solid var(--line);border-radius:8px;padding:7px 10px;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--hl);outline-offset:1px}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--hl)}
+.big{font-size:2.0rem;font-weight:800;letter-spacing:-.03em}
+.mute{color:var(--mute);font-size:0.875rem}
+.warn{color:var(--bad);font-weight:600}
+.okc{color:var(--ok);font-weight:600}
+.tag{display:inline-block;font-size:0.75rem;padding:1px 8px;border-radius:20px;background:var(--hl);color:#14213d;font-weight:600}
+.day{border-left:4px solid var(--hl);padding-left:10px;margin:12px 0}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:6px 0;padding:0 12px}
+summary{display:flex;gap:8px;align-items:center;padding:11px 0;cursor:pointer;font-weight:600}
+.tp{display:flex;gap:10px;align-items:center;padding:7px 0;border-top:1px solid var(--line)}
+details>.row{padding:4px 0 10px;border-top:0}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin:8px 0}
+.tile{text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px;cursor:pointer;font-family:inherit;font-size:0.9375rem}
+.tile:hover{border-color:var(--hl)}
+.tp{display:flex;gap:8px;align-items:center}
+.tpb{flex:1;display:flex;gap:10px;align-items:center;text-align:left;background:none;border:0;color:var(--ink);padding:9px 0;cursor:pointer;font-size:0.9375rem;font-family:inherit}
+.bx{width:22px;height:22px;border:2px solid var(--mute);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:0.875rem;flex:none}
+.on .bx{background:var(--hl);border-color:var(--hl);color:#14213d;font-weight:800}
+.st .nm{text-decoration:line-through;color:var(--mute)}
+.dot{width:12px;height:12px;border-radius:50%;background:var(--ok);animation:bl 1s infinite}
+.dot.off{background:var(--mute);animation:none}
+@keyframes bl{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+.seg{display:flex;gap:6px;margin:6px 0 10px}
+.seg button{flex:1;padding:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;font:600 0.875rem "Bricolage Grotesque",system-ui,sans-serif;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.chh{font-weight:600;margin-top:10px}
+.tp2{display:flex;gap:8px;padding:5px 0;border-top:1px solid var(--line)}
+.pad{padding-bottom:6px}
+.col{display:flex;flex-direction:column;gap:8px}.col input{width:100%}#head button{margin-left:6px;padding:3px 10px;font-size:0.8125rem}
+body{background-color:var(--bg);background-image:var(--bgi,none);background-attachment:fixed;background-size:cover;min-height:100vh}
+nav{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:5px;margin:6px 0;box-shadow:0 4px 14px rgba(20,33,61,.12)}
+nav button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border:0;background:transparent;font-size:.75rem}
+nav button.on{background:var(--ink);color:var(--bg)}
+nav svg{width:22px;height:22px}
+.card,details,.tile{box-shadow:0 1px 4px rgba(20,33,61,.08)}
+.tile.sel{border:2px solid var(--hl)}
+.right{text-align:right;line-height:1.3}
+:root[data-rm="1"] .dot{animation:none}
+:root[data-rm="1"] *{scroll-behavior:auto;transition:none}
+:root[data-font="read"] *{font-family:"Atkinson Hyperlegible",system-ui,sans-serif!important}
+.tag2{color:var(--mute);font-size:.8125rem;font-weight:600;letter-spacing:.04em}#head{font-style:italic;margin-top:6px}
+textarea{background:var(--inp);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font-family:inherit;font-size:.9rem}
+#toast{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:560px;margin:0 auto;background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:20;display:none;cursor:pointer}#toast.show{display:block}
+.brand{display:flex;gap:14px;align-items:center;margin:6px 0 4px}.logo{width:88px;height:88px;flex:none;border-radius:22px;box-shadow:0 4px 14px rgba(20,33,61,.25)}.brand h1{margin:0}.brand .sub{margin:4px 0 0}.tiles.one{grid-template-columns:1fr}
+.modal{position:fixed;inset:0;background:rgba(10,18,36,.55);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}.modal[hidden]{display:none}.mbox{background:var(--card);color:var(--ink);border-radius:16px;padding:18px;max-width:420px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.35)}.mbox p{margin:8px 0 14px}
+.ti{width:42px;height:42px;border-radius:12px;background:var(--hl);color:#14213d;display:flex;align-items:center;justify-content:center;flex:none}.ti svg{width:22px;height:22px}.tiles.one .tile{flex-direction:row;align-items:center;gap:14px}.tt{flex:1}
+.syn{width:10px;height:10px;border-radius:50%;background:var(--mute);flex:none}.syn.live{background:var(--ok)}.syn.offline{background:var(--bad)}
+</style>
+</head>
+<body>
+<main>
+<div class="brand"><svg class="logo" viewBox="0 0 100 100" role="img" aria-label="PrepPilot logo"><defs><linearGradient id="lgb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14213d"/><stop offset="1" stop-color="#2f4a8a"/></linearGradient></defs><rect width="100" height="100" rx="24" fill="url(#lgb)"/><circle cx="50" cy="52" r="32" fill="none" stroke="#ffd23f" stroke-opacity=".5" stroke-width="3"/><path d="M50 18l16 50-16-9-16 9z" fill="#ffd23f"/><path d="M34 80h32" stroke="#ffd23f" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="52" r="3.5" fill="#14213d"/></svg><div><h1>PrepPilot</h1><div class="tag2">Syllabus · Schedule · Timer · Homework</div><p class="sub" id="head"></p></div></div>
+<nav id="nav"></nav>
+<div id="v"></div>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="mt" hidden><div class="mbox"><b id="mt"></b><p id="mm"></p><button class="b" id="mok">OK</button></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const KEY="study-planner-v2";
+const $=id=>document.getElementById(id);
+const iso=d=>d.toLocaleDateString("en-CA"),today=()=>iso(new Date());
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const TABS=[["today","Today"],["plan","Plan"],["work","Homework"],["syl","Syllabus"],["set","Settings"]];const ICON={today:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M9 15l2 2 4-4"/></svg>`,plan:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1 1 2-2M3.5 12l1 1 2-2M3.5 18l1 1 2-2"/></svg>`,work:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h11l3 3v15H5z"/><path d="M9 11h6M9 15h6"/></svg>`,syl:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h4z"/></svg>`,set:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>`};
+const COL=["ITW","C Programming","Digital Design","College Maths","College Chemistry"];
+const SEED={
+"JEE Physics":`Units & Errors|3|SI units and dimensions;Dimensional analysis;Significant figures;Error analysis
+Kinematics|8|Motion in 1D;Relative motion;Projectile motion;Motion graphs;River-boat and rain-man
+Laws of Motion & Friction|8|Newton’s laws;Constraints and pulleys;Friction;Circular motion;Pseudo force
+Work, Energy, Power|6|Work-energy theorem;Potential energy and conservation;Power;Collisions
+Rotational Motion|10|Centre of mass;Moment of inertia;Torque and angular momentum;Rolling motion;Rigid body equilibrium
+Gravitation|5|Gravitational field;Potential and escape speed;Orbits and satellites;Kepler’s laws
+Properties of Matter|8|Elasticity;Fluid statics;Bernoulli and fluid dynamics;Surface tension;Viscosity
+Thermodynamics & KTG|9|Kinetic theory;Laws of thermodynamics;Processes and cycles;Calorimetry;Heat transfer
+SHM & Waves|8|SHM basics;Springs and pendulums;Wave equation;Standing waves;Sound and Doppler effect
+Electrostatics|10|Coulomb’s law and field;Gauss’s law;Potential and energy;Capacitors;Dielectrics
+Current Electricity|8|Ohm’s law and resistivity;Kirchhoff’s laws;Cells and internal resistance;Meter bridge and potentiometer;RC circuits
+Magnetism & EMI|10|Moving charge in field;Biot-Savart and Ampere’s law;Force on conductors;Magnetic materials;Faraday and Lenz;Inductance and AC
+Optics|9|Reflection and refraction;Lenses and prisms;Optical instruments;Interference;Diffraction and polarization
+Modern Physics|8|Photoelectric effect;Bohr model;X-rays;Nuclear physics;De Broglie waves
+Semiconductors & EM Waves|4|EM waves;Semiconductors and diodes;Logic gates`,
+"JEE Chemistry":`Mole Concept|5|Mole and stoichiometry;Concentration terms;Limiting reagent;Equivalent concept
+Atomic Structure|5|Bohr model;Quantum numbers and orbitals;Electronic configuration;De Broglie and Heisenberg
+Chemical Bonding|8|Ionic and covalent bonds;VSEPR and hybridization;Molecular orbital theory;Hydrogen bonding and forces
+Thermodynamics|6|First law;Enthalpy and thermochemistry;Entropy and Gibbs energy
+Chemical & Ionic Equilibrium|8|Kc and Kp;Le Chatelier’s principle;Acids, bases and pH;Buffers and Ksp
+Electrochemistry|7|Galvanic cells and Nernst equation;Conductance;Electrolysis and Faraday’s laws
+Chemical Kinetics|6|Rate law and order;Integrated rate equations;Arrhenius equation;Reaction mechanism
+Solutions|5|Raoult’s law;Colligative properties;Abnormal molar mass
+Periodic Properties|4|Periodic trends;Ionization energy and electron affinity;Diagonal and inert pair effects
+s, p, d, f Block|9|s-block;p-block groups 13-15;p-block groups 16-18;d-block;f-block
+Coordination Compounds|8|Nomenclature and isomerism;Werner’s theory and VBT;Crystal field theory;Organometallics
+Metallurgy & Salt Analysis|5|Metallurgy processes;Qualitative analysis
+GOC|5|Inductive and resonance effects;Carbocation stability;Acidity and basicity;Isomerism
+Hydrocarbons & Haloalkanes|5|Alkanes and alkenes;Alkynes and aromatics;SN1, SN2 and elimination
+Oxygen & Nitrogen Compounds|6|Alcohols and ethers;Aldehydes and ketones;Carboxylic acids;Amines and diazonium salts
+Biomolecules & Polymers|3|Carbohydrates;Proteins and vitamins;Polymers`,
+"JEE Maths":`Sets, Relations, Functions|5|Sets;Relations;Functions and inverse
+Complex Numbers|6|Algebra and modulus;Polar form;Roots of unity;Geometry of complex numbers
+Quadratics & Sequences|7|Quadratic equations;AP, GP, HP;Inequalities
+Permutations, Combinations, Binomial|8|Permutations and combinations;Binomial theorem;Multinomial theorem
+Matrices & Determinants|7|Matrix operations;Determinants;Inverse and linear systems
+Limits & Continuity|9|Limits;Continuity;Differentiability
+Differentiation & AOD|9|Derivatives;Tangent and normal;Monotonicity;Maxima and minima
+Integration|12|Indefinite integrals;Definite integral properties;Area under curves
+Differential Equations|6|Order and degree;Variable separable;Linear and homogeneous
+Straight Lines & Circles|9|Straight lines;Circles;Family of curves
+Conics|9|Parabola;Ellipse;Hyperbola
+3D & Vectors|9|Vectors;Lines in 3D;Planes in 3D
+Probability & Statistics|8|Basic probability;Conditional and Bayes;Distributions;Mean and variance
+Trigonometry|7|Identities;Equations;Inverse trigonometric functions;Heights and distances`,
+"ITW":`Introduction to Computers|2|Digital and analog computers;Generations and classification;Types of software;Translators, linker, loader;Word, Excel, PowerPoint, LaTeX overview
+The Computer System Hardware|2|CPU and memory unit;Input devices;Output devices;Ports and interconnection
+Computer Memory|2|Memory hierarchy;Registers and cache;Primary and secondary memory;Magnetic and optical storage
+Working with Documents|6|Word;Excel;PowerPoint;LaTeX
+Data Communication & Networks|3|Transmission media and modes;Network types and topologies;Network devices and wireless;Network setup, firewall, VPN
+Computer Security|2|Threats and attacks;Malware and hacking;Firewalls and authentication;Security policy`,
+"C Programming":`Programming, Algorithms & Flowcharts|2|Generations of languages;Algorithm and pseudocode;Flowcharts
+Basics of C|4|Program structure, data types, variables;Operators;Type conversion and precedence;Formatted and unformatted I/O
+Control Statements|4|if, if-else, switch;Loops;break, continue, goto
+Arrays|4|One-dimensional arrays;Two-dimensional and multidimensional arrays;Dynamic arrays
+Strings|3|Declaring and I/O;String functions;String comparison
+Functions|4|Definition and parameters;Storage classes;Recursion;Passing arrays and strings
+Pointers|9|Pointer basics;Pointer arithmetic;Arrays, strings and pointers;Pointer to pointer, function pointers;Structures and pointers;malloc, calloc, realloc;Memory leaks
+User-defined Data Types|4|Structures;Arrays of structures;Nested structures;Unions and typedef
+Pre-processor|1|Macros;File inclusion and directives
+Files|4|Opening and closing;Text and binary files;Error handling and random access
+Graphics Programming|3|Command-line arguments;Graphics functions;Drawing shapes`,
+"Digital Design":`Minimization & Logic Gates|5|Number systems and codes;Boolean laws and De Morgan;K-map and Quine-McCluskey;Logic gates, NAND-NOR
+Combinational Circuits|6|Adders and subtractors;Multiplexers and demultiplexers;Encoders and decoders;Comparators, parity, code converters
+Sequential Circuits|9|Latches and flip-flops;Shift registers;Counters;Sequence generator;FSM (Mealy and Moore)
+Computer Arithmetic & ALU|10|Integer arithmetic;ALU data path;Floating-point and FPU;Guard, round, sticky bits
+Memory System & I/O|12|Memory hierarchy, CISC and RISC;Cache memory;RAM, external memory, RAID;Virtual memory;I/O techniques and DMA;Interrupts and bus arbitration`,
+"College Maths":`Basic Linear Algebra|14|Canonical form, simultaneous equations;Rank, eigenvalues, eigenvectors;Cayley-Hamilton, diagonalization;Vector spaces, basis, dimension;Linear transformations;Inner product space
+Differential Calculus|14|Convergence of series;Limits and continuity (several variables);Partial and directional derivatives;Chain rule, Euler’s theorem;Taylor’s expansion;Maxima, minima, Lagrange multipliers
+Ordinary Differential Equations|14|First order exact, integrating factors;Higher order linear, constant coefficients;Operator method, variation of parameters;Euler-Cauchy, simultaneous equations;Series solution, Legendre and Bessel`,
+"College Chemistry":`Fuels|8|Classification and calorific value;Bomb calorimeter;Coal analysis;Petroleum refining and knocking;Flue gas, green energy`
++`
+Electrochemistry & Redox|11|Conductance and Kohlrausch law;Conductometric titration;Electrode potential, Nernst equation;Hydrogen, calomel, glass electrodes;Redox, formal potential, indicators
+Chemical Bonding & Coordination|11|VSEPR, VBT, Bent’s rule;Molecular orbital theory;Werner’s theory, isomerism;Crystal field theory
+General Organic Chemistry|12|SN1 and SN2;Elimination (E1, E2, E1cB);Addition to C=C;Aromatic substitution;Addition to C=O`,
+"NEET Physics":`Units & Measurements|3|Units and dimensions;Significant figures;Errors
+Kinematics|7|Motion in a straight line;Relative velocity;Projectile and circular motion
+Laws of Motion|6|Newton’s laws;Friction;Circular dynamics
+Work, Energy, Power|5|Work-energy theorem;Conservation of energy;Collisions
+Rotational Motion|8|Centre of mass;Torque and angular momentum;Moment of inertia and rolling
+Gravitation|4|Gravitational field;Escape velocity and orbits;Kepler’s laws
+Solids & Fluids|7|Elasticity;Pressure and Pascal’s law;Viscosity and surface tension;Bernoulli’s theorem
+Thermal Properties & Thermodynamics|8|Calorimetry and expansion;Heat transfer;Laws of thermodynamics;Heat engines
+Kinetic Theory|3|Gas laws;Degrees of freedom;Mean free path
+Oscillations & Waves|8|SHM;Wave motion;Standing waves and beats;Doppler effect
+Electrostatics|8|Coulomb’s law and field;Gauss’s law;Potential and capacitors
+Current Electricity|7|Ohm’s law;Kirchhoff’s laws;Meter bridge and potentiometer
+Magnetic Effects & Magnetism|8|Moving charges;Biot-Savart and Ampere’s law;Magnetic materials
+EMI & Alternating Current|8|Faraday and Lenz;Inductance;AC circuits
+Electromagnetic Waves|2|EM spectrum;Properties
+Ray Optics|7|Reflection and refraction;Lenses and prisms;Optical instruments
+Wave Optics|5|Interference;Diffraction;Polarization
+Dual Nature of Matter|4|Photoelectric effect;de Broglie waves
+Atoms & Nuclei|6|Bohr model;Radioactivity;Binding energy
+Semiconductors|5|Energy bands;Diodes;Logic gates`,
+"NEET Chemistry":`Basic Concepts|4|Mole concept;Stoichiometry;Concentration terms
+Atomic Structure|5|Bohr model;Quantum numbers;Electronic configuration
+Periodic Classification|4|Periodic trends;Ionization enthalpy;Electronegativity
+Chemical Bonding|8|Ionic and covalent bonds;VSEPR and hybridization;Molecular orbital theory;Hydrogen bonding
+Thermodynamics|6|First law;Enthalpy;Entropy and Gibbs energy
+Equilibrium|8|Chemical equilibrium;Ionic equilibrium;pH and buffers
+Redox Reactions|3|Oxidation number;Balancing;Redox titrations
+Solutions|5|Concentration;Raoult’s law;Colligative properties
+Electrochemistry|6|Galvanic cells;Nernst equation;Conductance
+Chemical Kinetics|5|Rate law;Order and molecularity;Arrhenius equation
+d- and f-Block|5|d-block properties;Important compounds;Lanthanoids and actinoids
+Coordination Compounds|6|Nomenclature;Isomerism;Bonding theories
+p-Block|7|Groups 13-14;Groups 15-16;Groups 17-18
+GOC|7|Nomenclature and isomerism;Electronic effects;Reaction intermediates
+Hydrocarbons|6|Alkanes and alkenes;Alkynes;Aromatic hydrocarbons
+Haloalkanes & Haloarenes|5|SN1 and SN2;Elimination;Haloarenes
+Alcohols, Phenols, Ethers|5|Alcohols;Phenols;Ethers
+Aldehydes, Ketones, Acids|7|Nucleophilic addition;Named reactions;Carboxylic acids
+Amines|4|Preparation;Properties and tests;Diazonium salts
+Biomolecules|4|Carbohydrates;Proteins and enzymes;Vitamins and nucleic acids
+Practical Chemistry|3|Salt analysis;Volumetric analysis;Organic tests`,
+"Botany":`Living World & Classification|4|Living world;Taxonomy;Five kingdom classification
+Plant Kingdom|4|Algae and bryophytes;Pteridophytes;Gymnosperms and angiosperms
+Morphology of Flowering Plants|5|Root, stem, leaf;Inflorescence and flower;Fruit and seed
+Anatomy of Flowering Plants|5|Tissues;Root and stem anatomy;Secondary growth
+Cell: The Unit of Life|4|Cell theory;Cell organelles;Prokaryotic vs eukaryotic cells
+Biomolecules|5|Carbohydrates and lipids;Proteins;Enzymes;Nucleic acids
+Cell Cycle & Division|4|Cell cycle;Mitosis;Meiosis
+Transport in Plants|4|Water potential;Xylem and phloem transport;Transpiration
+Mineral Nutrition|3|Essential elements;Deficiency symptoms;Nitrogen metabolism
+Photosynthesis|6|Light reactions;Calvin cycle;C4 pathway and photorespiration
+Respiration in Plants|4|Glycolysis;Krebs cycle;ETS and fermentation
+Plant Growth & Development|4|Growth phases;Plant hormones;Photoperiodism and vernalisation
+Sexual Reproduction in Plants|6|Flower structure;Pollination and fertilisation;Embryo, seed and fruit
+Inheritance & Variation|6|Mendelian genetics;Linkage and crossing over;Chromosomal disorders
+Molecular Basis of Inheritance|7|DNA and RNA;Replication, transcription, translation;Gene regulation;Human Genome Project
+Microbes in Human Welfare|3|Household and industrial products;Sewage treatment;Biofertilisers
+Biotechnology|6|Tools and processes;Applications;Ethics
+Organisms & Populations|4|Population attributes;Population interactions;Adaptations
+Ecosystem|4|Productivity;Energy flow;Nutrient cycling
+Biodiversity & Conservation|3|Patterns;Loss of biodiversity;Conservation`,
+"Zoology":`Animal Kingdom|5|Classification basis;Non-chordates;Chordates
+Structural Organisation in Animals|5|Animal tissues;Cockroach;Frog
+Digestion & Absorption|4|Digestive system;Enzymes;Absorption and disorders
+Breathing & Gas Exchange|4|Respiratory system;Gas exchange and transport;Regulation and disorders
+Body Fluids & Circulation|5|Blood and lymph;Heart and cardiac cycle;ECG and disorders
+Excretory Products|4|Kidney structure;Urine formation;Regulation and disorders
+Locomotion & Movement|4|Muscle contraction;Skeletal system;Joints and disorders
+Neural Control & Coordination|5|Neuron and impulse;Brain;Sense organs
+Chemical Coordination|5|Endocrine glands;Hormones;Mechanism of action
+Human Reproduction|6|Male and female systems;Gametogenesis;Fertilisation to parturition
+Reproductive Health|4|Contraception;STIs;Infertility and ART
+Evolution|5|Origin of life;Evidence;Darwin and Hardy-Weinberg
+Human Health & Disease|6|Pathogens and diseases;Immunity;Cancer and addiction
+Strategies for Food Production|3|Animal husbandry;Plant breeding;Tissue culture`
+};
+const DL={"JEE Physics":"2027-01-20","JEE Chemistry":"2027-01-20","JEE Maths":"2027-01-20","ITW":"2026-11-30","C Programming":"2026-11-30","Digital Design":"2026-11-30","College Maths":"2026-11-30","College Chemistry":"2026-11-30"};
+const EXN={main:"JEE Main",adv:"JEE Advanced",neet:"NEET",iiser:"IISER (IAT)",niser:"NISER (NEST)"};
+const J=["JEE Physics","JEE Physical Chemistry","JEE Organic Chemistry","JEE Inorganic Chemistry","JEE Maths"],BIO=["Botany","Zoology"];
+const EX={main:J,adv:J,neet:["NEET Physics","NEET Physical Chemistry","NEET Organic Chemistry","NEET Inorganic Chemistry",...BIO],iiser:[...J,...BIO],niser:[...J,...BIO],nit:COL};
+const CHM={"JEE Physical Chemistry":["Mole Concept","Atomic Structure","Thermodynamics","Chemical & Ionic Equilibrium","Electrochemistry","Chemical Kinetics","Solutions"],"JEE Inorganic Chemistry":["Chemical Bonding","Periodic Properties","s, p, d, f Block","Coordination Compounds","Metallurgy & Salt Analysis"],"JEE Organic Chemistry":["GOC","Hydrocarbons & Haloalkanes","Oxygen & Nitrogen Compounds","Biomolecules & Polymers"]};
+for(const k in CHM)SEED[k]=SEED["JEE Chemistry"].split("\n").filter(l=>CHM[k].includes(l.split("|")[0])).join("\n");
+const CHN={"NEET Physical Chemistry":["Basic Concepts","Atomic Structure","Thermodynamics","Equilibrium","Redox Reactions","Solutions","Electrochemistry","Chemical Kinetics"],"NEET Inorganic Chemistry":["Periodic Classification","Chemical Bonding","p-Block","d- and f-Block","Coordination Compounds","Practical Chemistry"],"NEET Organic Chemistry":["GOC","Hydrocarbons","Haloalkanes & Haloarenes","Alcohols, Phenols, Ethers","Aldehydes, Ketones, Acids","Amines","Biomolecules"]};
+for(const k in CHN)SEED[k]=SEED["NEET Chemistry"].split("\n").filter(l=>CHN[k].includes(l.split("|")[0])).join("\n");
+const SPLIT={"JEE Chemistry":CHM,"NEET Chemistry":CHN};
+
+const EXL={...EXN,nit:"NIT Patna CSE with Specialization in Data Science"};
+const MYJ=["JEE Physics",...Object.keys(CHM),"JEE Maths"];
+const exSubs=e=>EX[e];
+const exOpts=()=>(S&&S.me?["main","nit"]:[...Object.keys(EXN),"nit"]).concat(typeof LIB==="undefined"?[]:Object.keys(LIB).map(k=>"lib:"+k));
+const QUOTES=["Small steps every day beat big plans someday.","Finish today’s topic. Tomorrow will thank you.","Consistency is the shortcut.","One chapter at a time. One day at a time.","Your future rank is built by today’s hours.","Done is better than perfect. Start the timer.","Hard days count double. Show up anyway."];
+const quote=()=>"“"+QUOTES[Math.floor(Date.now()/864e5)%QUOTES.length]+"”";
+function mine(){if(S.ch.some(c=>/^c\d+$/.test(c.id)))S.me=1;let w=0;
+if(S.me&&!S.itw2&&!S.dl["ITW"]){addSub(S,"ITW",S.dl["C Programming"]||"2026-11-30",1);S.itw2=1;w=1}
+if(!S.chemFix){S.chemFix=1;w=1;for(const src in SPLIT){const d=S.dl[src];if(!d)continue;delete S.dl[src];const M=SPLIT[src],ks=Object.keys(M);ks.forEach(k=>{S.dl[k]=d});S.ch.forEach(c=>{if(c.s===src)c.s=ks.find(k=>M[k].includes(c.n))||ks[0]})}}
+if(w)ws(DK+user,JSON.stringify(S))}
+
+const LG="study-planner-v2",AK="sp-acc",SK="sp-sess",DK="sp-d:";
+const ls=k=>{try{return localStorage.getItem(k)}catch(e){return null}},ws=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const pj=s=>{try{return JSON.parse(s)}catch(e){return null}};
+let user=ls(SK)==="guest"?"guest":null,S=null,scr="login",tab="today",sel=null,hsel=null,hmode="study",ssec=null,armed="",note="",bkText="";
+const SB_URL="https://uhayfaqfhsatajcveolb.supabase.co",SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoYXlmYXFmaHNhdGFqY3Zlb2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNjM4NTMsImV4cCI6MjEwOTczOTg1M30.Q0BwwbfUxklC3q8393zlO4rlY30ESr5rz1RdzSow-Hg";
+let sb=null,uid=null,chan=null,libCh=null,syncState="off",loading=false;
+const DEV=(()=>{let d=ls("sp-dev");if(!d){d=Math.random().toString(36).slice(2,10);ws("sp-dev",d)}return d})();
+const UID={theme:"auto",bg:"aurora",fs:"1",font:"def",hc:"0",rm:"0"};
+let UI={...UID,...(pj(ls("sp-ui"))||{})};
+const BG={aurora:["linear-gradient(135deg,#dff3ff,#e9e4ff 55%,#ffe9f3)","linear-gradient(135deg,#0d1b2e,#1b1440 55%,#2a1030)","Aurora"],sunset:["linear-gradient(135deg,#ffe8d6,#ffd6e0 55%,#fff3c4)","linear-gradient(135deg,#2b1320,#3a1c12 60%,#2a2010)","Sunset"],forest:["linear-gradient(135deg,#e2f5e9,#d5efe3 55%,#f1f7dc)","linear-gradient(135deg,#0e2218,#10281f 60%,#1a2410)","Forest"],ocean:["linear-gradient(135deg,#d9f0f7,#cfe0ff 60%,#e6f7ff)","linear-gradient(135deg,#0a1f33,#0b2a40 60%,#0a2236)","Ocean"],plain:["none","none","Plain"]};
+const isDark=()=>UI.theme==="dark"||(UI.theme==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);
+function applyUI(){const r=document.documentElement,d=isDark();if(UI.theme==="auto")r.removeAttribute("data-theme");else r.dataset.theme=UI.theme;r.style.fontSize=(16*parseFloat(UI.fs))+"px";r.dataset.font=UI.font;r.dataset.rm=UI.rm;r.style.setProperty("--bgi",BG[UI.bg]?BG[UI.bg][d?1:0]:"none");
+if(UI.hc==="1"){r.style.setProperty("--mute",d?"#dbe5f5":"#1d2a44");r.style.setProperty("--line",d?"#9db2d3":"#5a6a85")}else{r.style.removeProperty("--mute");r.style.removeProperty("--line")}}
+applyUI();try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{applyUI();if(typeof render==="function")render()})}catch(e){}
+function addSub(T,s,d,inc){T.dl[s]=d;SEED[s].trim().split("\n").forEach(l=>{if(!l.trim())return;const[a,h,t]=l.split("|");T.ch.push({id:"k"+(T.nx++),s,n:a,h:+h,t:t.split(";").map(x=>({id:"t"+(T.nx++),n:x,x:0,i:inc}))})})}
+function mk(exs,dates,hrs){const dl={},T={ch:[],dl:{},cap:{def:hrs,over:{}},log:[],as:[],run:null,stp:null,mpp:15,open:{},nx:1,warn:3,ex:exs};exs.forEach(e=>EX[e].forEach(s=>{if(!dl[s]||dates[e]<dl[s])dl[s]=dates[e]}));Object.keys(dl).forEach(s=>addSub(T,s,dl[s],1));return T}
+const fix=()=>{if(S.stp===undefined)S.stp=null;if(!S.rem)S.rem={on:0,min:30,idle:0,last:0};S.ch.forEach(c=>c.t.forEach(t=>{if(!t.id)t.id="t"+(S.nx++)}))};
+function load(){S=null;if(user){const r=pj(ls(DK+user));if(r&&r.ch){S=r;fix();mine()}}}
+load();
+const save=()=>{if(user&&S){S._rev=Date.now();ws(DK+user,JSON.stringify(S));if(uid)queuePush()}};
+const chap=id=>S.ch.find(c=>c.id===id),tpc=(c,id)=>c.t.find(t=>t.id==id);
+const th=c=>c.h/Math.max(1,c.t.length);
+const overall=()=>{const tot=S.ch.reduce((m,c)=>m+c.h,0)||1;return Math.round(S.ch.reduce((m,c)=>m+c.h*cp(c)/100,0)/tot*100)};
+const cp=c=>c.t.length?Math.round(100*c.t.filter(t=>t.x).length/c.t.length):0;
+const sp=s=>{const a=S.ch.filter(c=>c.s===s),h=a.reduce((m,c)=>m+c.h,0);return h?Math.round(a.reduce((m,c)=>m+c.h*cp(c)/100,0)/h*100):0};
+const addDays=(d,n)=>{const x=new Date(d+"T00:00:00");x.setDate(x.getDate()+n);return iso(x)};
+const fmt=d=>new Date(d+"T00:00:00").toLocaleDateString("en-IN",{weekday:"short",day:"numeric",month:"short"});
+const bar=p=>`<div class="bar"><i style="width:${p}%"></i></div>`;
+const fmtT=ms=>{const s=Math.max(0,Math.floor(ms/1000));return Math.floor(s/3600)+":"+String(Math.floor(s%3600/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")};
+const capOn=d=>S.cap.over[d]!=null?S.cap.over[d]:S.cap.def;
+const elapsed=()=>S.run?(S.stp!=null?S.stp:Date.now()-S.run.at):0;
+const logged=d=>S.log.filter(l=>l.d===d).reduce((a,l)=>a+l.m,0)/60+(S.run&&d===today()?elapsed()/3600000:0);
+const spent=k=>S.log.filter(l=>l.k===k).reduce((a,l)=>a+l.m,0)/60;
+const k2=(c,t)=>`t:${c.id}:${t.id}`;
+const path=x=>x.s+" › "+x.sub+" › "+x.l;
+function lab(k){const p=k.split(":");if(p[0]==="t"){const c=chap(p[1]),t=c&&tpc(c,p[2]);return t?c.s+" › "+c.n+" › "+t.n:"(removed)"}const a=S.as.find(a=>a.id==p[1]);return a?a.s+" › Assignment › "+a.t:"(removed)"}
+function items(){const o=[];S.ch.forEach(c=>c.t.forEach(t=>{if(t.i&&!t.x&&S.dl[c.s])o.push({k:k2(c,t),l:t.n,sub:c.n,s:c.s,h:th(c),dl:S.dl[c.s]})}));S.as.forEach(a=>{if(!a.d)o.push({k:"a:"+a.id,l:a.t,sub:"Assignment",s:a.s,h:a.p*S.mpp/60,dl:a.due})});return o}
+function doneToday(){const t=today(),o=[];S.ch.forEach(c=>c.t.forEach(x=>{if(x.x&&x.dd===t)o.push({k:k2(c,x),l:x.n,sub:c.n})}));S.as.forEach(a=>{if(a.d&&a.dd===t)o.push({k:"a:"+a.id,l:a.t,sub:"Assignment"})});return o}
+function build(){const t=today(),q=items().map(x=>({...x,n:Math.max(x.h-spent(x.k),.25)}));q.sort((a,b)=>a.dl<b.dl?-1:a.dl>b.dl?1:0);
+const last=q.reduce((m,x)=>x.dl>m?x.dl:m,t),days={},fin={},late={};let d=t,g=0;
+while(d<=last&&g<400){let cap=capOn(d)-(d===t?logged(t):0);const L=[];for(const x of q){if(cap<.1)break;if(x.n<.13||x.dl<d)continue;const a=Math.round(Math.min(cap,x.n)*4)/4;if(a<=0)continue;x.n-=a;cap-=a;fin[x.k]=d;L.push({...x,a})}if(L.length)days[d]=L;d=addDays(d,1);g++}
+const short={};q.forEach(x=>{if(x.n>=.13){late[x.k]=1;short[x.s]=(short[x.s]||0)+x.n}});return{days,short,fin,late}}
+function setDone(o,v){o.x=v;o.d=v;if(v)o.dd=today();else delete o.dd}
+function markDone(k,v){const p=k.split(":");if(p[0]==="t"){const c=chap(p[1]),t=c&&tpc(c,p[2]);if(t){t.x=v;if(v)t.dd=today();else delete t.dd}}else{const a=S.as.find(a=>a.id==p[1]);if(a){a.d=v;if(v)a.dd=today();else delete a.dd}}save();render()}
+function start(k){if(S.run){note="Stop the running timer first.";render();return}S.run={k,l:lab(k),at:Date.now()};S.stp=null;save();render()}
+function saveStop(){const r=S.run,m=Math.max(0,parseFloat($("sm").value)||0),dn=$("sd").checked;S.log.push({d:iso(new Date(r.at)),k:r.k,l:r.l,m});S.run=null;S.stp=null;if(dn)markDone(r.k,1);else{save();render()}}
+const det=(id,sum,body)=>`<details data-id="${esc(id)}" ${S.open[id]?"open":""}><summary>${sum}</summary>${body}</details>`;
+const row=(a,v,on,n,st,x="")=>`<div class="tp ${on?"on":""} ${st&&on?"st":""}"><button class="tpb" ${a}="${v}"><span class="bx">${on?"✓":""}</span><span class="nm grow">${esc(n)}</span></button>${x}</div>`;
+const tiles=(attr,fn)=>`<div class="tiles">${Object.keys(S.dl).map(s=>`<button class="tile" ${attr}="${esc(s)}"><b>${esc(s)}</b>${fn(s)}</button>`).join("")}</div>`;
+let pend=0,pt=0,pushing=false;
+function popup(t,m){const e=$("modal");if(!e)return;$("mt").textContent=t;$("mm").textContent=m;e.hidden=false;const b=$("mok");if(b&&b.focus)b.focus()}
+const closePop=()=>{const e=$("modal");if(e)e.hidden=true};
+const syncTxt=()=>syncState==="live"?"Synced live across your devices":syncState==="off"?"Not connected yet":"Offline. Changes sync when you are back online";
+function paintSync(){if(S&&tab==="set"&&ssec==="profile")render()}
+function queuePush(){clearTimeout(pt);pt=setTimeout(push,800)}
+async function push(){if(!sb||!uid||!S)return;if(pushing){queuePush();return}pushing=true;try{S._dev=DEV;const{error}=await sb.from("user_data").upsert({user_id:uid,data:S,updated_at:new Date().toISOString()});syncState=error?"offline":"live"}catch(e){syncState="offline"}pushing=false;paintSync()}
+async function pull(){if(!sb||!uid)return;try{const{data,error}=await sb.from("user_data").select("data").eq("user_id",uid).maybeSingle();if(error)throw error;const r=data&&data.data;
+if(r&&Array.isArray(r.ch)){if(!S||(r._rev||0)>(S._rev||0)){S=r;fix();mine();ws(DK+user,JSON.stringify(S));syncState="live";render();return}if((S._rev||0)>(r._rev||0))queuePush()}else if(S)queuePush();syncState="live"}catch(e){syncState="offline"}paintSync()}
+function subscribe(){if(!sb||!uid)return;if(chan){try{sb.removeChannel(chan)}catch(e){}chan=null}
+chan=sb.channel("ud-"+uid).on("postgres_changes",{event:"*",schema:"public",table:"user_data",filter:"user_id=eq."+uid},p=>{const n=p.new&&p.new.data;if(n&&n._dev===DEV)return;pull()}).subscribe(st=>{if(st==="SUBSCRIBED"){syncState="live";pull()}else if(st==="CHANNEL_ERROR"||st==="TIMED_OUT"||st==="CLOSED"){syncState="offline"}paintSync()})}
+async function loadLib(){if(!sb)return;try{const{data,error}=await sb.from("library").select("id,name,body");if(error)throw error;LIB={};(data||[]).forEach(r=>{LIB[r.id]={name:r.name,json:JSON.stringify(r.body)}});LDB=true;if(S&&((tab==="syl"&&!sel)||(tab==="set"&&ssec==="lib")))render()}catch(e){}
+if(!libCh){try{libCh=sb.channel("lib").on("postgres_changes",{event:"*",schema:"public",table:"library"},()=>loadLib()).subscribe()}catch(e){}}}
+async function checkAdmin(){try{const{data,error}=await sb.rpc("is_admin");ISOWN=!error&&data===true}catch(e){ISOWN=false}if(S&&tab==="set"&&!ssec)render()}
+async function startSession(sess){user=sess.user.email.toLowerCase();uid=sess.user.id;ws(SK,"");loading=true;load();render();await pull();loading=false;
+const m=ls("sp-m:"+user);
+if(!S){let src=null;if(m==="legacy"&&ls(LG)){src=pj(ls(LG));ws("sp-claimed","1")}else if(m==="guest"&&ls(DK+"guest")){src=pj(ls(DK+"guest"))}
+if(src&&src.ch){S=src;fix();mine();if(m==="guest"){try{localStorage.removeItem(DK+"guest")}catch(e){}}save();popup("Progress saved","Your earlier progress is now saved to your account.")}}
+else if(m==="guest"&&ls(DK+"guest")){popup("Account already has data","This account already had saved data, so your guest progress was kept separately on this device.")}
+try{localStorage.removeItem("sp-m:"+user)}catch(e){}
+subscribe();checkAdmin();tab="today";sel=hsel=ssec=null;render()}
+async function logout(){try{if(sb)await sb.auth.signOut()}catch(e){}try{if(chan&&sb)sb.removeChannel(chan)}catch(e){}chan=null;try{localStorage.removeItem(DK+user)}catch(e){}user=null;uid=null;S=null;ISOWN=false;scr="login";tab="today";sel=hsel=ssec=null;ws(SK,"");syncState="off";render()}
+async function doAuth(){const em=$("em").value.trim().toLowerCase(),pw=$("pw").value,cb=$("lgy"),claim=!!(cb&&cb.checked),gd=user==="guest"&&S?1:0;
+if(!sb){popup("Online login unavailable","Could not reach the login service. Check your internet connection and reload. You can still use guest mode.");return}
+if(!/^\S+@\S+\.\S+$/.test(em)){popup("Check your email","Enter a valid email address.");return}
+if(pw.length<6){popup("Password too short","Use at least 6 characters.");return}
+try{if(scr==="login"){const{data,error}=await sb.auth.signInWithPassword({email:em,password:pw});
+if(error){if(/confirm/i.test(error.message))popup("Email not confirmed","Open the confirmation link we emailed to "+em+", then log in.");else popup("Could not log in","The email or password is wrong. If you are new here, tap Sign up first.");return}
+if(gd)ws("sp-m:"+em,"guest");await startSession(data.session)}
+else{const{data,error}=await sb.auth.signUp({email:em,password:pw,options:{emailRedirectTo:location.protocol.indexOf("http")===0?location.origin+location.pathname:undefined}});
+if(error){popup("Sign up failed",error.message);return}
+if(data.user&&data.user.identities&&data.user.identities.length===0){popup("Already registered","This email already has an account. Tap Log in instead.");scr="login";render();return}
+ws("sp-m:"+em,claim?"legacy":gd?"guest":"");
+if(!data.session){popup("Check your email","We sent a confirmation link to "+em+". Open it, then come back and log in.");scr="login";render();return}
+await startSession(data.session)}}catch(e){popup("Something went wrong","Please try again.")}}
+async function initSb(){try{if(typeof window!=="undefined"&&window.supabase)sb=window.supabase.createClient(SB_URL,SB_KEY)}catch(e){sb=null}
+if(!sb){render();return}
+loadLib();
+try{const{data}=await sb.auth.getSession();if(data&&data.session)await startSession(data.session)}catch(e){}
+try{sb.auth.onAuthStateChange(ev=>{if(ev==="SIGNED_OUT"&&uid){user=null;uid=null;S=null;render()}})}catch(e){}}
+function vAuthForm(gp){const lg=!gp&&ls(LG)&&!ls("sp-claimed"),su=scr==="signup";
+return`<div class="card"><div class="seg"><button data-sc="login" class="${!su?"on":""}">Log in</button><button data-sc="signup" class="${su?"on":""}">Sign up</button></div><div class="col"><input id="em" type="email" placeholder="Email" autocomplete="username"><input id="pw" type="password" placeholder="Password (6+ characters)" autocomplete="${su?"new-password":"current-password"}">${su&&lg?'<label class="tp"><input type="checkbox" id="lgy" checked> Use the study data already saved in this browser</label>':""}<button class="b" id="auth">${su?"Create account":"Log in"}</button></div><p class="mute">Your progress is saved to your account and syncs live on every device you log in from.</p></div>`}
+function vAuth(){return vAuthForm(0)+`<div class="card"><div class="row"><span class="grow">Just want to try it?</span><button class="g" id="guest">Continue as guest</button></div></div>`}
+function vGuestProf(){return`<div class="card"><b>You are using guest mode</b><p class="mute">Your progress is saved only on this device. To keep it safe, log in or sign up below. Everything you have done so far moves into your account automatically.</p></div>`+vAuthForm(1)}
+function vOnb(){const d=addDays(today(),120);return`<h2>What are you preparing for?</h2><p class="sub">Select all that apply and set your exam date. The plan is built for you automatically.</p>${Object.keys(EXN).map(e=>`<div class="card row"><label class="tp grow"><input type="checkbox" id="ex-${e}"> ${EXN[e]}</label><input type="date" id="dt-${e}" value="${d}" aria-label="${EXN[e]} date"></div>`).join("")}<div class="card row"><label class="grow">Hours you can study per day <input type="number" id="ohd" min="1" max="16" step="0.5" value="6"></label></div><button class="b" id="onb">Build my plan</button>`}
+function timerCard(){
+if(S.run){const ms=elapsed();
+if(S.stp!=null)return`<div class="card run"><b>${esc(S.run.l)}</b><div class="mute">Timer stopped at ${fmtT(ms)}. Check the minutes and save.</div><div class="row" style="margin:8px 0"><label class="mute">Minutes studied <input id="sm" type="number" min="0" value="${Math.round(ms/60000)}"></label><label class="row"><input type="checkbox" id="sd" ${S.stpd?"checked":""}> Mark as done</label></div><div class="row"><button class="b" id="ssave">Save</button><button class="g" id="scan">Keep timer running</button></div></div>`;
+return`<div class="card run"><div class="row"><span class="dot"></span><b class="okc">TIMER ON</b></div><b>${esc(S.run.l)}</b><div class="big" id="el">${fmtT(ms)}</div>${ms>S.warn*36e5?`<div class="warn">Running for over ${S.warn} hours. Stop it and fix the minutes.</div>`:""}<div class="row" style="margin-top:8px"><button class="g" data-stop="0">Stop</button><button class="b" data-stop="1">Stop &amp; done</button></div><div class="mute">Stop keeps the topic for tomorrow. Stop &amp; done completes it.</div>${S.rem.on?`<div class="mute">Reminders every ${S.rem.min} min</div>`:""}</div>`}
+return`<div class="card"><div class="row"><span class="dot off"></span><b class="mute">TIMER OFF</b></div><div class="row" style="margin-top:8px"><select id="ts" class="grow">${items().map(x=>`<option value="${x.k}">${esc(path(x))}</option>`).join("")}</select><button class="b" id="tb">Start timer</button></div><div class="mute">Pick what you are studying, then start.</div><div class="row" style="margin-top:8px"><label class="mute">Remind me every <select id="ri">${remOpts()}</select></label></div></div>`}
+function vToday(){const t=today(),B=build(),L=B.days[t]||[],dn=doneToday(),lg=logged(t),sched=new Set(L.map(x=>x.k)),g={};
+L.forEach(x=>{if(x.k[0]==="t"){const c=x.k.split(":")[1];g[c]=(g[c]||0)+x.a}});
+const cs=S.ch.map((c,i)=>({c,i})).filter(o=>S.dl[o.c.s]&&o.c.t.some(x=>(x.i&&!x.x)||(x.x&&x.dd===t))).sort((a,b)=>(g[a.c.id]?0:1)-(g[b.c.id]?0:1)||(S.dl[a.c.s]<S.dl[b.c.s]?-1:S.dl[a.c.s]>S.dl[b.c.s]?1:0)||a.i-b.i).map(o=>o.c);
+let h=`<div class="card"><div class="mute">${fmt(t)} | target ${capOn(t)} h</div><div class="big"><span id="lg">${lg.toFixed(2)}</span> h studied</div>${bar(Math.min(100,lg/Math.max(capOn(t),.1)*100))}</div>`+timerCard()+"<h2>Today’s chapters</h2>";
+if(!cs.length)h+='<div class="card mute">No topics chosen yet. Pick chapters or topics in Homework.</div>';
+cs.forEach(c=>{const tp=c.t.filter(x=>x.i||(x.x&&x.dd===t)),dc=tp.filter(x=>x.x).length;
+h+=det("td"+c.id,`<span class="grow"><span class="mute">${esc(c.s)}</span><br><b>${esc(c.n)}</b></span><span class="mute right">${dc}/${tp.length} done${g[c.id]?"<br>about "+Math.round(g[c.id]*100)/100+" h today":""}</span>`,tp.map(x=>{const k=k2(c,x);return row("data-tick",k,x.x,x.n,1,(sched.has(k)?'<span class="tag">today</span>':"")+(x.x?"":`<button class="g" data-start="${k}">Start</button>`))}).join(""))});
+const ah=L.filter(x=>x.k[0]==="a"),ad=dn.filter(x=>x.k[0]==="a");
+if(ah.length||ad.length)h+="<h2>Homework</h2>"+ah.map(x=>`<div class="card">`+row("data-tick",x.k,0,x.l,1,`<span class="mute">${x.a} h</span><button class="g" data-start="${x.k}">Start</button>`)+`</div>`).join("")+ad.map(x=>`<div class="card">`+row("data-tick",x.k,1,x.l,1)+`</div>`).join("");
+const sh=Object.keys(B.short);
+h+=sh.length?`<div class="card"><b class="warn">Not enough time before deadlines</b>${sh.map(s=>`<div>${esc(s)}: ${B.short[s].toFixed(1)} h will be left over. Raise daily hours or move the deadline.</div>`).join("")}</div>`:'<div class="card okc">At this pace everything finishes before its deadline.</div>';
+return h}
+function vPlan(){const B=build(),all=items(),its=all.filter(x=>x.sub!=="Assignment"),as=all.filter(x=>x.sub==="Assignment"),t=today();
+let h=`<div class="card"><b>${its.length} topics</b> to cover | ${its.reduce((m,x)=>m+x.h,0).toFixed(0)} h | ${as.length} homework due</div><h2>Syllabus deadlines</h2>`;
+for(const s in S.dl){const a=its.filter(x=>x.s===s),f=a.map(x=>B.fin[x.k]).filter(Boolean).sort().pop(),lt=a.some(x=>B.late[x.k]),p=sp(s);
+h+=det("pl"+s,`<span class="grow">${esc(s)}</span><span class="mute right">deadline ${fmt(S.dl[s])}<br>${p}% done</span>`,bar(p)+`<div class="mute pad">${a.length?a.length+" topics | "+a.reduce((m,x)=>m+x.h,0).toFixed(1)+" h | "+(lt?'<span class="warn">will miss the deadline at this pace</span>':"on track, finish by "+(f?fmt(f):"-")):"Nothing selected for this subject yet."}</div>`+S.ch.filter(c=>c.s===s).map(c=>{const b=a.filter(x=>x.k.startsWith("t:"+c.id+":"));return b.length?`<div class="chh">${esc(c.n)}</div>`+b.map(x=>`<div class="tp2"><span class="grow">${esc(x.l)}</span><span class="mute">${x.h.toFixed(1)} h | ${B.late[x.k]?'<span class="warn">late</span>':B.fin[x.k]?fmt(B.fin[x.k]):"-"}</span></div>`).join(""):""}).join(""))}
+const ds=Object.keys(B.days).sort().slice(0,14),sh=Object.keys(B.short);
+h+=`<h2>Your planning</h2><div class="card">`+(sh.length?`<b class="warn">At this pace ${sh.map(s=>esc(s)+" ("+B.short[s].toFixed(0)+" h short)").join(", ")} will miss the deadline. Raise daily hours in Settings.</b>`:'<b class="okc">On track for every deadline.</b>');
+if(!ds.length)h+='<div class="mute" style="margin-top:8px">Nothing to plan yet. Choose topics or add homework.</div>';
+h+=ds.map(d=>`<div class="day"><b>${d===t?"Today":fmt(d)}</b> <span class="mute">${B.days[d].reduce((a,x)=>a+x.a,0)} h</span>${B.days[d].map(x=>`<div class="mute">${x.a} h ${esc(x.l)} (${esc(x.s)})</div>`).join("")}</div>`).join("")+`</div>`;
+return h}
+function vSyl(){
+if(!sel||!S.dl[sel])return`<p class="sub">Tap a subject to open it. Tap a topic to mark it complete.</p>`+tiles("data-sub",s=>`<span class="mute">${sp(s)}% done | ${S.ch.filter(c=>c.s===s).length} chapters</span>${bar(sp(s))}`)+`<div class="card"><b>Add a ready-made syllabus</b><div class="row" style="margin-top:8px"><select id="rx" class="grow">${exOpts().map(e=>`<option value="${e}">${exLab(e)}</option>`).join("")}</select><input id="rd" type="date" value="${addDays(today(),120)}" aria-label="Deadline"><button class="b" id="rxb">Add</button></div></div><div class="card"><b>Add your own subject</b><div class="row" style="margin-top:8px"><input id="ns" class="grow" placeholder="Subject name"><input id="nd" type="date" value="${addDays(today(),60)}" aria-label="Deadline"><button class="b" id="nsb">Add</button></div></div>`;
+let h=`<button class="g" data-back="1">&larr; All subjects</button><h2>${esc(sel)} <span class="mute">${sp(sel)}%</span></h2>${bar(sp(sel))}`;
+S.ch.filter(c=>c.s===sel).forEach(c=>{h+=det("s"+c.id,`<span class="grow">${esc(c.n)}</span><span class="mute">${cp(c)}%</span>`,`<div class="row"><label class="mute">Study hours <input type="number" data-h="${c.id}" min="0.5" step="0.5" value="${c.h}"></label><button class="g" data-cd="${c.id}">${cp(c)===100?"Mark all not done":"Mark chapter done"}</button><button class="g" data-dc="${c.id}">${armed==="c"+c.id?"Tap again to remove":"Remove chapter"}</button></div>`+c.t.map(t=>row("data-tx",c.id+":"+t.id,t.x,t.n,1,`<button class="g" data-dt="${c.id}:${t.id}" aria-label="Remove topic">${armed==="t"+t.id?"Sure?":"Remove"}</button>`)).join("")+`<div class="row pad"><input id="nt-${c.id}" class="grow" placeholder="Add a topic"><button class="b" data-atp="${c.id}">Add</button></div>`)});
+h+=`<div class="card"><b>Add a chapter</b><div class="row" style="margin-top:8px"><input id="nc" class="grow" placeholder="Chapter name"><input id="nh" type="number" min="0.5" step="0.5" value="4" aria-label="Hours"><button class="b" id="acp">Add</button></div></div>`;
+return h}
+function vWork(){
+let h=`<div class="seg"><button data-hm="study" class="${hmode==="study"?"on":""}">What to study</button><button data-hm="hw" class="${hmode==="hw"?"on":""}">Homework</button></div>`;
+if(hmode==="hw"){const a=[...S.as].sort((x,y)=>x.due<y.due?-1:1);
+h+=`<div class="card"><b>Add homework or an assignment</b><div class="row" style="margin-top:8px"><input id="at" class="grow" placeholder="Title"><select id="as">${Object.keys(S.dl).concat(["Other"]).map(s=>`<option>${esc(s)}</option>`).join("")}</select><input id="ad" type="date" value="${addDays(today(),3)}"><input id="ap" type="number" min="1" placeholder="Pages"><button class="b" id="aa">Add</button></div><div class="mute" id="ae" style="margin-top:6px">Enter the pages to see the time estimate (${S.mpp} min per page).</div></div>`;
+if(!a.length)h+='<div class="card mute">No homework yet.</div>';
+a.forEach(x=>{h+=`<div class="card row ${x.d?"on st":""}"><button class="tpb" data-ax="${x.id}"><span class="bx">${x.d?"✓":""}</span><span class="grow"><span class="nm">${esc(x.t)}</span><br><span class="mute">${esc(x.s)} | due ${fmt(x.due)} | ${x.p} pages | about ${(x.p*S.mpp/60).toFixed(1)} h${spent("a:"+x.id)?" | "+spent("a:"+x.id).toFixed(1)+" h spent":""}</span></span></button><button class="g" data-start="a:${x.id}">Start</button><button class="g" data-ad="${x.id}">Delete</button></div>`});
+return h}
+if(!hsel||!S.dl[hsel])return h+`<p class="sub">Pick a subject, then choose the chapters or topics to study. They go into your Plan.</p>`+tiles("data-hs",s=>`<span class="mute">${S.ch.filter(c=>c.s===s).reduce((m,c)=>m+c.t.filter(t=>t.i&&!t.x).length,0)} topics chosen</span>`);
+h+=`<button class="g" data-hback="1">&larr; All subjects</button><h2>${esc(hsel)}</h2>`;
+S.ch.filter(c=>c.s===hsel).forEach(c=>{const n=c.t.filter(t=>t.i).length;h+=det("h"+c.id,`<span class="grow">${esc(c.n)} <span class="mute">${n}/${c.t.length}</span></span><button class="g" data-ci="${c.id}">${n===c.t.length&&n?"Remove all":"Add all"}</button>`,c.t.map(t=>row("data-ti",c.id+":"+t.id,t.i,t.n,0,t.x?'<span class="tag">done</span>':"")).join(""))});
+return h}
+function vLook(){const seg=(k,o)=>`<div class="seg">${o.map(x=>`<button data-ui="${k}:${x[0]}" class="${UI[k]===x[0]?"on":""}">${x[1]}</button>`).join("")}</div>`,dk=isDark();
+return`<div class="card"><b>Theme</b>${seg("theme",[["auto","Auto"],["light","Light"],["dark","Dark"]])}</div><div class="card"><b>Background</b><div class="tiles">${Object.keys(BG).map(k=>`<button class="tile ${UI.bg===k?"sel":""}" data-ui="bg:${k}" style="background-image:${BG[k][dk?1:0]}"><b>${BG[k][2]}</b></button>`).join("")}</div></div><div class="card"><b>Text size</b>${seg("fs",[["0.9","Small"],["1","Normal"],["1.15","Large"],["1.3","Extra large"]])}</div><div class="card"><b>Font</b>${seg("font",[["def","Default"],["read","Easy to read"]])}</div><div class="card"><b>Accessibility</b>${seg("hc",[["0","Normal contrast"],["1","High contrast"]])}${seg("rm",[["0","Animations on"],["1","Reduce motion"]])}</div>`}
+const remOpts=()=>{const cur=S.rem.on?S.rem.min:0,l=[...new Set([0,15,25,30,45,60,cur])].sort((a,b)=>a-b);return l.map(v=>`<option value="${v}" ${v===cur?"selected":""}>${v?v+" min":"Off"}</option>`).join("")};
+function askPerm(){try{if(typeof Notification!=="undefined"&&Notification.permission==="default"){const p=Notification.requestPermission();if(p&&p.then)p.then(()=>render())}}catch(e){}}
+let tmr=0;
+function toast(m){const e=$("toast");if(!e)return;e.textContent=m;e.classList.add("show");clearTimeout(tmr);tmr=setTimeout(()=>e.classList.remove("show"),12000)}
+function notify(t,b){let ok=false;try{if(typeof Notification!=="undefined"&&Notification.permission==="granted"){new Notification(t,{body:b,tag:"preppilot"});ok=true}}catch(e){}
+try{if(typeof navigator!=="undefined"&&navigator.vibrate)navigator.vibrate([200,100,200])}catch(e){}
+if(!ok||!document.hidden)toast(t+": "+b)}
+function remind(){if(!S||!S.rem||!S.rem.on||!S.rem.min)return;const m=S.rem.min*60000,now=Date.now();
+if(S.run&&S.stp==null){const e=now-S.run.at,n=Math.floor(e/m);if(n>=1&&n>(S.run.rn||0)){S.run.rn=n;save();notify("Still studying?",fmtT(e)+" on "+S.run.l+". Keep going, or take a short break.")}}
+else if(S.rem.idle&&!S.run){if(!S.rem.last)S.rem.last=now;if(now-S.rem.last>=m){S.rem.last=now;save();const x=(build().days[today()]||[])[0];if(x)notify("Time to study","Up next: "+path(x)+". Start the timer.")}}}
+function permTxt(){if(typeof Notification==="undefined")return"Browser notifications are not supported here. You will get in-page alerts instead.";const p=Notification.permission;return p==="granted"?"Browser notifications are allowed.":p==="denied"?"Browser notifications are blocked. Allow them for this site in your browser settings. Until then you get in-page alerts.":"Browser notifications are not allowed yet. Turn reminders on and allow when asked."}
+function vRem(){const r=S.rem;return`<div class="card"><b>Reminders</b><div class="mute">${permTxt()}</div><div class="seg"><button data-rmon="1" class="${r.on?"on":""}">On</button><button data-rmon="0" class="${r.on?"":"on"}">Off</button></div></div><div class="card"><b>How often?</b><div class="seg">${[15,25,30,45,60].map(v=>`<button data-ri="${v}" class="${r.min===v?"on":""}">${v} min</button>`).join("")}</div><div class="row"><label class="mute">Custom minutes <input id="rc" type="number" min="1" max="240" value="${r.min}"></label></div></div><div class="card"><b>When?</b><div class="seg"><button data-rid="0" class="${r.idle?"":"on"}">Only while the timer is on</button><button data-rid="1" class="${r.idle?"on":""}">Also nudge when the timer is off</button></div></div><div class="card row"><button class="b" id="rtest">Send test</button><span class="mute">Alerts work only while this page is open. Browsers may delay them in background tabs.</span></div>`}
+let sbText="";
+function parseSyl(txt){const o={};let cur=null;txt.split("\n").forEach(l=>{l=l.trim();if(!l)return;if(l[0]==="#"){cur=l.replace(/^#+\s*/,"").trim();if(cur)o[cur]=[];return}if(!cur)return;const[a,h,t]=l.split("|");if(!a||!t)return;o[cur].push({a:a.trim(),h:parseFloat(h)||4,t:t.split(";").map(x=>x.trim()).filter(Boolean)})});return o}
+function vBuild(){return`<div class="card"><b>Add a syllabus by pasting it</b><div class="mute">Start each subject with #, then one chapter per line as Chapter|hours|topic;topic;topic</div><textarea id="sb" rows="9" style="width:100%;margin-top:8px" placeholder="# Mechanical Engineering&#10;Thermodynamics|8|Laws;Entropy;Cycles&#10;Fluid Mechanics|10|Statics;Dynamics">${esc(sbText)}</textarea><div class="row" style="margin-top:8px"><label class="mute">Deadline <input id="sbd" type="date" value="${addDays(today(),90)}"></label><button class="b" id="sba">Add to my syllabus</button></div></div>`}
+const SHARE_URL=location.protocol.indexOf("http")===0?location.origin+location.pathname:"";
+let ISOWN=false,LIB={},LDB=null,libName="";
+const exLab=e=>e.startsWith("lib:")?(LIB[e.slice(4)]||{name:"Library"}).name:EXL[e];
+function addP(P,dd){const ks=Object.keys(P).filter(k=>P[k].length),sk=[];ks.forEach(k=>{if(S.dl[k]){sk.push(k);return}S.dl[k]=dd;P[k].forEach(c=>S.ch.push({id:"k"+(S.nx++),s:k,n:c.a,h:c.h,t:c.t.map(x=>({id:"t"+(S.nx++),n:x,x:0,i:1}))}))});return{n:ks.length-sk.length,sk}}
+function vShare(){if(!SHARE_URL)return'<div class="card"><b>Share PrepPilot</b><p class="mute">Host this file online (for example Netlify Drop or GitHub Pages), open the hosted link, and share it from here.</p></div>';return`<div class="card"><b>Share PrepPilot</b><p class="mute">Send this link to friends. They can sign up and start right away.</p><input id="sl" readonly value="${SHARE_URL}" style="width:100%"><div class="row" style="margin-top:10px"><button class="b" id="shb">Share</button><button class="g" id="cpb">Copy link</button></div></div>`}
+async function copyLink(){try{await navigator.clipboard.writeText(SHARE_URL);toast("Link copied.");return}catch(e){}const i=$("sl");if(i){i.focus();i.select();try{if(document.execCommand("copy")){toast("Link copied.");return}}catch(e){}}toast("Select the link and copy it.")}
+async function shareApp(){try{if(typeof navigator!=="undefined"&&navigator.share){await navigator.share({title:"PrepPilot",text:"Plan your syllabus, schedule and study timer.",url:SHARE_URL});return}}catch(e){if(e&&e.name==="AbortError")return}copyLink()}
+function vLib(){if(!ISOWN)return'<div class="card mute">Only the owner can publish ready-made syllabi.</div>';
+if(!LDB)return'<div class="card mute">The online library is not available in this view. Open the page on claude.ai while signed in.</div>';
+const ks=Object.keys(LIB);
+return`<div class="card"><b>Publish a ready-made syllabus for everyone</b><div class="mute">It appears for everyone in Syllabus > Add a ready-made syllabus. Only you can publish or remove entries.</div><input id="ln" placeholder="Name, e.g. Mechanical Engineering" value="${esc(libName)}" style="width:100%;margin-top:8px"><textarea id="sb" rows="9" style="width:100%;margin-top:8px" placeholder="# Subject&#10;Chapter|hours|topic;topic">${esc(sbText)}</textarea><button class="b" id="lpub" style="margin-top:8px">Publish</button></div><div class="card"><b>Published</b>${ks.length?ks.map(k=>`<div class="row" style="margin-top:6px"><span class="grow">${esc(LIB[k].name)}</span><button class="g" data-ldel="${esc(k)}">${armed==="lib"+k?"Tap again to remove":"Remove"}</button></div>`).join(""):'<div class="mute">Nothing published yet.</div>'}</div>`}
+const secs=()=>{const a=SEC.slice();a.splice(1,0,["share","Share","Send PrepPilot to friends"]);if(ISOWN)a.push(["lib","Library (owner only)","Publish ready-made syllabi for everyone"]);return a};
+const SIC=(o=>{const r={};for(const k in o)r[k]=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${o[k]}</svg>`;return r})({
+profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>',
+share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.6l6.8-4M8.6 13.4l6.8 4"/>',
+hours:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+dl:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/>',
+look:'<path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 1.5-2.2-.5-1.2.2-2.3 1.5-2.3H17a4 4 0 0 0 4-4C21 6.5 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>',
+rem:'<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 21a2 2 0 0 0 4 0"/>',
+timer:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/>',
+prog:'<path d="M4 20V10M10 20V4M16 20v-8M2 20h20"/>',
+build:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M12 8v8M8 12h8"/>',
+subjects:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',
+data:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
+lib:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>'});
+const SEC=[["profile","Profile","Account, progress, backup"],["hours","Daily hours","Hours per day and special days"],["dl","Deadlines","One date per subject"],["look","Appearance","Theme, background, text size"],["rem","Reminders","Study alerts and interval"],["timer","Timer and log","Fix forgotten timers, edit study log"],["prog","Progress","Set chapter progress by hand"],["build","Add syllabus","Paste your own subjects"],["subjects","Subjects","Remove a subject"],["data","Reset","Clear progress, keep syllabus"]];
+function vSet(){
+if(!ssec)return`<div class="tiles one">${secs().map(s=>`<button class="tile" data-sec="${s[0]}"><span class="ti">${SIC[s[0]]||""}</span><span class="tt"><b>${s[1]}</b><br><span class="mute">${s[2]}</span></span></button>`).join("")}</div>`;
+let h=`<button class="g" data-sback="1">&larr; Settings</button><h2>${(secs().find(s=>s[0]===ssec)||["",""])[1]}</h2>`;
+if(ssec==="hours"){h+=`<div class="card"><b>Study hours per day</b><div class="row" style="margin-top:8px"><input id="cd" type="number" min="0" max="16" step="0.5" value="${S.cap.def}"><button class="b" id="cs">Save</button></div></div><div class="card"><b>Change hours for one day</b><div class="mute">Lower for exam or viva days, higher for holidays.</div><div class="row" style="margin-top:8px"><input id="od" type="date" value="${today()}"><input id="oh" type="number" min="0" max="16" step="0.5" value="2"><button class="b" id="os">Set</button></div>`+Object.keys(S.cap.over).sort().filter(d=>d>=today()).map(d=>`<div class="row mute" style="margin-top:6px"><span class="grow">${fmt(d)}: ${S.cap.over[d]} h</span><button class="g" data-ro="${d}">Remove</button></div>`).join("")+"</div>"}
+if(ssec==="dl")h+=`<div class="card">${Object.keys(S.dl).map(s=>`<div class="row" style="margin:6px 0"><span class="grow">${esc(s)}</span><input type="date" data-dl="${esc(s)}" value="${S.dl[s]}"></div>`).join("")}</div>`;
+if(ssec==="timer"){h+=`<div class="card"><div class="row"><label class="mute">Minutes per assignment page <input type="number" id="mp" min="1" value="${S.mpp}"></label><label class="mute">Warn after (hours) <input type="number" id="wh" min="1" value="${S.warn}"></label><button class="b" id="ts2">Save</button></div>`;
+if(S.run)h+=`<div class="row" style="margin-top:10px"><span class="grow mute">Forgot to stop? Set the minutes this timer has really run.</span><input type="number" id="rm" min="0" value="${Math.round(elapsed()/60000)}"><button class="b" id="rs2">Fix timer</button></div>`;
+h+=`</div><div class="card"><b>Study log</b>`+S.log.map((l,i)=>[l,i]).slice(-20).reverse().map(([l,i])=>`<div class="row" style="margin-top:6px"><span class="grow mute">${fmt(l.d)} | ${esc(l.l)}</span><input type="number" data-lm="${i}" min="0" value="${l.m}" aria-label="Minutes"><button class="g" data-ld="${i}">X</button></div>`).join("")+`<div class="row" style="margin-top:12px"><input id="md" type="date" value="${today()}"><select id="mk" class="grow">${items().map(x=>`<option value="${x.k}">${esc(path(x))}</option>`).join("")}</select><input id="mm" type="number" min="1" placeholder="Min"><button class="b" id="ma">Add missed time</button></div></div>`}
+if(ssec==="prog"){h+=`<div class="mute">This ticks the first topics of a chapter to match the percentage.</div>`+Object.keys(S.dl).map(s=>det("m"+s,`<span class="grow">${esc(s)}</span><span class="mute">${sp(s)}%</span>`,S.ch.filter(c=>c.s===s).map(c=>`<div class="row tp"><span class="grow">${esc(c.n)}</span><input type="number" data-mp="${c.id}" min="0" max="100" value="${cp(c)}" aria-label="Percent"> %</div>`).join(""))).join("")}
+if(ssec==="data")h+=`<div class="card"><p class="mute">Clears all ticks, plan selections, homework, study log and the timer. Your subjects, chapters and topics stay.</p><button class="g" id="rs">${armed==="reset"?"Tap again to clear everything":"Reset progress"}</button></div>`;
+if(ssec==="profile"&&user==="guest")h+=vGuestProf();else if(ssec==="profile"){const o=overall();h+=`<div class="card"><div class="mute">Signed in as</div><b>${esc(user)}</b><div class="mute" style="margin-top:10px">Overall syllabus completed</div><div class="big">${o}%</div>${bar(o)}<div class="row" style="margin-top:10px"><span class="syn ${syncState}"></span><span class="mute">${syncTxt()}</span></div><div class="row" style="margin-top:10px"><button class="b" data-out="1">Log out</button></div></div>`}
+if(ssec==="look")h+=vLook();
+if(ssec==="subjects")h+=`<div class="card"><div class="mute">Removing a subject deletes all its chapters and topics.</div>`+Object.keys(S.dl).map(s=>`<div class="row" style="margin-top:8px"><span class="grow">${esc(s)}</span><button class="g" data-dsub="${esc(s)}">${armed==="sub"+s?"Tap again to remove":"Remove"}</button></div>`).join("")+"</div>";
+if(ssec==="share")h+=vShare();
+if(ssec==="lib")h+=vLib();
+if(ssec==="build")h+=vBuild();
+if(ssec==="rem")h+=vRem();
+return h}
+function render(){const y=scrollY,n=note;note="";if(S&&!S.rem)S.rem={on:0,min:30,idle:0,last:0};const nh=n?`<div class="card" role="alert"><b>${esc(n)}</b></div>`:"";
+if(!user){$("head").textContent=quote();$("nav").innerHTML="";$("v").innerHTML=nh+vAuth();return}
+if(uid&&!S&&loading){$("head").textContent=quote();$("nav").innerHTML="";$("v").innerHTML='<div class="card"><b>Loading your data...</b></div>';return}
+if(!S){$("head").textContent=quote();$("nav").innerHTML="";$("v").innerHTML=nh+vOnb();return}
+const tot=S.ch.reduce((m,c)=>m+c.h,0)||1,all=Math.round(S.ch.reduce((m,c)=>m+c.h*cp(c)/100,0)/tot*100);
+$("head").textContent=quote();
+$("nav").innerHTML=TABS.map(t=>`<button data-t="${t[0]}" class="${t[0]===tab?"on":""}">${ICON[t[0]]}<span>${t[1]}</span></button>`).join("");
+$("v").innerHTML=nh+({today:vToday,plan:vPlan,syl:vSyl,work:vWork,set:vSet})[tab]();scrollTo(0,y)}
+const go=f=>{f();save();render()};
+document.addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;const d=t.dataset,was=armed;armed="";
+const arm=k=>{if(was===k)return true;armed=k;render();return false};
+if(d.ui){const[k,v]=d.ui.split(":");UI[k]=v;ws("sp-ui",JSON.stringify(UI));applyUI();render();return}
+if(d.sc){scr=d.sc;render();return}
+if(t.id==="auth"){doAuth();return}
+if(t.id==="guest"){user="guest";ws(SK,user);load();render();return}
+if(d.out){logout();return}
+if(t.id==="mok"){closePop();return}
+if(t.id==="onb"){const ex=Object.keys(EXN).filter(k=>$("ex-"+k).checked);if(!ex.length){note="Select at least one exam.";render();return}const dt={};ex.forEach(k=>dt[k]=$("dt-"+k).value||addDays(today(),120));S=mk(ex,dt,parseFloat($("ohd").value)||6);save();render();return}
+if(d.t){tab=d.t;render();scrollTo(0,0);return}
+if(d.sub!==undefined){sel=d.sub;render();scrollTo(0,0);return}
+if(d.back){sel=null;render();return}
+if(d.hs!==undefined){hsel=d.hs;render();scrollTo(0,0);return}
+if(d.hback){hsel=null;render();return}
+if(d.hm){hmode=d.hm;render();return}
+if(d.sec){ssec=d.sec;render();scrollTo(0,0);return}
+if(d.sback){ssec=null;render();return}
+if(d.tx){const[c,i]=d.tx.split(":"),x=tpc(chap(c),i);go(()=>{x.x=x.x?0:1;if(x.x)x.dd=today();else delete x.dd});return}
+if(d.cd){const c=chap(d.cd),v=cp(c)===100?0:1;go(()=>c.t.forEach(x=>{x.x=v;if(v)x.dd=today();else delete x.dd}));return}
+if(d.dt){const[c,i]=d.dt.split(":");if(arm("t"+i))go(()=>chap(c).t=chap(c).t.filter(x=>x.id!==i));return}
+if(d.dc){if(arm("c"+d.dc))go(()=>S.ch=S.ch.filter(c=>c.id!==d.dc));return}
+if(d.dsub!==undefined){if(arm("sub"+d.dsub))go(()=>{S.ch=S.ch.filter(c=>c.s!==d.dsub);delete S.dl[d.dsub];if(sel===d.dsub)sel=null;if(hsel===d.dsub)hsel=null});return}
+if(d.atp){const n=$("nt-"+d.atp).value.trim();if(!n)return;go(()=>{chap(d.atp).t.push({id:"t"+(S.nx++),n,x:0,i:0});S.open["s"+d.atp]=1});return}
+if(t.id==="acp"){const n=$("nc").value.trim();if(!n){note="Enter a chapter name.";render();return}go(()=>{const id="k"+(S.nx++);S.ch.push({id,s:sel,n,h:parseFloat($("nh").value)||4,t:[{id:"t"+(S.nx++),n,x:0,i:0}]});S.open["s"+id]=1});return}
+if(t.id==="nsb"){const n=$("ns").value.trim();if(!n||S.dl[n]){note=n?"That subject already exists.":"Enter a subject name.";render();return}go(()=>{S.dl[n]=$("nd").value||addDays(today(),60);sel=n});return}
+if(t.id==="rxb"){const e=$("rx").value,add=exSubs(e).filter(s=>!S.dl[s]);if(!add.length){note="Those subjects are already in your syllabus.";render();return}go(()=>{add.forEach(s=>addSub(S,s,$("rd").value||addDays(today(),120),1));note="Added "+add.length+" subject(s) to your syllabus and plan."});return}
+if(d.ci){const c=chap(d.ci),v=c.t.length&&c.t.every(x=>x.i)?0:1;go(()=>c.t.forEach(x=>x.i=v));return}
+if(d.ti){const[c,i]=d.ti.split(":"),x=tpc(chap(c),i);go(()=>x.i=x.i?0:1);return}
+if(d.start){start(d.start);return}
+if(d.stop!==undefined){S.stp=Date.now()-S.run.at;S.stpd=d.stop==="1";save();render();return}
+if(t.id==="scan"){S.stp=null;save();render();return}
+if(t.id==="ssave"){saveStop();return}
+if(d.tick){const p=d.tick.split(":");let o;if(p[0]==="t"){const c=chap(p[1]);o=c&&tpc(c,p[2])}else o=S.as.find(a=>a.id==p[1]);if(o)markDone(d.tick,(o.x||o.d)?0:1);return}
+if(t.id==="tb"){const v=$("ts").value;if(v)start(v);else{note="Add topics in Homework first.";render()}return}
+if(t.id==="aa"){const n=$("at").value.trim(),p=parseFloat($("ap").value),du=$("ad").value;if(!n||!p||!du){note="Enter a title, due date and number of pages.";render();return}go(()=>S.as.push({id:S.nx++,t:n,s:$("as").value,due:du,p,d:0}));return}
+if(d.ax){const a=S.as.find(a=>a.id==d.ax);go(()=>{a.d=a.d?0:1;if(a.d)a.dd=today();else delete a.dd});return}
+if(d.ad){go(()=>S.as=S.as.filter(a=>a.id!=d.ad));return}
+if(t.id==="cs"){go(()=>S.cap.def=parseFloat($("cd").value)||0);return}
+if(t.id==="os"){if($("od").value)go(()=>S.cap.over[$("od").value]=parseFloat($("oh").value)||0);return}
+if(d.ro){go(()=>delete S.cap.over[d.ro]);return}
+if(t.id==="ts2"){go(()=>{S.mpp=parseFloat($("mp").value)||15;S.warn=parseFloat($("wh").value)||3});return}
+if(t.id==="rs2"){go(()=>S.run.at=Date.now()-(parseFloat($("rm").value)||0)*60000);return}
+if(d.ld){go(()=>S.log.splice(+d.ld,1));return}
+if(t.id==="ma"){const m=parseFloat($("mm").value),k=$("mk").value;if(m>0&&k)go(()=>S.log.push({d:$("md").value||today(),k,l:lab(k),m}));return}
+if(d.rmon!==undefined){go(()=>{S.rem.on=+d.rmon;S.rem.last=Date.now();if(S.rem.on)askPerm()});return}
+if(d.ri){go(()=>{S.rem.min=+d.ri;S.rem.on=1;S.rem.last=Date.now();askPerm()});return}
+if(d.rid!==undefined){go(()=>{S.rem.idle=+d.rid;S.rem.last=Date.now()});return}
+if(t.id==="rtest"){askPerm();notify("PrepPilot","Test reminder. This is how your alerts will look.");return}
+if(t.id==="shb"){shareApp();return}
+if(t.id==="cpb"){copyLink();return}
+if(t.id==="lpub"){const P=parseSyl(sbText),ks=Object.keys(P).filter(k=>P[k].length),nm=libName.trim();if(!nm||!ks.length||!sb){popup("Cannot publish","Enter a name and a syllabus in the right format.");return}const id=nm.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"syllabus";sb.from("library").upsert({id,name:nm,body:P,updated_at:new Date().toISOString()}).then(({error})=>{if(error)popup("Could not publish",error.message);else{sbText="";libName="";loadLib();popup("Published","Everyone can add it now.")}});return}
+if(d.ldel!==undefined){if(arm("lib"+d.ldel)&&sb)sb.from("library").delete().eq("id",d.ldel).then(({error})=>{if(error)popup("Could not remove",error.message);else loadLib()});return}
+if(t.id==="rxb"&&$("rx").value.startsWith("lib:")){const L=LIB[$("rx").value.slice(4)],P=L&&pj(L.json);if(!P){note="That syllabus could not be loaded.";render();return}const dd=$("rd").value||addDays(today(),120);go(()=>{const r=addP(P,dd);note=r.n?"Added "+r.n+" subject(s)."+(r.sk.length?" Already in your syllabus: "+r.sk.join(", "):""):"Those subjects are already in your syllabus."});return}
+if(t.id==="sba"){const P=parseSyl(sbText),ks=Object.keys(P).filter(k=>P[k].length);if(!ks.length){note="Nothing to add. Format: # Subject, then Chapter|hours|topic;topic";render();return}const dd=$("sbd").value||addDays(today(),90),sk=[];go(()=>{ks.forEach(k=>{if(S.dl[k]){sk.push(k);return}S.dl[k]=dd;P[k].forEach(c=>S.ch.push({id:"k"+(S.nx++),s:k,n:c.a,h:c.h,t:c.t.map(x=>({id:"t"+(S.nx++),n:x,x:0,i:1}))}))});sbText="";note="Added "+(ks.length-sk.length)+" subject(s)."+(sk.length?" Skipped, already exist: "+sk.join(", "):"")});return}
+if(t.id==="rs"){if(arm("reset"))go(()=>{S.ch.forEach(c=>c.t.forEach(x=>{x.x=0;x.i=0;delete x.dd}));S.as=[];S.log=[];S.run=null;S.stp=null;S.cap={def:6,over:{}};S.mpp=15;S.warn=3;S.open={}});return}});
+document.addEventListener("change",e=>{const i=e.target,d=i.dataset;if(!S)return;
+if(i.id==="ri"||i.id==="rc"){const v=Math.max(0,Math.min(240,parseInt(i.value)||0));if(v){S.rem.on=1;S.rem.min=v;askPerm()}else S.rem.on=0;S.rem.last=Date.now();save();render();return}
+if(d.h)chap(d.h).h=Math.max(.5,parseFloat(i.value)||1);
+else if(d.mp){const c=chap(d.mp),k=Math.round(Math.max(0,Math.min(100,parseFloat(i.value)||0))/100*c.t.length);c.t.forEach((t,j)=>{t.x=j<k?1:0})}
+else if(d.dl)S.dl[d.dl]=i.value;
+else if(d.lm)S.log[+d.lm].m=Math.max(0,parseFloat(i.value)||0);
+else return;save();render()});
+document.addEventListener("input",e=>{if(e.target.id==="bt")bkText=e.target.value;if(e.target.id==="sb")sbText=e.target.value;if(e.target.id==="ln")libName=e.target.value;if(S&&e.target.id==="ap"&&$("ae")){const p=parseFloat(e.target.value);$("ae").textContent=p>0?`Estimated time: ${(p*S.mpp/60).toFixed(1)} h (${Math.round(p*S.mpp)} min)`:"Enter the pages to see the time estimate."}});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="pw")doAuth()});
+document.addEventListener("toggle",e=>{const d=e.target;if(S&&d.dataset&&d.dataset.id){S.open[d.dataset.id]=d.open?1:0;save()}},true);
+setInterval(()=>{remind();if(S&&S.run){const t=fmtT(elapsed()),el=$("el"),lg=$("lg");if(el)el.textContent=t;if(lg)lg.textContent=logged(today()).toFixed(2);document.title=(S.stp==null?"● ":"")+t+" | PrepPilot"}else document.title="PrepPilot"},1000);
+document.addEventListener("click",e=>{if(e.target.closest("#toast"))$("toast").classList.remove("show")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePop()});document.addEventListener("visibilitychange",()=>{if(!document.hidden&&uid)pull()});
+render();initSb();
+</script>
+</body>
+</html>
