@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Swachh Nova – Clean Ganga Ghats Network</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=Dancing+Script:wght@600&display=swap">
 <style>
 :root{--bg:#EAF2F1;--card:#fff;--ink:#10242B;--mute:#5B7178;--river:#0E4D64;--gold:#F2A900;--red:#C8452D;--blue:#2F7FBF;--green:#2E8B57;--line:#CFE0DE;--onriver:#fff;--nav:var(--card);--hdr:var(--river);--hdrink:var(--onriver);color-scheme:light}
 @media (prefers-color-scheme:dark){:root{--bg:#0B1720;--card:#102A33;--ink:#EAF4F7;--mute:#8FB0BB;--river:#56B8D0;--line:#21404B;--onriver:#06202A;--nav:#183B45;--hdr:#102A33;--hdrink:#EAF4F7;color-scheme:dark}}
@@ -70,6 +70,16 @@ html[data-theme=dark]{--bg:#0B1720;--card:#102A33;--ink:#EAF4F7;--mute:#8FB0BB;-
 .tile .ti{font-size:28px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:var(--bg);border-radius:12px;flex:none}
 .tile .tt{flex:1;min-width:0}.tile .tt b{display:block;font-size:17px}.tile .tt small{display:block;color:var(--mute);font-size:13px}
 .tile .tc{font-size:26px;color:var(--mute)}.tile.back{justify-content:center;font-weight:700;color:var(--river)}
+
+/* Settings: two tiles per row */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.sgrid .tile{flex-direction:column;justify-content:flex-start;align-items:center;text-align:center;gap:8px;margin-bottom:0;padding:16px 10px;height:100%}
+.sgrid .tile .ti{background:transparent;width:auto;height:auto;font-size:30px}
+.sgrid .tile .tt{flex:none;width:100%}
+.sgrid .tile .tt b{font-size:16px}
+.sgrid .tile .tt small{margin-top:3px;line-height:1.35}
+.sgrid .tile .tc{display:none}
+@media(max-width:380px){.sgrid .tile{padding:14px 6px}.sgrid .tile .tt b{font-size:15px}.sgrid .tile .tt small{font-size:12px}}
 .opts{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.opts button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:16px;padding:6px 12px;font:600 13px Mukta,sans-serif;cursor:pointer}.opts button.on{background:var(--river);color:var(--onriver);border-color:var(--river)}
 .sw{width:76px;height:52px;border-radius:10px;border:2px solid var(--line);cursor:pointer;padding:0;font:700 11px Mukta,sans-serif;color:#fff;text-shadow:0 1px 3px #000}.sw.on{outline:3px solid var(--gold)}
 .tg{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.tg small{display:block;color:var(--mute);font-size:12px}.tg input{width:22px;height:22px;flex:none}
@@ -87,6 +97,8 @@ html.sq .card,html.sq .btn,html.sq .ic,html.sq .sl,html.sq select,html.sq input,
 html.rm *{animation:none!important;transition:none!important}
 html.hc{--line:#000;--mute:#222}html.hc.dk{--line:#fff;--mute:#ddd}html.hc .card{border-width:2px}
 html.ul a{text-decoration:underline!important;font-weight:700}
+html.cl .card,html.cl .tile{box-shadow:0 8px 22px rgba(0,0,0,.18);border-color:transparent}
+html.co .card,html.co .tile{background:transparent;border:2px solid var(--river)}
 html.big .btn,html.big .ic,html.big nav button,html.big select,html.big input,html.big .opts button{min-height:48px}
 html.cb{--red:#D55E00;--green:#0072B2;--blue:#CC79A7}
 html.cs .card,html.cs .tile{background:color-mix(in srgb,var(--card) 86%,transparent)}
@@ -155,11 +167,32 @@ header{position:relative;z-index:8}header.himg{background-size:cover;background-
 .addb{border-style:dashed!important}
 @keyframes orbup{0%{transform:translateY(0) scale(.8);opacity:0}15%{opacity:.9}100%{transform:translateY(-115vh) scale(1.25);opacity:0}}@keyframes ember{0%{transform:translate(0,0);opacity:0}10%{opacity:1}50%{transform:translate(var(--dx,20px),-55vh)}100%{transform:translate(calc(var(--dx,20px)*-1),-110vh);opacity:0}}@keyframes rip{0%{transform:scale(0);opacity:.7}100%{transform:scale(1);opacity:0}}
 </style>
+<style id="sn-hdr">header{position:relative}.hrow{position:relative;min-height:76px;padding:0 78px;margin:0 -8px}.hic{position:absolute;top:50%;transform:translateY(-50%);width:68px;height:68px;font-size:52px;flex:none}#hl{left:0}#hr{right:0}.hic:empty{display:none}.i-3d{display:inline-block;animation:tilt3d 5s ease-in-out infinite}@keyframes tilt3d{0%,100%{transform:perspective(280px) rotateY(-24deg) rotateX(6deg)}50%{transform:perspective(280px) rotateY(24deg) rotateX(-6deg)}}@media(prefers-reduced-motion:reduce){.i-3d{animation:none}}#hdi{width:100%;min-height:190px;font:12px/1.4 ui-monospace,Consolas,monospace;padding:10px;border-radius:12px;resize:vertical}.hdadd{border:2px dashed var(--line,#9bb);border-radius:16px;padding:14px;margin:12px 0}.hdadd .btn{min-height:52px;font-size:17px}#hdpv{display:flex;align-items:center;justify-content:center;min-height:110px;margin:8px 0}</style>
+<style id="sn-hbn">.hbn{background:var(--hdr);color:var(--hdrink);text-align:center;padding:16px 16px 104px;border-top:1px solid transparent}.hbn:empty{display:none}.hbn>*{max-width:920px;margin-left:auto;margin-right:auto}.hasbn main{padding-bottom:18px}.hbk{display:inline-block;background:#fff;color:#0b3d2e;font-weight:800;font-size:14px;letter-spacing:1px;text-transform:uppercase;padding:6px 18px;border-radius:999px;box-shadow:0 2px 10px #0004;margin:0 auto 8px}.hbk.k-instruction{background:#ffd54a;color:#4a3300}.hbk.k-ad{background:#ffffff}.hbk.k-sponsor{background:#ffe08a;color:#4a3300}.hbn .sl{aspect-ratio:auto;height:auto;min-height:0;max-height:none;display:block;background:var(--card);border:0;box-shadow:0 4px 16px #0003;border-radius:14px}.hbn .sl img{display:block;width:100%;height:auto;max-height:78vh;object-fit:contain;margin:0 auto;background:var(--card)}.hbn .sl .tx{padding:18px 16px;min-height:80px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--ink)}.hbn .sl>.note{display:block;padding:18px}.hbcap{font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;opacity:.9;margin-top:8px}.hbn .sl .cp{position:static;background:transparent;color:var(--mute);padding:8px 12px 10px;font-size:13px}.hbn .dots{margin:8px auto 2px;width:100%;max-width:none;box-sizing:border-box;display:flex;justify-content:center;align-items:center}.hbn .dot{background:#ffffff66}.hbn .dot.on{background:#fff}</style>
+<style id="sn-hbn2">.hbn .sl{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;overflow:visible;width:fit-content;max-width:100%;margin-left:auto;margin-right:auto}.hbn .sl img{width:auto!important;height:auto!important;max-width:100%;max-height:78vh;object-fit:contain;background:transparent!important;border-radius:14px;box-shadow:0 4px 16px #0003}.hbn .sl .tx,.hbn .sl>.note{background:var(--card);border-radius:14px;box-shadow:0 4px 16px #0003;min-width:min(88vw,520px)}.hbn .sl .cp{display:table;margin:10px auto 0;background:var(--card);color:var(--mute);border-radius:999px;padding:7px 18px;box-shadow:0 2px 10px #0003;max-width:100%}</style>
+<style id="sn-nova">
+:root{--hg1:#04222E;--hg2:#0A4A60;--hg3:#0F7A88;--hl:#D63A5A}
+.btn.alt{background:var(--hl);color:#fff}
+.role button.on{background:#fff;border-color:#fff;color:var(--hg2)}
+.tile{background:color-mix(in srgb,var(--river) 9%,var(--card));border-color:color-mix(in srgb,var(--river) 40%,var(--line))}
+.tile .ti{background:var(--river)!important;color:#fff;min-width:46px;min-height:46px;display:flex;align-items:center;justify-content:center;border-radius:12px;padding:4px}
+header:not(.himg){background:radial-gradient(1.6px 1.6px at 9% 34%,#fff,transparent 60%),radial-gradient(1px 1px at 22% 78%,#ffe9b0,transparent 60%),radial-gradient(1.4px 1.4px at 38% 18%,#fff,transparent 60%),radial-gradient(1px 1px at 54% 82%,#fff,transparent 60%),radial-gradient(2px 2px at 71% 24%,#ffe9b0,transparent 60%),radial-gradient(1.2px 1.2px at 86% 70%,#fff,transparent 60%),radial-gradient(1px 1px at 95% 20%,#fff,transparent 60%),linear-gradient(160deg,var(--hg1) 0%,var(--hg2) 55%,var(--hg3) 100%);border-bottom:2px solid #ffd98a55}
+.hbn{background:linear-gradient(200deg,var(--hg3) 0%,var(--hg2) 55%,var(--hg1) 100%)}
+header .hrow h1{font-family:'Dancing Script','Brush Script MT','Segoe Script',cursive;font-weight:600;font-size:clamp(26px,8.4vw,40px);line-height:1.2;letter-spacing:.3px;white-space:nowrap;overflow-wrap:normal;padding:2px 4px 6px;background:linear-gradient(180deg,#fff 20%,#ffe3a3 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 6px #0008)}
+html.fs header .hrow h1{font-family:'Dancing Script',cursive!important}
+.hln{display:flex;align-items:center;gap:8px;max-width:none;margin:3px 64px 4px;color:#ffd98a;font-size:11px;line-height:1}
+.hln i{font-style:normal}.hln::before,.hln::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#ffd98a)}.hln::after{transform:scaleX(-1)}
+header #htag{margin:4px 0 4px;letter-spacing:.4px}
+header .role{margin-top:4px}
+</style>
+
 </head>
 <body><div id="bgl"></div><div id="fx"></div>
 <header>
   <div class="hrow"><span id="hl" class="hic"></span><h1>Swachh Nova</h1><span id="hr" class="hic"></span></div>
+  <div class="hln" aria-hidden="true"><i>✦</i></div>
   <p id="htag">Report waste, clean Ganga</p>
+  <div class="hln" aria-hidden="true"><i>✦</i></div>
   <div class="role" id="roles" role="group" aria-label="Choose role"><button id="r-citizen" onclick="setRole('citizen')">Citizen</button><button id="r-volunteer" onclick="setRole('volunteer')">Volunteer</button></div>
   <div class="who" id="who"></div>
 </header>
@@ -172,6 +205,7 @@ header{position:relative;z-index:8}header.himg{background-size:cover;background-
   <button data-t="profile" onclick="go('profile')"><b>⚙️</b>Settings</button>
 </nav>
 <main id="app"></main>
+<section class="hbn" id="hbn"></section>
 <div id="lbx" onclick="this.style.display='none'"><img alt=""></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
@@ -212,7 +246,7 @@ function qry(c,ord,lim){return{
    cb({docs,empty:!docs.length,docChanges:()=>added.map(d=>({type:'added',doc:d}))})}catch(e){if(!dead&&onErr)onErr(e)}};
   const kick=()=>{clearTimeout(timer);timer=setTimeout(run,120)};
   const ch=sb.channel('rt-'+c+'-'+Math.random().toString(36).slice(2)).on('postgres_changes',{event:'*',schema:'public',table:c},kick).subscribe(s=>{if(s==='SUBSCRIBED')run()});
-  const vis=()=>{if(!document.hidden)run()};document.addEventListener('visibilitychange',vis);const iv=setInterval(vis,20000);run();
+  const vis=()=>{if(!document.hidden)run()};document.addEventListener('visibilitychange',vis);const iv=setInterval(vis,60000);run();
   return()=>{dead=true;clearInterval(iv);clearTimeout(timer);document.removeEventListener('visibilitychange',vis);sb.removeChannel(ch)}}}}
 const dbShim={collection:c=>Object.assign(qry(c,null,0),{doc:id=>dref(c,id),add:async o=>{const {error}=await sb.from(c).insert(toDb(o));if(error)throw error;return{}}})};
 /* ---- login layer ---- */
@@ -311,14 +345,18 @@ function useManual(){const m=($('mlat').value||'').match(/(-?\d{1,3}\.\d+)[,\s]+
 async function submitReport(){
  if(ME.blocked){toast('Your account is blocked by the admin');return}
  if(busy)return;if(!draft.photo){toast('Add a photo of the waste first');return}
- const note=draft.note.trim().slice(0,300)||'Waste reported';busy=true;
+ const note=draft.note.trim().slice(0,300)||'Waste reported';const vn=Math.min(30,Math.max(1,parseInt(draft.vols,10)||1));busy=true;
  try{toast('Uploading...');const url=String(draft.photo).startsWith('data:')?await upPhoto(draft.photo):draft.photo;
-  await db.collection('reports').add({g:draft.g,note,st:'Pending',t:Date.now(),photo:url,after:null,bld:draft.g===0?(draft.bld||null):null,lat:draft.lat,lon:draft.lon,repUid:U.uid,repName:ME.name,byUid:null,byName:null});
+  await db.collection('reports').add({g:draft.g,note,st:'Pending',t:Date.now(),photo:url,after:null,bld:draft.g===0?(draft.bld||null):null,landmark:(draft.landmark||'').trim().slice(0,80)||null,volsNeeded:vn,lat:draft.lat,lon:draft.lon,repUid:U.uid,repName:ME.name,byUid:null,byName:null});
   await log('report',ME.name+' reported waste at '+gh(draft.g).n);
   draft={photo:null,lat:null,lon:null,g:draft.g,note:'',gpsMsg:''};toast('Report sent to the members. You get +10 points after they approve it');try{localStorage.removeItem('ss_draft')}catch(e){}}catch(e){toast(errMsg(e))}
  busy=false;draw()}
 async function takeTask(id){try{const r=rep(id);await db.collection('reports').doc(id).update({st:'Assigned',byUid:U.uid,byName:ME.name});
  await log('accept',ME.name+' accepted the task at '+gh(r.g).n);toast('Task accepted. +5 points')}catch(e){toast(errMsg(e))}}
+async function declineTask(id){if(!confirm('Leave this task? Your 5 points for joining it will be taken back, and other volunteers can take your place.'))return;try{await rpcT('decline_task',{p_id:id});toast('Task declined. 5 points were taken back.')}catch(e){toast(errMsg(e))}}
+async function joinTask(id){try{await rpcT('join_task',{p_id:id});toast('You joined the task. +5 points')}catch(e){toast(errMsg(e))}}
+async function needHelp(id){const r=rep(id);if(!r)return;const v=prompt('How many MORE volunteers do you need? (1 to 20)','1');if(v===null)return;const n=parseInt(v,10);if(!(n>=1&&n<=20)){toast('Type a number from 1 to 20');return}
+ const place=gh(r.g).n+(r.bld&&bName(r.bld)?' ('+bName(r.bld)+')':'');try{await rpcT('need_more_help',{p_id:id,p_more:n,p_place:place});toast('Request sent. Everyone has been notified.')}catch(e){toast(errMsg(e))}}
 async function delReport(id){try{await adm('admin_delete_report',{p_id:id});toast('Report deleted')}catch(e){toast(errMsg(e))}}
 async function reopen(id){try{await adm('admin_reopen_report',{p_id:id});toast('Report reopened')}catch(e){toast(errMsg(e))}}
 const navUrl=r=>'https://www.google.com/maps/dir/?api=1&destination='+(r.lat?r.lat+','+r.lon:encodeURIComponent(gh(r.g).q));
@@ -333,12 +371,14 @@ function vAuth(){const reg=mode==='register';return `${authHero()}<div class="ca
  <button class="btn full" onclick="${reg?'doRegister()':'doLogin()'}">${reg?'Register':'Log in'}</button>
  <div class="acts"><button class="ic" onclick="mode='${reg?'login':'register'}';draw()">${reg?'I already have an account':'Create a new account'}</button>${reg?'':'<button class="ic" onclick="resetPw()">Forgot password</button>'}</div>${reg?'':guestBtn()}</div>`}
 function vReport(){return vUNotes()+vNeedPhoto()+`<div class="card"><h2>Report waste</h2>${fileIn('new',0,'1. Photo of the waste (camera or gallery)')}
- ${draft.photo?`<img class="prev" src="${draft.photo}" alt="Photo preview">`:'<p class="note">A photo is required.</p>'}
+ ${draft.photo?`<img class="prev" src="${draft.photo}" alt="Photo preview" onclick="openImg(this.src)" title="Tap to see the full photo"><p class="note" style="margin:4px 0 0">Tap the photo to see it full size.</p>`:'<p class="note">A photo is required.</p>'}
  <label class="l" for="g">2. Ghat or location</label><select id="g" onchange="draft.g=+this.value;draw()">${GH.map((g,i)=>g.gone?'':`<option value="${i}"${i===draft.g?' selected':''}>${esc(g.n)}</option>`).join('')}</select>${draft.g===0?bldSel():''}
  <div class="acts"><button class="btn" onclick="getGPS()">📍 Add my exact location</button></div>${draft.manual?`<div class="acts" style="margin-top:0"><input type="text" id="mlat" placeholder="25.6205, 85.1730" inputmode="decimal" style="flex:1"><button class="btn" onclick="useManual()">Use these</button></div><p class="note" style="margin-top:0">Open Google Maps, press and hold on your spot, then copy the two numbers shown at the top.</p>`:''}
- <div class="gps" style="margin-top:6px">${draft.gpsMsg||'Optional. With exact location, volunteers get a Google Maps route to the exact spot.'}</div>
+ <div class="gps" style="margin-top:6px">${draft.gpsMsg||'If you add your exact location, it helps us find the spot faster.'}</div>
+ <label class="l" for="lmk">📌 Add a nearby landmark</label><input type="text" id="lmk" maxlength="80" value="${esc(draft.landmark||'')}" oninput="draft.landmark=this.value" placeholder="Example: near the peepal tree, behind Ganga Hostel"><p class="note" style="margin:4px 0 0">A tree, school, hostel or shop nearby helps volunteers recognise the place.</p>
  <label class="l" for="note">3. What kind of waste is it?</label><textarea id="note" rows="2" oninput="draft.note=this.value" placeholder="Example: plastic, puja flowers, drain waste">${esc(draft.note)}</textarea>
- <button class="btn full" onclick="submitReport()">Submit report</button></div><p class="note">A member approves your report first. Then it shows in Status and you earn 10 points.</p>${vBanner()}`}
+ <label class="l" for="vn">4. How many volunteers will be needed to clean this?</label><input type="text" id="vn" inputmode="numeric" maxlength="2" value="${esc(draft.vols==null?'1':String(draft.vols))}" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,2);draft.vols=this.value" placeholder="1"><p class="note" style="margin:4px 0 0">Type a number from 1 to 30. If you are not sure, keep 1. A volunteer or the admin can change it later.</p>
+ <button class="btn full" onclick="submitReport()">Submit report</button></div><p class="note">A member approves your report first. Then it shows in Status and you earn 10 points.</p>`}
 function vMap(){
  const st=GH.map((g,i)=>stats(i)),max=Math.max(1,...st.map(s=>s.p)),T=k=>st.reduce((a,s)=>a+s[k],0);
  const col=p=>p?`hsl(${Math.round(30-22*p/max)} 80% 40%)`:'#2E8B57';
@@ -356,7 +396,7 @@ function card(r){
  if(!vol&&r.st!=='Cleaned')x+='<p class="note">Switch to Volunteer (top) to accept or clean this task.</p>';
  const L=['Reported','Assigned','Cleaned'],i=L.indexOf(r.st);
  return `<div class="card"><div class="row"><b>${esc(gh(r.g).n)}${r.bld&&bName(r.bld)?' · '+esc(bName(r.bld)):''}</b><span class="badge s-${r.st}">${r.st}</span></div>
- <div class="gps">${esc(r.note)} · ${ago(r.t)} · by ${esc(r.repName)}${r.byName?' · cleaner: '+esc(r.byName):''}</div>
+ <div class="gps">${esc(r.note)} · ${ago(r.t)} · by ${esc(r.repName)}${r.byName?' · cleaner: '+esc(r.byName):''}</div>${r.landmark?`<div class="gps">📌 Landmark: ${esc(r.landmark)}</div>`:''}
  <div class="steps">${L.map((s,k)=>`<span class="${k<=i?'done':''}">${s}</span>`).join('')}</div>
  <div class="ba"><figure>${r.photo?`<img src="${r.photo}" alt="Before">`:'<div class="ph"></div>'}Before</figure><figure>${r.after?`<img src="${r.after}" alt="After">`:'<div class="ph"></div>'}After</figure></div>
  <div class="acts">${a}</div>${x}</div>`}
@@ -396,8 +436,17 @@ function vShare(){
  <a class="btn" href="https://wa.me/?text=${t}" target="_blank" rel="noopener">💬 WhatsApp</a>
  <a class="btn" href="https://t.me/share/url?url=${encodeURIComponent(u)}&text=${encodeURIComponent(shareMsg())}" target="_blank" rel="noopener">✈️ Telegram</a>
  <a class="btn" href="mailto:?subject=${encodeURIComponent('Join Swachh Nova')}&body=${t}">✉️ Email</a>
- <button class="btn" onclick="copyLink()">📋 Copy link</button></div>
+ <button class="btn" onclick="copyLink()">📋 Copy link</button>${settings.share_qr?`<button class="btn" onclick="shQR=!shQR;draw()">🔳 QR code</button>`:''}</div>
+ ${settings.share_qr&&shQR?`<div style="text-align:center;margin-top:14px"><img src="${settings.share_qr}" alt="QR code to open Swachh Nova" style="width:min(260px,80%);height:auto;background:#fff;padding:8px;border-radius:14px;border:3px solid var(--gold);image-rendering:pixelated" onclick="openImg(this.src)"><div style="font-weight:800;margin-top:8px">Scan to open Swachh Nova</div><div class="acts" style="justify-content:center"><button class="btn alt" onclick="shareQr()">📤 Share QR code</button></div></div>`:''}
  </div>`}
+let shQR=false;
+function dataToFile(u){const p=u.split(','),m=/:(.*?);/.exec(p[0]),bin=atob(p[1]),a=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return new File([a],'swachh-nova-qr.png',{type:m?m[1]:'image/png'})}
+async function shareQr(){const q=settings.share_qr;if(!q){toast('The admin has not added a QR code yet');return}
+ const txt=shareMsg()+(shareUrl()?' '+shareUrl():'');
+ try{const f=String(q).startsWith('data:')?dataToFile(q):new File([await (await fetch(q)).blob()],'swachh-nova-qr.png',{type:'image/png'});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'Swachh Nova',text:txt});return}}
+ catch(e){if(e&&e.name==='AbortError')return}
+ toast('This browser cannot share the QR picture. Sharing the link instead.');doShare()}
 function vComm(){
  const subs=[['mot','💪 Motivation'],['spo','🤝 Sponsors'],['feed','📰 Activity'],['notice','📌 Notices'],['ads','📢 Ads']];
  return vShare()+`<div class="chips">${subs.map(x=>`<button class="${x[0]===ctab?'on':''}" onclick="ctab='${x[0]}';draw()">${x[1]}</button>`).join('')}</div>`+(ctab==='spo'?vSpons():ctab==='feed'?vFeed():ctab==='notice'?vNoticesL():ctab==='ads'?vAdsL():vMot())}
@@ -408,11 +457,11 @@ function vMot(){
  const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0],zero=GH.filter((g,i)=>!g.gone&&stats(i).p===0).length;
  const pl=localStorage.getItem('ss_pledge')==='1';
  return `<div class="card quote"><div class="note">Today's motivation</div><p>“${esc(q)}”</p></div>
- <div class="card"><h2>🎯 Your weekly challenge</h2><p class="note" style="margin-top:0">Make ${goal} reports or cleanups in 7 days.</p><div class="bar"><i style="width:${Math.min(100,mine/goal*100)}%;background:var(--green)"></i></div><b>${Math.min(mine,goal)} / ${goal}</b>${mine>=goal?' 🎉 Challenge complete!':''}</div>
- <div class="card"><h2>🌟 Top cleaner</h2>${top?`<p style="margin:0"><b>${esc(top[0])}</b> has cleaned ${top[1]} spot${top[1]>1?'s':''}. Can you beat that?</p>`:'<p style="margin:0">No cleanups yet. Be the first volunteer to clean a spot!</p>'}</div>
- <div class="card"><h2>🌊 Our impact</h2><div class="tot"><div><b style="color:var(--green)">${cl.length}</b>Cleanups</div><div><b>${zero}/${GH.filter(g=>!g.gone).length}</b>Spots at 0</div><div><b>${users.length}</b>Members</div></div></div>
- <div class="card"><h2>🙏 Clean Ganga pledge</h2>${pl?'<p style="margin:0">You have taken the pledge. Thank you!</p>':'<p class="note" style="margin-top:0">I will not throw waste in the Ganga, and I will report waste when I see it.</p><button class="btn alt" onclick="pledge()">I take the pledge</button>'}</div>
- <div class="card"><h2>💡 Quick tips</h2><p style="margin:0">Keep puja flowers and plastic separate. Never throw polythene in the river. Carry a cloth bag to the ghat.</p></div>`}
+ <div class="card"><h2>${ico('hc_weekly')} Your weekly challenge</h2><p class="note" style="margin-top:0">Make ${goal} reports or cleanups in 7 days.</p><div class="bar"><i style="width:${Math.min(100,mine/goal*100)}%;background:var(--green)"></i></div><b>${Math.min(mine,goal)} / ${goal}</b>${mine>=goal?' 🎉 Challenge complete!':''}</div>
+ <div class="card"><h2>${ico('hc_top')} Top cleaner</h2>${top?`<p style="margin:0"><b>${esc(top[0])}</b> has cleaned ${top[1]} spot${top[1]>1?'s':''}. Can you beat that?</p>`:'<p style="margin:0">No cleanups yet. Be the first volunteer to clean a spot!</p>'}</div>
+ <div class="card"><h2>${ico('hc_impact')} Our impact</h2><div class="tot"><div><b style="color:var(--green)">${cl.length}</b>Cleanups</div><div><b>${zero}/${GH.filter(g=>!g.gone).length}</b>Spots at 0</div><div><b>${users.length}</b>Members</div></div></div>
+ <div class="card"><h2>${ico('hc_pledge')} Clean Ganga pledge</h2>${pl?'<p style="margin:0">You have taken the pledge. Thank you!</p>':'<p class="note" style="margin-top:0">I will not throw waste in the Ganga, and I will report waste when I see it.</p><button class="btn alt" onclick="pledge()">I take the pledge</button>'}</div>
+ <div class="card"><h2>${ico('hc_tips')} Quick tips</h2><p style="margin:0">Keep puja flowers and plastic separate. Never throw polythene in the river. Carry a cloth bag to the ghat.</p></div>`}
 function pledge(){localStorage.setItem('ss_pledge','1');log('pledge',ME.name+' took the Clean Ganga pledge');toast('Thank you for the pledge!');draw()}
 function sCard(s){const t=tier(s.tier);return `<div class="feed"><i>${t[0]}</i><div><b>${esc(s.name)}</b> <span class="note">${t[1]} · ${s.g>=0&&gh(s.g)?esc(gh(s.g).n):'Any ghat'}</span>${s.msg?`<div class="note">“${esc(s.msg)}”</div>`:''}</div></div>`}
 function vSpons(){
@@ -461,7 +510,17 @@ function vAdmin(){
  ${vSponsorAdmin()}
  <div class="card"><h2>Change admin PIN</h2><input type="password" id="np" inputmode="numeric" placeholder="New PIN (4 to 8 digits)"><div class="acts"><button class="btn" onclick="setPin()">Change PIN</button></div></div>
  <div class="card"><h2>Reset the whole app</h2><p class="note">Deletes every report, photo and activity item for ALL users and sets all points to 0. Accounts stay.</p>${confirmReset?`<div class="acts"><button class="btn red" onclick="doReset()">Yes, erase everything</button><button class="ic" onclick="confirmReset=false;draw()">Cancel</button></div>`:`<div class="acts"><button class="btn red" onclick="confirmReset=true;draw()">Reset app</button></div>`}</div>`}
+let lastDrawTab=null;
 function draw(){
+ const ap=$('app'),y=window.scrollY,hh=ap?ap.offsetHeight:0,same=lastDrawTab===tab,ae=document.activeElement,aid=ae&&ae.id,ss=ae&&ae.selectionStart,se=ae&&ae.selectionEnd;
+ if(ap&&same&&hh)ap.style.minHeight=hh+'px';
+ draw0();
+ lastDrawTab=tab;
+ if(aid&&ap){const e=document.getElementById(aid);if(e&&e!==document.activeElement&&e.focus){try{e.focus({preventScroll:true});if(ss!=null&&e.setSelectionRange)e.setSelectionRange(ss,se)}catch(_){}}}
+ if(same)window.scrollTo(0,y);
+ if(ap)requestAnimationFrame(()=>{ap.style.minHeight='';if(same&&Math.abs(window.scrollY-y)>2)window.scrollTo(0,y)});
+}
+function draw0(){
  const gate=!U||!ME,G=isGuest();renderHdr();
  if(G&&(tab==='admin'||tab==='team'))tab='report';
  $('roles').style.display=(!gate&&!G)?'flex':'none';
@@ -474,11 +533,12 @@ function draw(){
  else if(G&&LOOK&&LOOK.guest===false)h=vGuestOff();
  else if(G&&tab==='profile')h=vGuestSettings();
  else h=({report:vReport,map:vMap,list:vList,board:vBoard,comm:vComm,admin:vAdmin,team:vTeam,profile:vProfile})[tab]();
- $('app').innerHTML=h+(U&&ME&&['map','list','board','comm'].includes(tab)?vBanner():'');startBanner();enhanceSelects()}
+ $('app').innerHTML=h;hdrBanner();enhanceSelects()}
+function hdrBanner(){const hb=$('hbn');if(!hb)return;const on=!!(((U&&ME)||(typeof G!=='undefined'&&G))&&['report','map','list','board','comm'].includes(tab));document.body.classList.toggle('hasbn',on);if(!on){if(hb.firstChild){hb.innerHTML='';clearInterval(bt)}return}if(!$('bn'))hb.innerHTML=vBanner();startBanner()}
 
 /* ---------- Swach Nova additions ---------- */
 function vRealMap(){const g=gh(mapG);return `<div class="card"><h2>Map</h2><div class="acts" style="margin-top:0"><select onchange="mapG=+this.value;draw()" style="flex:1">${GH.map((x,i)=>x.gone?'':`<option value="${i}"${i===mapG?' selected':''}>${esc(x.n)}</option>`).join('')}</select><button class="btn${mapT==='m'?'':' alt'}" onclick="mapT='m';draw()">Map</button><button class="btn${mapT==='k'?'':' alt'}" onclick="mapT='k';draw()">Satellite</button></div><iframe title="Map" style="width:100%;height:280px;border:0;border-radius:10px;margin-top:8px" loading="lazy" src="https://www.google.com/maps?q=${encodeURIComponent(g.q)}&t=${mapT}&z=16&output=embed"></iframe></div>`}
-function slides(){return notices.slice(0,6).map(n=>({img:n.img,t:n.text,l:'',c:'Notice'})).concat(ads.slice(0,6).map(a=>({img:a.img,t:a.name,l:a.link,c:'Ad · '+a.name}))).concat(sponsors.filter(x=>x.status==='approved').slice(0,6).map(x=>({img:null,t:'🤝 '+x.name+(x.msg?' · '+x.msg:''),l:'',c:tier(x.tier)[1]+' sponsor'})))}
+function slides(){return notices.slice(0,6).map(n=>({img:n.img,t:n.text,l:'',c:'Notice'})).concat(ads.slice(0,6).map(a=>({img:a.img,t:a.name,l:a.link,c:'Ad · '+a.name,k:'Ad'}))).concat(sponsors.filter(x=>x.status==='approved').slice(0,6).map(x=>({img:null,t:'🤝 '+x.name+(x.msg?' · '+x.msg:''),l:'',c:tier(x.tier)[1]+' sponsor'})))}
 function vBanner(){return '<div class="note" style="margin:6px 2px 4px;font-weight:700;letter-spacing:.6px;text-transform:uppercase">Ad · Notice · Sponsor</div><div class="sl" id="bn"><span class="note">Ads and notices appear here</span></div>'}
 function startBanner(){clearInterval(bt);const it=slides(),e=$('bn');if(!e||!it.length)return;const show=()=>{const el=$('bn');if(!el)return;const x=it[bi%it.length];bi++;
  el.innerHTML=(x.img?`<img src="${x.img}" alt="" onclick="openImg(this.src)">`:`<div class="tx">${esc(x.t)}</div>`)+`<div class="cp">${esc(x.c)}${x.l?` · <a href="${esc(x.l)}" target="_blank" rel="noopener" style="color:#fff">Visit</a>`:''}</div>`};show();if(it.length>1)bt=setInterval(show,4000)}
@@ -487,20 +547,22 @@ async function rmPhoto(id,w){try{await rpcT('remove_photo',{p_id:id,p_which:w});
 async function flagUser(){try{await rpcT('report_user',{p_uid:$('fu').value,p_reason:$('fr').value});$('fr').value='';toast('Sent to the admin')}catch(e){toast(errMsg(e))}}
 async function blockU(id,v){try{await rpcT('set_blocked',{p_uid:id,p_val:v});toast(v?'User blocked':'User unblocked')}catch(e){toast(errMsg(e))}}
 function card(r){
- const vol=isVol(),mem=isMem(),own=r.repUid===U.uid,cl=r.byUid===U.uid,pend=r.st==='Pending'||r.st==='Review';let a=`<a class="btn" href="${navUrl(r)}" target="_blank" rel="noopener">🧭 Navigate in Google Maps</a>`,x='';
+ const vol=isVol(),mem=isMem(),own=r.repUid===U.uid,cl=r.byUid===U.uid,pend=r.st==='Pending'||r.st==='Review',lockB=r.st==='Assigned'||r.st==='Cleaned',lockA=!!r.done,V=Array.isArray(r.vols)?r.vols:[],need=r.volsNeeded||1,inT=!!U&&(r.byUid===U.uid||V.some(v=>v.uid===U.uid));let a=`<a class="btn" href="${navUrl(r)}" target="_blank" rel="noopener">🧭 Navigate in Google Maps</a>`,x='';
  if(!pend&&vol&&r.st==='Reported')a+=`<button class="btn alt" onclick="takeTask('${r.id}')">Accept task</button>`;
+ if(r.st==='Assigned'&&inT&&!r.done)a+=`<button class="ic" onclick="needHelp('${r.id}')">🙋 Need more help</button><button class="ic" onclick="declineTask('${r.id}')">↩️ Decline task</button>`;
+ if(r.st==='Assigned'&&vol&&!inT&&!r.done){if(V.length<need)a+=`<button class="btn alt" onclick="joinTask('${r.id}')">🤝 Join this task</button>`;else x+='<p class="note">Team full. All needed volunteers have joined.</p>'}
  if(pend&&mem)a+=`<button class="btn" onclick="review('${r.id}',true)">✅ Approve</button><button class="btn red" onclick="review('${r.id}',false)">❌ Decline</button>`;
  if(pend&&!mem)x+=`<p class="note">${r.st==='Review'?'An admin is reviewing this report.':'Waiting for a member to approve. Then everyone can see it.'}</p>`;
- if(r.photo&&(own||mem))a+=`<button class="ic" onclick="rmPhoto('${r.id}','photo')">${own?'🗑 Remove photo (cancels my report)':'🗑 Remove photo (user must add a new one)'}</button>`;
- if(r.after&&(cl||mem))a+=`<button class="ic" onclick="rmPhoto('${r.id}','after')">🗑 Remove after photo</button>`;
+ if(r.photo&&(own||isAdm())&&!lockB)a+=`<button class="ic" onclick="rmPhoto('${r.id}','photo')">${own?'🗑 Remove photo (cancels my report)':'🗑 Remove photo (user must add a new one)'}</button>`;
+ if(r.after&&(cl||isAdm())&&!lockA)a+=`<button class="ic" onclick="rmPhoto('${r.id}','after')">🗑 Remove after photo</button>`;
  if(!r.photo)x+=fileIn('before',r.id,'Add before photo');
- else if(own||mem)x+=fileIn('replace',r.id,'Edit: replace before photo');
- if(r.after&&(cl||mem))x+=fileIn('replacea',r.id,'Edit: replace after photo');
- if(!pend&&vol&&r.st==='Assigned')x+=fileIn('after',r.id,'Upload after photo (marks the task as cleaned)');
+ else if((own||isAdm())&&!lockB)x+=fileIn('replace',r.id,'Edit: replace before photo');
+ if(r.after&&(cl||isAdm())&&!lockA)x+=fileIn('replacea',r.id,'Edit: replace after photo');
+ if(!pend&&vol&&r.st==='Assigned'&&inT)x+=fileIn('after',r.id,'Upload after photo (marks the task as cleaned)');
  if(!pend&&!vol&&r.st!=='Cleaned')x+='<p class="note">Switch to Volunteer (top) to accept or clean this task.</p>';
  const L=['Reported','Assigned','Cleaned'],i=L.indexOf(r.st);
  return `<div class="card"><div class="row"><b>${esc(gh(r.g).n)}${r.bld&&bName(r.bld)?' · '+esc(bName(r.bld)):''}</b><span class="badge s-${r.st}">${r.st==='Review'?'Admin review':r.st}</span></div>
- <div class="gps">${esc(r.note)} · ${ago(r.t)} · by ${esc(r.repName)}${r.byName?' · cleaner: '+esc(r.byName):''}</div>
+ <div class="gps">${esc(r.note)} · ${ago(r.t)} · by ${esc(r.repName)}${r.byName?' · cleaner: '+esc(V.length>1?V.map(v=>v.name).join(', '):r.byName):''}</div>${(r.st==='Assigned'||(r.st==='Reported'&&need>1))?`<div class="gps">👥 Volunteers: ${V.length} joined / ${need} needed${V.length?' · '+esc(V.map(v=>v.name).join(', ')):''}</div>`:''}${r.landmark?`<div class="gps">📌 Landmark: ${esc(r.landmark)}</div>`:''}
  <div class="steps">${L.map((s,k)=>`<span class="${k<=i?'done':''}">${s}</span>`).join('')}</div>
  <div class="ba"><figure>${r.photo?`<img src="${r.photo}" alt="Before" onclick="openImg(this.src)">`:'<div class="ph"></div>'}Before</figure><figure>${r.after?`<img src="${r.after}" alt="After" onclick="openImg(this.src)">`:'<div class="ph"></div>'}After</figure></div>
  <div class="acts">${a}</div>${x}</div>`}
@@ -599,7 +661,7 @@ async function delMine(id){try{await rpcT('delete_own_report',{p_id:id});reports
 const pendN=()=>reports.filter(r=>r.st==='Pending'&&r.photo).length;
 async function rmPhoto(id,w){try{const r=rep(id),mine=!!r&&r.repUid===U.uid;await rpcT('remove_photo',{p_id:id,p_which:w});
  if(w==='after'){if(r){r.after=null;r.st='Assigned'}toast('After photo removed. The task is open again.')}
- else if(mine&&r){reports=reports.filter(x=>x.id!==id);draft={photo:null,lat:r.lat,lon:r.lon,g:r.g,bld:r.bld||null,note:r.note,gpsMsg:''};try{localStorage.setItem('ss_draft',JSON.stringify({g:r.g,bld:r.bld||null,note:r.note,lat:r.lat,lon:r.lon}))}catch(e){}tab='report';toast('Photo removed. Add a new photo to send the report again. Otherwise it stays cancelled.')}
+ else if(mine&&r){reports=reports.filter(x=>x.id!==id);draft={photo:null,lat:r.lat,lon:r.lon,g:r.g,bld:r.bld||null,note:r.note,vols:String(r.volsNeeded||1),gpsMsg:''};try{localStorage.setItem('ss_draft',JSON.stringify({g:r.g,bld:r.bld||null,note:r.note,lat:r.lat,lon:r.lon}))}catch(e){}tab='report';toast('Photo removed. Add a new photo to send the report again. Otherwise it stays cancelled.')}
  else{if(r){r.photo=null;r.after=null;r.st='Pending'}toast('Photo removed. The user has been asked to add a new one.')}
  draw()}catch(e){toast(errMsg(e))}}
 /* ---------- admin page ---------- */
@@ -612,10 +674,17 @@ function vLocAdmin(){const live=locs.filter(l=>!l.removed);
  return `<div class="card"><h2>Locations</h2><p class="note" style="margin-top:0">Locations you add show in the Google map selector and in the report form.</p><label class="l" for="ln">Name</label><input type="text" id="ln" maxlength="40" value="${esc(ld.n)}" oninput="ld.n=this.value"><label class="l" for="lq">Place name or coordinates (optional)</label><input type="text" id="lq" maxlength="100" placeholder="Example: 25.6205, 85.1730" value="${esc(ld.q)}" oninput="ld.q=this.value"><button class="btn full" onclick="addLoc()">Add location</button>
  ${live.length?`<p class="note" style="margin-top:12px">Added by you</p>${live.map(l=>`<div class="lb"><span class="nm">${esc(l.name)}</span><button class="ic" onclick="rmLoc(${l.idx})">Remove</button></div>`).join('')}`:''}</div>`}
 async function rmLoc(i){if(!confirm('Remove this location? Old reports keep its name.'))return;try{await rpcT('adm_remove_location',{p_idx:i});toast('Location removed')}catch(e){toast(errMsg(e))}}
+let vEdit={};
 function vReportsAdmin(){const rs=reports.slice(0,40);
- return `<div class="card"><h2>All reports</h2><p class="note" style="margin-top:0">Delete a wrong report, or reopen a cleaned one.</p>${rs.length?rs.map(r=>`<div class="lb"><span class="nm"><b>${esc(gh(r.g).n)}</b> · ${esc(r.st)}${r.photo?'':' · needs photo'}<div class="note">${esc(r.note)} · by ${esc(r.repName)} · ${ago(r.t)}</div></span>${r.photo?`<img src="${r.photo}" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px" onclick="openImg(this.src)">`:''}${r.st==='Cleaned'?`<button class="ic" onclick="reopenR('${r.id}')">Reopen</button>`:''}<button class="ic" onclick="delR('${r.id}')">Delete</button></div>`).join(''):'<p class="note">No reports.</p>'}</div>`}
+ const row=r=>{const ed=vEdit[r.id]!==undefined,V=Array.isArray(r.vols)?r.vols:[];
+  return `<div style="border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px"><div class="lb" style="border-bottom:0;padding:0"><span class="nm"><b>${esc(gh(r.g).n)}</b> · ${esc(r.st)}${r.done?' · Done':''}${r.photo?'':' · needs photo'}<div class="note">${esc(r.note)} · by ${esc(r.repName)} · ${ago(r.t)}</div></span>${r.photo?`<img src="${r.photo}" alt="" style="width:60px;height:60px;object-fit:cover;border-radius:10px" onclick="openImg(this.src)">`:''}${r.st==='Cleaned'?`<button class="ic" onclick="reopenR('${r.id}')">Reopen</button>`:''}${r.st==='Cleaned'&&!r.done?`<button class="ic" onclick="doneR('${r.id}')">Done</button>`:''}<button class="ic" onclick="delR('${r.id}')">Delete</button></div>
+  <div class="lb" style="border-bottom:0;padding:8px 0 0;margin-top:8px;border-top:1px dashed var(--line)"><span class="nm">Number of volunteers required: ${ed?`<input type="text" inputmode="numeric" maxlength="2" value="${esc(vEdit[r.id])}" style="width:64px" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,2);vEdit['${r.id}']=this.value" aria-label="Volunteers required">`:`<b>${r.volsNeeded||1}</b>`}<span class="note"> · ${V.length} joined</span></span><button class="ic" title="Edit" aria-label="Edit number of volunteers" onclick="editVN('${r.id}')">✏️</button>${ed?`<button class="btn" onclick="saveVN('${r.id}')">Save</button>`:''}</div></div>`};
+ return `<div class="card"><h2>All reports</h2><p class="note" style="margin-top:0">Delete a wrong report, reopen a cleaned one, or press Done to lock a fully cleaned one. Use the pencil to change how many volunteers are needed.</p>${rs.length?rs.map(row).join(''):'<p class="note">No reports.</p>'}</div>`}
+function editVN(id){const r=rep(id);if(vEdit[id]!==undefined)delete vEdit[id];else vEdit[id]=String((r&&r.volsNeeded)||1);draw()}
+async function saveVN(id){const n=parseInt(vEdit[id],10);if(!(n>=1&&n<=30)){toast('Type a number from 1 to 30');return}try{await rpcT('set_vols_needed',{p_id:id,p_n:n});const r=rep(id);if(r)r.volsNeeded=n;delete vEdit[id];toast('Saved');draw()}catch(e){toast(errMsg(e))}}
 async function delR(id){if(!confirm('Delete this report for good?'))return;try{await rpcT('admin_delete_report',{p_id:id});reports=reports.filter(x=>x.id!==id);toast('Report deleted');draw()}catch(e){toast(errMsg(e))}}
-async function reopenR(id){try{await rpcT('admin_reopen_report',{p_id:id});toast('Report reopened')}catch(e){toast(errMsg(e))}}
+async function doneR(id){if(!confirm('Mark this report as Done? Photo edit and remove options will be hidden for everyone.'))return;try{await rpcT('admin_mark_done',{p_id:id});const r=rep(id);if(r)r.done=true;toast('Marked as done');draw()}catch(e){toast(errMsg(e))}}
+async function reopenR(id){try{await rpcT('admin_reopen_report',{p_id:id});const r0=rep(id);if(r0)r0.done=false;toast('Report reopened')}catch(e){toast(errMsg(e))}}
 function vBlockAdmin(){const bl=users.filter(u=>u.blocked);
  return `<div class="card"><h2>Reported users</h2>${flags.length?flags.map(f=>{const u=users.find(x=>x.id===f.target);return `<div class="lb"><span class="nm"><b>${esc(u?u.name:'Removed user')}</b>${u&&u.blocked?' · blocked':''}<div class="note">${esc(f.reason)} · by ${esc(f.byName)} · ${ago(f.t)}</div></span>${flagBtns(u,f.id)}</div>`}).join(''):'<p class="note">No reports.</p>'}${bl.length?`<p class="note" style="margin-top:12px">Blocked users</p>${bl.map(u=>`<div class="lb"><span class="nm">${esc(u.name)}</span><button class="ic" onclick="blockU('${u.id}',false)">Unblock</button></div>`).join('')}`:''}</div>`}
 function vAdmin(){if(!isAdm())return vProfile();
@@ -641,7 +710,18 @@ function vProfile(){const acc=ME.access,pend=ME.pendingAccess==='member',w=pendN
  :`<label class="l" for="ae">Email</label><input type="email" id="ae" value="${esc(U.email||'')}"><label class="l" for="ap">Phone</label><input type="text" id="ap" maxlength="15" inputmode="tel" value="${esc(phoneOf(U.uid))}"><label class="l" for="apw">Admin password</label><input type="password" id="apw" maxlength="30" autocomplete="off"><button class="btn full" onclick="reqAccess('admin')">Open admin section</button>`}</div>${vGuide()}${vContact()}`}
 async function reqAccess(k){try{if(k==='member')await rpcT('request_access',{p_kind:'member',p_code:$('mpw').value,p_phone:'',p_email:''});else await rpcT('request_access',{p_kind:'admin',p_code:$('apw').value,p_phone:$('ap').value.trim(),p_email:$('ae').value.trim()});
  if(k==='admin'){await loadEff();toast('Admin section unlocked');go('admin')}else toast('Request sent to the admins')}catch(e){toast(errMsg(e))}}
-function vShareAdmin(){return `<div class="card"><h2>Share link</h2><p class="note" style="margin-top:0">This is the link people get when they share the app. Sharing stays switched off until you add a link.</p><input type="text" id="shu" maxlength="200" placeholder="https://your-site.netlify.app" value="${esc(settings.share_url||'')}"><div class="acts"><button class="btn" onclick="saveShareUrl()">Save link</button></div><p class="note">Sharing now: ${esc(shareUrl()||'nothing (no link added)')}</p></div>`}
+function vShareAdmin(){return `<div class="card"><h2>Share link</h2><p class="note" style="margin-top:0">This is the link people get when they share the app. Sharing stays switched off until you add a link.</p><input type="text" id="shu" maxlength="200" placeholder="https://your-site.netlify.app" value="${esc(settings.share_url||'')}"><div class="acts"><button class="btn" onclick="saveShareUrl()">Save link</button></div><p class="note">Sharing now: ${esc(shareUrl()||'nothing (no link added)')}</p>
+ <h2 style="margin-top:16px">QR code</h2><p class="note" style="margin-top:0">Upload a clear picture of your QR code (only the QR, on a white background). People will see it in Share Swachh Nova. If you change the link above, make a new QR code and upload it here again.</p>
+ ${settings.share_qr?`<img src="${settings.share_qr}" alt="Current QR code" style="width:min(200px,70%);height:auto;background:#fff;padding:8px;border-radius:12px;border:2px solid var(--line);display:block;margin:6px 0" onclick="openImg(this.src)">`:'<p class="note">No QR code added yet. The QR button stays hidden until you add one.</p>'}
+ <div class="acts"><label class="btn alt" style="cursor:pointer">${settings.share_qr?'Change QR code':'Add QR code'}<input type="file" accept="image/*" style="display:none" onchange="onShareQr(this)"></label>${settings.share_qr?`<button class="ic" onclick="rmShareQr()">Remove QR code</button>`:''}</div></div>`}
+function qrClean(file,cb){const fr=new FileReader();fr.onerror=()=>cb(null);fr.onload=()=>{const im=new Image();im.onerror=()=>cb(null);im.onload=()=>{try{
+ const W=im.naturalWidth,H=im.naturalHeight,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(im,0,0);
+ const d=g.getImageData(0,0,W,H).data;let x0=W,y0=H,x1=-1,y1=-1;
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=(y*W+x)*4;if(d[i]>=245&&d[i+1]>=245&&d[i+2]>=245){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}}
+ let sx=0,sy=0,sw=W,sh=H;if(x1-x0>=100&&y1-y0>=100){sx=x0;sy=y0;sw=x1-x0+1;sh=y1-y0+1}
+ const k=Math.min(1,480/Math.max(sw,sh)),o=document.createElement('canvas');o.width=Math.max(1,Math.round(sw*k));o.height=Math.max(1,Math.round(sh*k));const q=o.getContext('2d');q.imageSmoothingEnabled=false;q.drawImage(c,sx,sy,sw,sh,0,0,o.width,o.height);cb(o.toDataURL('image/png'))}catch(e){cb(null)}};im.src=fr.result};fr.readAsDataURL(file)}
+function onShareQr(t){const f=t.files&&t.files[0];if(!f)return;toast('Processing QR code...');qrClean(f,async u=>{if(!u){toast('Could not read this picture');return}try{await rpcT('adm_set_share_qr',{p_img:u});settings.share_qr=u;toast('QR code saved');draw()}catch(e){toast(errMsg(e))}});t.value=''}
+async function rmShareQr(){if(!confirm('Remove the QR code?'))return;try{await rpcT('adm_set_share_qr',{p_img:''});delete settings.share_qr;shQR=false;toast('QR code removed');draw()}catch(e){toast(errMsg(e))}}
 async function saveShareUrl(){try{await rpcT('adm_set_share_url',{p_url:$('shu').value.trim()});toast('Share link saved')}catch(e){toast(errMsg(e))}}
 function vMembersAdmin(){const pool=users.filter(u=>u.access==='user'&&!u.blocked);
  return `<div class="card"><h2>Add a member</h2>${pool.length?`<div class="acts" style="margin-top:0"><select id="am" style="flex:1">${pool.map(u=>`<option value="${u.id}">${esc(u.name)}</option>`).join('')}</select><button class="btn" onclick="addMemberNow()">Make member</button></div>`:'<p class="note" style="margin-top:0">Everyone is already a member or admin.</p>'}<p class="note">To remove a member, use Remove in the Members list above.</p></div>`}
@@ -698,18 +778,18 @@ const BGDEF={mode:'preset',preset:'',color:'#EAF2F1',pat:'none',fx:'none',cnt:'n
 const _sv=LS.get('sn_bg',null);let BG=Object.assign({},BGDEF,_sv||{});if(_sv&&_sv.own===undefined)BG.own=true;
 let bgImg='';try{bgImg=localStorage.getItem('sn_bgimg')||''}catch(e){}
 let sset='',ahub='',lkd={bg:'',ac:''};
-const PRESETS={default:null,dawn:'linear-gradient(160deg,#ffe0b2,#ffb7c5 55%,#b3d4ff)',aarti:'linear-gradient(170deg,#ffb347,#e8590c 55%,#6b1d00)',monsoon:'linear-gradient(170deg,#cfd8dc,#78909c 60%,#37474f)',lotus:'linear-gradient(160deg,#fde2ee,#f6a5c8 60%,#c8a2e8)',forest:'linear-gradient(170deg,#d7f0d2,#5fa86b 60%,#1f4d36)',ocean:'linear-gradient(170deg,#c9f1ff,#4cb5e8 55%,#14507a)',dusk:'linear-gradient(170deg,#ffd6a5,#c77dff 55%,#2b1b5c)',midnight:'linear-gradient(170deg,#1b2a4a,#0e1730 70%,#050a18)',sand:'linear-gradient(170deg,#fff3d6,#f1d9a5 60%,#d8b774)',mint:'linear-gradient(160deg,#e6fff6,#a7f0d4 60%,#6fd3b0)',white:'linear-gradient(#fff,#fff)',aurora:'linear-gradient(120deg,#0f2027,#2c7a7b,#6fd3b0,#7b5ea7,#0f2027)',gangaflow:'linear-gradient(120deg,#c9f1ff,#4cb5e8,#14507a,#6fd3b0,#c9f1ff)',sunrise:'linear-gradient(120deg,#ffd6a5,#ff9a76,#ff6f91,#c77dff,#ffd6a5)'};const ANIM=['aurora','gangaflow','sunrise'];
-const PL=[['white','White'],['dawn','Dawn'],['aarti','Aarti'],['monsoon','Monsoon'],['lotus','Lotus'],['forest','Forest'],['ocean','Ocean'],['dusk','Dusk'],['midnight','Midnight'],['sand','Sand'],['mint','Mint'],['aurora','Aurora ✨'],['gangaflow','Ganga flow ✨'],['sunrise','Sunrise ✨']];
-const ACC=[['','Default'],['#0E4D64','Teal'],['#1F6B45','Green'],['#5B3A8C','Purple'],['#8C2F39','Maroon'],['#1F3A8A','Navy'],['#A04A00','Amber'],['#374151','Slate'],['#A12B6B','Rose']];
+const PRESETS={default:null,dawn:'linear-gradient(160deg,#ffe0b2,#ffb7c5 55%,#b3d4ff)',aarti:'linear-gradient(170deg,#ffb347,#e8590c 55%,#6b1d00)',monsoon:'linear-gradient(170deg,#cfd8dc,#78909c 60%,#37474f)',lotus:'linear-gradient(160deg,#fde2ee,#f6a5c8 60%,#c8a2e8)',forest:'linear-gradient(170deg,#d7f0d2,#5fa86b 60%,#1f4d36)',ocean:'linear-gradient(170deg,#c9f1ff,#4cb5e8 55%,#14507a)',dusk:'linear-gradient(170deg,#ffd6a5,#c77dff 55%,#2b1b5c)',midnight:'linear-gradient(170deg,#1b2a4a,#0e1730 70%,#050a18)',sand:'linear-gradient(170deg,#fff3d6,#f1d9a5 60%,#d8b774)',mint:'linear-gradient(160deg,#e6fff6,#a7f0d4 60%,#6fd3b0)',white:'linear-gradient(#fff,#fff)',aurora:'linear-gradient(120deg,#0f2027,#2c7a7b,#6fd3b0,#7b5ea7,#0f2027)',gangaflow:'linear-gradient(120deg,#c9f1ff,#4cb5e8,#14507a,#6fd3b0,#c9f1ff)',sunrise:'linear-gradient(120deg,#ffd6a5,#ff9a76,#ff6f91,#c77dff,#ffd6a5)',nova:'linear-gradient(165deg,#EAF7F6 0%,#CFEDEF 40%,#BDE3EA 72%,#E6F7F1 100%)'};const ANIM=['aurora','gangaflow','sunrise'];
+const PL=[['white','White'],['dawn','Dawn'],['aarti','Aarti'],['monsoon','Monsoon'],['lotus','Lotus'],['forest','Forest'],['ocean','Ocean'],['dusk','Dusk'],['midnight','Midnight'],['sand','Sand'],['mint','Mint'],['aurora','Aurora ✨'],['gangaflow','Ganga flow ✨'],['sunrise','Sunrise ✨'],['nova','Nova ✨']];
+const ACC=[['','Default'],['#0E4D64','Teal'],['#1F6B45','Green'],['#5B3A8C','Purple'],['#8C2F39','Maroon'],['#1F3A8A','Navy'],['#A04A00','Amber'],['#374151','Slate'],['#A12B6B','Rose'],['#B3261E','Red'],['#C2410C','Orange'],['#B7791F','Gold'],['#4D7C0F','Olive'],['#0F766E','Sea green'],['#0369A1','Sky'],['#4338CA','Indigo'],['#7E22CE','Violet'],['#BE185D','Pink'],['#78350F','Brown'],['#111827','Black']];
 const FXE={petals:['🌸','fall'],leaves:['🍃','fall'],rain:['💧','fall'],diyas:['🪔','rise'],bubbles:['🫧','rise'],stars:['✨','tw'],clouds:['☁️','sail'],river:['🌊','sail'],fireflies:['●','ff']};
 function applyPrefs(){const h=document.documentElement,c=h.classList;
  if(PR.theme==='auto')h.removeAttribute('data-theme');else h.setAttribute('data-theme',PR.theme);
  const dk=isDark();c.toggle('dk',dk);
- ['t2','t3','fr','fs','d1','d3','sq','rm','hc','ul','big','cb','cs','cg'].forEach(x=>c.remove(x));
+ ['t2','t3','fr','fs','d1','d3','sq','rm','hc','ul','big','cb','cs','cg','cl','co'].forEach(x=>c.remove(x));
  if(PR.size==='l')c.add('t2');if(PR.size==='x')c.add('t3');if(PR.font==='r')c.add('fr');if(PR.font==='s')c.add('fs');
  if(PR.dens==='c')c.add('d1');if(PR.dens==='r')c.add('d3');if(PR.round==='s')c.add('sq');
  if(PR.rm)c.add('rm');if(PR.hc)c.add('hc');if(PR.ul)c.add('ul');if(PR.big)c.add('big');if(PR.cb)c.add('cb');
- {const E=bgNow();if(E.card==='soft')c.add('cs');if(E.card==='glass')c.add('cg')}
+ {const E=bgNow();if(E.card==='soft')c.add('cs');if(E.card==='glass')c.add('cg');if(E.card==='lift')c.add('cl');if(E.card==='line')c.add('co')}
  h.setAttribute('data-pe',PR.pe);h.style.setProperty('--mw',{m:'480px',a:'680px',d:'940px'}[PR.lay]||'680px');
  const ac=settings.look_accent;if(ac&&!dk)h.style.setProperty('--river',ac);else h.style.removeProperty('--river');
  applyBg()}
@@ -777,12 +857,12 @@ function vBgPage(){const pid=BG.preset||settings.look_bg||'default';
  ${BG.mode==='preset'?`<div class="opts">${PL.filter(x=>!isOff('preset:'+x[0])).map(x=>`<button class="sw ${pid===x[0]?'on':''}" style="background:${PRESETS[x[0]]||'var(--bg)'};${['white','sand','mint','dawn'].includes(x[0])?'color:#10242B;text-shadow:none':''}" onclick="setB({mode:'preset',preset:'${x[0]}'})">${x[1]}</button>`).join('')}${themeTiles('me')}</div>`:''}
  ${BG.mode==='color'?`<input type="color" value="${BG.color}" style="width:100%;height:46px;border:0;background:none" oninput="BG.color=this.value;BG.own=true;LS.set('sn_bg',BG);applyBg()">`:''}
  ${BG.mode==='photo'?`<label class="fi"><span>Choose a photo (it stays on this device)</span><input class="file" type="file" accept="image/*" onchange="onBgPhoto(this)"></label>${bgImg?'':'<p class="note">No photo chosen yet.</p>'}`:''}
- <b>Pattern</b><div class="opts">${bopt('pat','none','None')}${bopt('pat','dots','Dots')}${bopt('pat','grid','Grid')}${bopt('pat','waves','Waves')}${bopt('pat','lines','Lines')}${bopt('pat','diag','Diagonal')}${bopt('pat','rings','Rings')}${bopt('pat','diamond','Diamonds')}${bopt('pat','starfield','Starfield')}${customPatBtns()}</div>
- <b>Floating effect</b><div class="opts">${bopt('fx','none','None')}${bopt('fx','petals','🌸 Petals')}${bopt('fx','leaves','🍃 Leaves')}${bopt('fx','diyas','🪔 Diyas')}${bopt('fx','bubbles','🫧 Bubbles')}${bopt('fx','stars','✨ Stars')}${bopt('fx','rain','💧 Rain')}${bopt('fx','clouds','☁️ Clouds')}${bopt('fx','fireflies','🟡 Fireflies')}${bopt('fx','river','🌊 River')}${bopt('fx','orbs','🔮 Glow orbs')}${bopt('fx','embers','🔥 Embers')}${bopt('fx','ripples','💠 Ripples')}${bopt('fx','mist','🌫️ Mist')}${bopt('fx','snow','❄️ Snow')}${bopt('fx','sparkle','✦ Sparkle')}${customFxBtns()}</div>
+ <b>Pattern</b><div class="opts">${bopt('pat','none','None')}${bopt('pat','dots','Dots')}${bopt('pat','grid','Grid')}${bopt('pat','waves','Waves')}${bopt('pat','lines','Lines')}${bopt('pat','diag','Diagonal')}${bopt('pat','rings','Rings')}${bopt('pat','diamond','Diamonds')}${bopt('pat','starfield','Starfield')}${bopt('pat','stripes','Stripes')}${bopt('pat','polka','Polka')}${bopt('pat','plaid','Plaid')}${bopt('pat','zigzag','Zigzag')}${bopt('pat','scales','Scales')}${bopt('pat','triangles','Triangles')}${bopt('pat','bricks','Bricks')}${bopt('pat','crosses','Crosses')}${customPatBtns()}</div>
+ <b>Floating effect</b><div class="opts">${bopt('fx','none','None')}${bopt('fx','petals','🌸 Petals')}${bopt('fx','leaves','🍃 Leaves')}${bopt('fx','diyas','🪔 Diyas')}${bopt('fx','bubbles','🫧 Bubbles')}${bopt('fx','stars','✨ Stars')}${bopt('fx','rain','💧 Rain')}${bopt('fx','clouds','☁️ Clouds')}${bopt('fx','fireflies','🟡 Fireflies')}${bopt('fx','river','🌊 River')}${bopt('fx','orbs','🔮 Glow orbs')}${bopt('fx','embers','🔥 Embers')}${bopt('fx','ripples','💠 Ripples')}${bopt('fx','mist','🌫️ Mist')}${bopt('fx','snow','❄️ Snow')}${bopt('fx','sparkle','✦ Sparkle')}${bopt('fx','marigold','🌼 Marigolds')}${bopt('fx','butterflies','🦋 Butterflies')}${bopt('fx','birds','🕊️ Birds')}${bopt('fx','fish','🐟 Fish')}${bopt('fx','boats','⛵ Boats')}${bopt('fx','lanterns','🏮 Lanterns')}${bopt('fx','hearts','💚 Green hearts')}${bopt('fx','lotus','🪷 Lotus')}${bopt('fx','confetti','🎉 Confetti')}${bopt('fx','suns','🌞 Sun glow')}${bopt('fx','moons','🌙 Moons')}${bopt('fx','rainbow','🌈 Rainbows')}${customFxBtns()}</div>
  <b>How many</b><div class="opts">${bopt('cnt','f','Few')}${bopt('cnt','n','Normal')}${bopt('cnt','m','Many')}</div>
  <b>Motion speed</b><div class="opts">${bopt('spd','c','Calm')}${bopt('spd','n','Normal')}${bopt('spd','l','Lively')}</div>
  <b>Dim the background</b><input type="range" min="0" max="70" value="${BG.dim}" style="width:100%" oninput="BG.dim=+this.value;BG.own=true;LS.set('sn_bg',BG);applyBg()">
- <b>Card look</b><div class="opts">${bopt('card','solid','Solid')}${bopt('card','soft','Soft')}${bopt('card','glass','Glass')}</div>
+ <b>Card look</b><div class="opts">${bopt('card','solid','Solid')}${bopt('card','soft','Soft')}${bopt('card','glass','Glass')}${bopt('card','lift','Raised')}${bopt('card','line','Outline')}</div>
  <div class="acts"><button class="btn alt" onclick="surprise()">🎲 Surprise me</button><button class="btn red" onclick="resetBg()">Reset background</button></div></div>`}
 function vAccount(){return `<div class="card"><h2>Profile photo</h2>${avHtml('big')}<div class="acts" style="justify-content:center"><label class="btn alt" style="cursor:pointer">${avatarOf(U.uid)?'Change photo':'Add photo'}<input type="file" accept="image/*" style="display:none" onchange="onAvatar(this)"></label>${avatarOf(U.uid)?'<button class="btn red" onclick="rmAvatar()">Remove photo</button>':''}</div><p class="note" style="text-align:center;margin-bottom:4px">Or pick an avatar</p><div class="avg">${avPick()}</div><p class="note" style="text-align:center">Only you and the admin can see your profile photo.</p></div>
  <div class="card"><h2>Profile</h2><label class="l" for="pn">Display name</label><input type="text" id="pn" maxlength="30" value="${esc(ME.name)}"><label class="l" for="pp">Phone number <span class="note">optional</span></label><input type="text" id="pp" maxlength="15" inputmode="tel" placeholder="+91 98765 43210" value="${esc(phoneOf(U.uid))}"><p class="note">Your phone number is private. Only you and the admin can see it.</p></div>
@@ -813,6 +893,7 @@ function vProfile(){const B=backTo("sset='';draw()");
  const role=(ME.role||'citizen').toUpperCase()+(ME.access==='admin'?' · ADMIN':ME.access==='member'?' · MEMBER':'');
  return `<div class="card"><div class="hero">${avHtml('')}<div style="min-width:0"><b style="font-size:18px">${esc(ME.name)}</b><div class="note">${esc(U.email||'')}</div><span class="tag" style="margin:4px 0 0">${role}</span></div></div></div>
  <div class="card" style="padding:12px 16px"><h2 style="margin:0">${nm('settings','Settings')}</h2><p class="note" style="margin:4px 0 0">Pick what you want to change. Background and accessibility choices are saved on this device only.</p></div>
+ <div class="sgrid">
  ${tile(ico('account'),nm('account','My account'),'Display name, phone, email and password',"sset='account';draw()")}
  ${tile(ico('ideas'),nm('ideas','Share an idea'),'Private chat with the admin',"sset='ideas';draw()")}
  ${tile(ico('ai'),nm('ai','Ask Swachh AI'),'Questions about cleanliness and the app',"sset='ai';draw()")}
@@ -821,6 +902,7 @@ function vProfile(){const B=backTo("sset='';draw()");
  ${tile(ico('guide'),nm('guide','How it works'),'A guide to using Swach Nova',"sset='guide';draw()")}
  ${tile(ico('member'),nm('member','Member section'),isMem()?'Unlocked':ME.access==='user'?'Join with the member password':'Password protected',"sset='member';draw()")}
  ${tile(ico('adminpw'),nm('adminpw','Admin section'),isAdm()?'Unlocked':'Admin password and tools',"sset='adminpw';draw()")}
+ </div>
  ${vContact()}
  <div class="card"><button class="btn red full" style="margin-top:0" onclick="logout()">Log out</button></div>`}
 /* ---------- admin page as tiles ---------- */
@@ -842,6 +924,7 @@ function vAdmin(){if(!isAdm()){sset='adminpw';return vProfile()}
  const T=(k,ic,t,d)=>tile(ico('ah_'+k),t,d,`ahub='${k}';${k==='look'?"lkInit();":''}draw()`);
  return `<div class="card"><div class="acts" style="margin-top:0"><button class="ic" onclick="go('profile')">← Back to settings</button><button class="ic" onclick="go('team')">Member page</button></div></div>
  <div class="card" style="padding:12px 16px"><h2 style="margin:0">Admin</h2><p class="note" style="margin:4px 0 0">Everything here is for admins only.</p></div>
+ <div class="sgrid">
  ${T('members','👥','Members',reqN?reqN+' waiting · requests, add, remove':'Requests, add and remove members')}
  ${T('share','🔗','Share link','The link people use to share the app')}
  ${T('slides','📢','Notices and advertisements',spN?spN+' sponsor request(s) waiting':'Slider content and sponsor requests')}
@@ -858,6 +941,7 @@ function vAdmin(){if(!isAdm()){sset='adminpw';return vProfile()}
  ${T('names','✏️','Rename sections','Change the names on the Settings page')}
  ${T('pw','🔑','Passwords','Member and admin passwords')}
  ${T('contact','☎️','Contact details','Shown to users in Settings')}
+ </div>
  <div class="card"><button class="btn red full" style="margin-top:0" onclick="doReset()">Reset all reports, points, notices, ads and sponsors</button></div>`}
 try{applyPrefs()}catch(e){}
 
@@ -884,9 +968,14 @@ function vSharedIdeas(){const sh=ideas.filter(m=>m.shared&&!m.fromAdmin).sort((a
  return `<div class="card"><h2>💡 Ideas shared by admin</h2>${sh.length?sh.map(m=>`<div style="padding:8px 0;border-bottom:1px solid var(--line)"><div style="white-space:pre-wrap;overflow-wrap:anywhere">${esc(m.body)}</div><div class="note">${esc(m.senderName||'A user')} · ${ago(m.t)}</div></div>`).join(''):'<p class="note" style="margin-top:0">No ideas shared yet.</p>'}</div>`}
 const FAQ=[[/flower|phool|puja|pooja|nirmalya/,'Puja flowers: collect them in a separate basket and turn them into compost or send them to a flower-recycling group. Please do not throw them into the Ganga or on the ghat steps.'],[/plastic|polythene|bottle|wrapper/,'Plastic: rinse it, keep it dry and put it in the dry-waste bin. Carry a cloth bag and a refillable bottle to use less plastic.'],[/wet|dry|segregat|alag|separate/,'Keep two bins: green for wet waste (food, peels, flowers) and blue for dry waste (plastic, paper, metal). Keep hazardous items like batteries and medicines separate.'],[/compost|khaad|khad/,'Compost: put kitchen waste and leaves in a pot with some soil, keep it slightly moist, and stir every few days. It is ready in about 6 to 8 weeks.'],[/drain|nala|naali|sewer/,'Drains: never throw waste in a drain, it blocks the flow and pollutes the river. Report a blocked drain in the app with a photo and the exact location.'],[/battery|e-?waste|electronic|charger/,'E-waste and batteries: do not put them in normal bins. Give them to an e-waste collection point or an authorised recycler.'],[/burn|jalana|jalao|smoke/,'Burning waste makes harmful smoke and is bad for health. Please segregate it and use the bins instead.'],[/point|score|leader/,'Points: 10 when your report is approved, 5 for accepting a task and 30 for cleaning it. See the Leaders tab for the ranking.'],[/report|photo|how|kaise|app|volunteer/,'To report waste: open Report, add a photo, choose the place, write the kind of waste and submit. Members approve it, then it shows in Status and volunteers clean it.'],[/ghat|ganga|river|nadi/,'Ghats: do not leave offerings, plastic or food on the steps. Use the bins, and report any waste you see with a photo so a volunteer can clean it.']];
 function faq(q){q=q.toLowerCase();for(const f of FAQ)if(f[0].test(q))return f[1];return 'I can help with waste segregation, composting, plastic, puja flowers, ghat cleanliness and how to use this app. Try asking: "puja flowers kya karein?"'}
-function vAI(){return `<div class="card"><h2>🤖 Ask Swachh AI</h2><p class="note" style="margin-top:0">Ask about waste, cleanliness and how to use this app. Chats are not saved.</p>${aiMsgs.length?aiMsgs.map(m=>bub(m.content,m.role==='user')).join(''):'<p class="note">Example: puja flowers kya karein?</p>'}${aiBusy?'<p class="note">Thinking...</p>':''}<textarea id="aiTx" rows="2" maxlength="300" placeholder="Type your question" style="margin-top:10px" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();askAI()}"></textarea><button class="btn full" onclick="askAI()" ${aiBusy?'disabled':''}>Ask</button></div>`}
-async function askAI(){const el=$('aiTx'),q=el?el.value.trim():'';if(!q||aiBusy)return;aiMsgs.push({role:'user',content:q});aiBusy=true;draw();let a='';
- try{const r=await sb.functions.invoke('swachh-ai',{body:{messages:aiMsgs.slice(-6)}});if(!r.error&&r.data&&r.data.text)a=r.data.text;else if(r.data&&r.data.error==='limit')a="You reached today's question limit. Please try again tomorrow."}catch(e){}
+function vAI(){return `<div class="card"><h2>🤖 Ask Swachh AI</h2><p class="note" style="margin-top:0">Ask about waste, cleanliness and how to use this app. Chats are not saved.</p>${aiMsgs.length?aiMsgs.map(m=>bub(m.content,m.role==='user')).join(''):'<p class="note">Example: puja flowers kya karein?</p>'}${aiBusy?'<p class="note">Thinking...</p>':''}<textarea id="aiTx" rows="2" maxlength="600" placeholder="Type your question" style="margin-top:10px" onkeydown="if(event.key===\'Enter\'&&!event.shiftKey){event.preventDefault();askAI()}"></textarea><label class="btn alt full" style="display:block;text-align:center;cursor:pointer;margin-top:8px">${aiImg?'📷 Photo attached (tap to change)':'📷 Add a waste photo (optional)'}<input type="file" accept="image/*" hidden onchange="aiPhoto(this)"></label><button class="btn full" onclick="askAI()" ${aiBusy?'disabled':''}>Ask</button></div>`}
+let aiImg=null;
+function aiPhoto(t){const f=t.files&&t.files[0];if(!f)return;readPhotoW(f,800,u=>{aiImg=u;draw()})}
+async function askAI(){const el=$('aiTx');let q=el?el.value.trim():'';if(!q&&aiImg)q='What kind of waste is this and how should I dispose of it?';if(!q||aiBusy)return;const im=aiImg;aiImg=null;aiMsgs.push({role:'user',content:q+(im?' 📷':'')});
+ if(!im&&/^\s*(hi+|hii+|hello+|hey+|hlo+|helo|namaste|namaskar|pranam|नमस्ते|नमस्कार|हेलो|हाय|हैलो)[\s!.?,🙏👋]*$/i.test(q)){aiMsgs.push({role:'assistant',content:'Namaste! 🙏 Main Swachh AI hoon. Kachra alag karna, puja ke phool, plastic, Ganga ghat ki safai ya is app ka use, kuch bhi poochho. Padhai ya general sawal bhi puch sakte ho.'});draw();return}
+ if(Date.now()-(askAI.t||0)<3000){aiMsgs.pop();toast('Please wait a moment');return}askAI.t=Date.now();
+ aiBusy=true;draw();let a='';
+ try{const r=await sb.functions.invoke('swachh-ai',{body:{messages:aiMsgs.slice(-8),image:im||undefined}});if(!r.error&&r.data&&r.data.text)a=r.data.text;else if(r.data&&r.data.error==='limit')a="You reached today's question limit. Please try again tomorrow."}catch(e){}
  if(!a)a=faq(q);aiMsgs.push({role:'assistant',content:a});aiBusy=false;draw()}
 function avPick(){const hid=i=>dav.some(x=>x.hide===i);return AVS.map((p,i)=>hid(i)?'':`<button class="avb" aria-label="Avatar ${i+1}" onclick="setPreset(${i})" style="background:linear-gradient(135deg,${p[1]},${p[2]})"><span class="a${p[3]}">${p[0]}</span></button>`).join('')+dav.filter(x=>x.url).map(d=>`<button class="avb" aria-label="Default photo" onclick="setCustom('${d.id}')"><img src="${d.url}" alt="" style="width:100%;height:100%;object-fit:cover"></button>`).join('')}
 async function setCustom(id){const d=dav.find(x=>x.id===id);if(!d)return;try{await db.collection('user_private').doc(U.uid).update({avatar:d.url});const r=priv.find(x=>x.id===U.uid);if(r)r.avatar=d.url;draw();toast('Avatar saved')}catch(e){toast(errMsg(e))}}
@@ -914,11 +1003,11 @@ function isDark(){try{const t=et();return t==='dark'||(t==='auto'&&matchMedia('(
 function applyPrefs(){syncPrefsFromLook();syncBgFromLook();const h=document.documentElement,c=h.classList,T=et();
  if(T==='auto')h.removeAttribute('data-theme');else h.setAttribute('data-theme',T);
  const dk=isDark();c.toggle('dk',dk);
- ['t2','t3','fr','fs','d1','d3','sq','rm','hc','ul','big','cb','cs','cg'].forEach(x=>c.remove(x));
+ ['t2','t3','fr','fs','d1','d3','sq','rm','hc','ul','big','cb','cs','cg','cl','co'].forEach(x=>c.remove(x));
  if(PR.size==='l')c.add('t2');if(PR.size==='x')c.add('t3');if(PR.font==='r')c.add('fr');if(PR.font==='s')c.add('fs');
  if(PR.dens==='c')c.add('d1');if(PR.dens==='r')c.add('d3');if(PR.round==='s')c.add('sq');
  if(PR.rm)c.add('rm');if(PR.hc)c.add('hc');if(PR.ul)c.add('ul');if(PR.big)c.add('big');if(PR.cb)c.add('cb');
- {const E=bgNow();if(E.card==='soft')c.add('cs');if(E.card==='glass')c.add('cg')}
+ {const E=bgNow();if(E.card==='soft')c.add('cs');if(E.card==='glass')c.add('cg');if(E.card==='lift')c.add('cl');if(E.card==='line')c.add('co')}
  h.setAttribute('data-pe',PR.pe);h.style.setProperty('--mw',{m:'480px',a:'680px',d:'940px'}[PR.lay]||'680px');
  const ac=lkPrev()?lk.accent:((LOOK&&LOOK.accent)||settings.look_accent);if(ac&&!dk)h.style.setProperty('--river',ac);else h.style.removeProperty('--river');
  applyBg()}
@@ -970,7 +1059,8 @@ function enhanceSelects(){
   lab()})}
 
 /* notices for this user (shown on the Report page) */
-function vUNotes(){if(!unotes.length)return '';return `<div class="card" style="border:2px solid var(--gold)"><div class="row"><h2 style="margin:0">📣 Notices for you</h2><button class="ic" onclick="dismissN(null)">Clear all</button></div>${unotes.map(n=>`<div class="lb"><span class="nm">${esc(n.body)}<div class="note">${ago(n.t)}</div></span><button class="ic" onclick="dismissN('${n.id}')">OK</button></div>`).join('')}</div>`}
+function vUNotes(){if(!unotes.length)return '';return `<div class="card" style="border:2px solid var(--gold)"><div class="row"><h2 style="margin:0">📣 Notices for you</h2><button class="ic" onclick="dismissN(null)">Clear all</button></div>${unotes.map(n=>`<div class="lb"><span class="nm">${esc(n.body)}<div class="note">${ago(n.t)}</div>${n.kind==='help_citizen'?`<div class="acts"><button class="btn alt" onclick="becomeVol('${n.id}')">🙋 Become a volunteer</button><button class="ic" onclick="dismissN('${n.id}')">Stay a citizen</button></div>`:''}</span>${n.kind==='help_citizen'?'':`<button class="ic" onclick="dismissN('${n.id}')">OK</button>`}</div>`).join('')}</div>`}
+async function becomeVol(id){try{await setRole('volunteer');await dismissN(id);tab='list';draw();toast('You are a volunteer now. Open Status and press Join this task.')}catch(e){toast(errMsg(e))}}
 async function dismissN(id){try{await rpcT('dismiss_notice',{p_id:id});unotes=id?unotes.filter(x=>x.id!==id):[];draw()}catch(e){toast(errMsg(e))}}
 
 /* admin: remove all members, message users, new chat */
@@ -988,6 +1078,8 @@ function vNewChat(){const o=users.filter(u=>!u.isGuest&&u.id!==U.uid);return `<d
 const ICONSET={account:['👤','🧑','🪪','🙂','😊'],ideas:['💡','💬','📝','🗣️','📣'],ai:['🤖','🧠','✨','🪄','🦾'],bg:['🎨','🖼️','🌅','🌈','🪷'],a11y:['👁️','🧩','🔆','🔍','🎚️'],guide:['📖','❓','📘','🧭','ℹ️'],member:['🛡️','🏅','🎖️','🤝','👥'],adminpw:['🛠️','⚙️','🔧','🗝️','👑'],
  ah_members:['👥','🤝','🧑','🙋','📋'],ah_share:['🔗','📤','📲','🌐','📣'],ah_slides:['📢','📌','🖼️','📰','🎞️'],ah_reports:['🗂️','📋','📁','🗃️','🧾'],ah_places:['📍','🗺️','🏞️','🧭','🏛️'],ah_motiv:['💪','🌟','🔥','🙌','🌱'],ah_users:['🏆','👤','🥇','📊','🎖️'],ah_ideas:['💬','💡','🗨️','📨','📝'],ah_guests:['🕶️','👤','🎭','🚪','👥'],ah_login:['🧹','🔑','🚪','🖼️','🧭'],ah_admins:['🛡️','👑','🔐','🧑','⭐'],ah_msg:['✉️','📣','📨','📮','🔔'],ah_flagged:['🚩','⚠️','🚫','🛑','👮'],ah_look:['🎨','🌈','🖌️','🌅','✨'],ah_pw:['🔑','🔐','🗝️','🔒','🛡️'],ah_contact:['☎️','📞','📧','📱','🆘'],ah_names:['✏️','🔤','🏷️','📝','🔠']};
 const ICL={account:'My account',ideas:'Share an idea',ai:'Ask Swachh AI',bg:'Background',a11y:'Accessibility and display',guide:'How it works',member:'Member section',adminpw:'Admin section',ah_members:'Admin: Members',ah_share:'Admin: Share link',ah_slides:'Admin: Notices and ads',ah_reports:'Admin: All reports',ah_places:'Admin: Locations',ah_motiv:'Admin: Motivation',ah_users:'Admin: Users',ah_ideas:'Admin: Ideas and chats',ah_guests:'Admin: Guest mode',ah_login:'Admin: Login page and header',ah_admins:'Admin: Admins',ah_msg:'Admin: Message users',ah_flagged:'Admin: Reported users',ah_look:'Admin: Look for everyone',ah_pw:'Admin: Passwords',ah_contact:'Admin: Contact',ah_names:'Admin: Rename sections'};
+Object.assign(ICONSET,{hc_weekly:['🎯','🏁','📅','⏱️','🔥','🚩'],hc_top:['🌟','🏆','🥇','👑','🎖️','⭐'],hc_impact:['🌊','🌍','📈','💚','♻️','🌱'],hc_pledge:['🙏','🤝','🕉️','🌿','✋','🪷'],hc_tips:['💡','📝','🧠','♻️','🌱','📌']});
+Object.assign(ICL,{hc_weekly:'Home: Your weekly challenge',hc_top:'Home: Top cleaner',hc_impact:'Home: Our impact',hc_pledge:'Home: Clean Ganga pledge',hc_tips:'Home: Quick tips'});
 const myIcons=()=>LS.get('sn_icons',{});
 const ico=k=>((LOOK&&LOOK.icons)||{})[k]||(ICONSET[k]||['▫️'])[0];
 const nm=(k,d)=>esc((((LOOK&&LOOK.names)||{})[k])||d);
@@ -1005,7 +1097,7 @@ const lkSv='<button class="btn full" onclick="saveLook()">Save for everyone</but
 function vLookAdmin(){if(!lk.mode)lkInit();const pid=lk.preset||'default',B=backTo("lks='';draw()",'Back to Look for everyone'),H=(ic,t,d,k)=>tile(ic,t,d,`lks='${k}';draw()`);
  if(lks==='style')return B+vLookStyle();
  if(lks==='theme')return B+`<div class="card"><h2>Theme and main colour</h2><b>Theme</b><div class="opts">${lopt('theme','auto','Auto')}${lopt('theme','light','☀️ Light')}${lopt('theme','dark','🌙 Dark')}</div>
- <b>Main colour (light theme)</b><div class="opts">${ACC.map(x=>`<button class="sw ${lk.accent===x[0]?'on':''}" style="background:${x[0]||'#0E4D64'};color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)" onclick="lk.accent='${x[0]}';draw()">${x[1]}</button>`).join('')}</div><label class="l">Your own colour</label><input type="color" value="${/^#[0-9a-fA-F]{6}$/.test(lk.accent)?lk.accent:'#0E4D64'}" style="width:100%;height:44px;border:0;background:none" oninput="lk.accent=this.value;lkLive()">
+ <b>Main colour (light theme)</b><div class="opts">${ACC.map(x=>`<button class="sw ${lk.accent===x[0]?'on':''}" style="background:${x[0]||'#0E4D64'};color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)" onclick="lk.accent='${x[0]}';draw()">${x[1]}</button>`).join('')}</div><b>Mixed colours</b><p class="note" style="margin:2px 0 6px">Header, buttons and the highlight button change together.</p><div class="opts">${MIXES.map(m=>`<button class="sw ${(lk.accent||'').toLowerCase()===m[2].toLowerCase()?'on':''}" style="background:linear-gradient(135deg,${m[3]},${m[4]} 50%,${m[5]});color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)" onclick="lk.accent='${m[2]}';draw()">${m[1]}</button>`).join('')}</div><label class="l">Your own colour</label><input type="color" value="${/^#[0-9a-fA-F]{6}$/.test(lk.accent)?lk.accent:'#0E4D64'}" style="width:100%;height:44px;border:0;background:none" oninput="lk.accent=this.value;lkLive()">
  ${lkSv}</div>`;
  if(lks==='themes')return B+`<div class="card"><h2>Add a theme</h2><p class="note" style="margin-top:0">A photo theme appears in everyone's Background page. You can also use it as the default above.</p><label class="l" for="thn">Theme name</label><input type="text" id="thn" maxlength="30" value="${esc(thN)}" oninput="thN=this.value"><label class="fi"><span>Theme photo</span><input class="file" type="file" accept="image/*" onchange="onThemePhoto(this)"></label>${thImg?`<img class="prev" src="${esc(thImg)}" alt="">`:''}<button class="btn full" onclick="addTheme()">Add theme</button>${bgThemes.length?`<p class="note" style="margin-top:12px">Themes now</p>${bgThemes.map(t=>`<div class="lb"><img src="${esc(t.img)}" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px"><span class="nm">${esc(t.name)}</span><button class="ic" onclick="delTheme('${t.id}')">Remove</button></div>`).join('')}`:''}</div>
  `;
@@ -1051,8 +1143,8 @@ function vGuestOff(){return `<div class="card"><h2>Guest mode is off</h2><p clas
 function logoSvg(sz){return `<svg viewBox="0 0 64 64" width="${sz}" height="${sz}" aria-hidden="true"><defs><linearGradient id="lgg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fb67d"/><stop offset="1" stop-color="#2b78d6"/></linearGradient></defs><path d="M32 61C18 45 9 36 9 24a23 23 0 0 1 46 0c0 12-9 21-23 37z" fill="url(#lgg)"/><circle cx="32" cy="24" r="14.5" fill="#eafff4"/><path d="M21 21c4-7 11-7 13-4-2 7-8 9-13 4z" fill="#2fb67d"/><g class="swp"><line x1="45" y1="9" x2="31" y2="28" stroke="#2b78d6" stroke-width="3.2" stroke-linecap="round"/><path d="M23 27l9 6-4 7-11-5z" fill="#2fb67d"/></g><circle class="dst d1" cx="40" cy="36" r="1.7" fill="#fff"/><circle class="dst d2" cx="46" cy="32" r="1.3" fill="#fff"/></svg>`}
 const HICONS={logo:s=>logoSvg(s),broom:()=>'<span class="i-sweep">🧹</span>',recycle:()=>'<span class="i-spin">♻️</span>',wave:()=>'<span class="i-bob">🌊</span>',diya:()=>'<span class="i-flick">🪔</span>'};
 const HNAMES=[['logo','Logo (broom cleans)'],['broom','🧹 Broom'],['recycle','♻️ Recycle'],['wave','🌊 Wave'],['diya','🪔 Diya'],['none','No icon']];
-function renderHdr(){const h=(LOOK&&LOOK.hdr)||{},l=h.l||'logo',r=h.r||'wave',t=h.tag||'Report waste, clean Ganga',key=l+'|'+r+'|'+t;if(renderHdr.k===key)return;renderHdr.k=key;const a=$('hl'),b=$('hr'),c=$('htag');if(a)a.innerHTML=hicon(l,40);if(b)b.innerHTML=hicon(r,40);if(c)c.textContent=t}
-function authHero(){return `<div style="text-align:center;margin:2px 0 14px">${logoSvg(96)}<div style="font-weight:800;font-size:22px;margin-top:4px">Swachh Nova</div><div class="note">Kachra Reporter</div></div>`}
+function renderHdr(){const h=(LOOK&&LOOK.hdr)||{},l=h.l||'logo',r=h.r||'wave',t=h.tag||'Report waste, clean Ganga',key=l+'|'+r+'|'+t;if(renderHdr.k===key)return;renderHdr.k=key;const a=$('hl'),b=$('hr'),c=$('htag');if(a)a.innerHTML=hicon(l,64);if(b)b.innerHTML=hicon(r,64);if(c)c.textContent=t}
+function authHero(){return ''}
 /* admin: guests + login/header */
 function vGuestsAdmin(){const on=!(LOOK&&LOOK.guest===false),gs=users.filter(u=>u.isGuest).sort((a,b)=>(b.t||0)-(a.t||0));
  return `<div class="card"><h2>Guest mode</h2><p class="note" style="margin-top:0">When it is ON, new visitors can enter as guests and report without a login. When it is OFF, everyone must log in. Existing accounts keep working.</p><div class="opts"><button class="${on?'on':''}" onclick="setGuest(true)">ON</button><button class="${on?'':'on'}" onclick="setGuest(false)">OFF</button></div></div>
@@ -1075,18 +1167,99 @@ function lbAv(b){const a=lav[b.id]||(b.id===U.uid?avatarOf(b.id):''),sty='width:
  return `<span style="${sty}background:var(--river);color:var(--onriver)">${esc(((b.name||'?')[0]||'?').toUpperCase())}</span>`}
 
 /* ===== v4: header icon add/remove, look tiles add/remove, icon reset ===== */
-const hicon=(k,s)=>!k||k==='none'?'':HICONS[k]?HICONS[k](s||40):`<span class="i-bob">${esc(k)}</span>`;
+const isSvgIc=k=>typeof k==='string'&&/^\s*<svg[\s>]/i.test(k);
+let _svgN=0;
+function cleanSvg(src){try{const d=new DOMParser().parseFromString(String(src).trim(),'image/svg+xml'),r=d.documentElement;if(!r||r.localName!=='svg'||d.querySelector('parsererror'))return '';
+ const bad=/^(script|foreignobject|iframe|object|embed|style|image|a|use|video|audio)$/i;
+ [...r.querySelectorAll('*')].forEach(e=>{if(bad.test(e.localName)){e.remove();return}
+  if(/^(animate|set|animatetransform|animatemotion)$/i.test(e.localName)&&/href|^on/i.test(e.getAttribute('attributeName')||'')){e.remove();return}
+  [...e.attributes].forEach(a=>{const n=a.name.toLowerCase(),v=a.value;if(n.startsWith('on')||(/href$/.test(n)&&!/^#/.test(v))||/javascript:|data:|url\(\s*['"]?\s*(?!#)/i.test(v))e.removeAttribute(a.name)})});
+ [...r.attributes].forEach(a=>{if(/^on/i.test(a.name))r.removeAttribute(a.name)});
+ return new XMLSerializer().serializeToString(r)}catch(e){return ''}}
+function svgFit(src,s){const c=cleanSvg(src);if(!c)return '';const u='z'+(++_svgN)+'_';
+ return c.replace(/\bid="([^"]+)"/g,(m,i)=>'id="'+u+i+'"').replace(/url\(#([^)]+)\)/g,(m,i)=>'url(#'+u+i+')').replace(/href="#([^"]+)"/g,(m,i)=>'href="#'+u+i+'"').replace(/^<svg([^>]*)>/,(m,a)=>'<svg'+a.replace(/\s(width|height)="[^"]*"/g,'')+' width="'+s+'" height="'+s+'" aria-hidden="true">')}
+const NOVA_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Swachh Nova">
+<defs>
+<linearGradient id="snBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f7f9e"/><stop offset=".55" stop-color="#0d4a68"/><stop offset="1" stop-color="#06283f"/></linearGradient>
+<radialGradient id="snGlow" cx=".5" cy=".45" r=".55"><stop offset="0" stop-color="#46bfd8" stop-opacity=".5"/><stop offset="1" stop-color="#0a3a56" stop-opacity="0"/></radialGradient>
+<linearGradient id="snGloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".26"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="snBin" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#17482f"/><stop offset=".26" stop-color="#4f9a73"/><stop offset=".5" stop-color="#2f7a55"/><stop offset="1" stop-color="#0f3724"/></linearGradient>
+<linearGradient id="snLid" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a6a49"/><stop offset=".3" stop-color="#6cb38c"/><stop offset=".6" stop-color="#3b8560"/><stop offset="1" stop-color="#1a4f35"/></linearGradient>
+<linearGradient id="snRim" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6f9a85"/><stop offset=".3" stop-color="#e3f3ea"/><stop offset="1" stop-color="#4a7560"/></linearGradient>
+<linearGradient id="snWood" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5e3b1c"/><stop offset=".4" stop-color="#c0915a"/><stop offset="1" stop-color="#52331a"/></linearGradient>
+<linearGradient id="snStraw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a77a22"/><stop offset=".45" stop-color="#e8c76e"/><stop offset="1" stop-color="#9a6e1c"/></linearGradient>
+<filter id="snBlur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+</defs>
+<rect width="512" height="512" rx="112" fill="url(#snBg)"/>
+<circle cx="256" cy="256" r="172" fill="url(#snGlow)"/>
+<circle cx="256" cy="256" r="172" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="2"/>
+<g><animateTransform attributeName="transform" type="rotate" from="0 256 256" to="360 256 256" dur="28s" repeatCount="indefinite"/>
+<path id="snRing" d="M64 256a192 192 0 1 1 384 0a192 192 0 1 1-384 0" fill="none"/>
+<text font-size="33" font-weight="700" fill="#c9f3ff" letter-spacing="3"><textPath href="#snRing" startOffset="0" textLength="300" lengthAdjust="spacing">SWACHH NOVA</textPath></text><text font-size="33" font-weight="700" fill="#c9f3ff" letter-spacing="3"><textPath href="#snRing" startOffset="402" textLength="300" lengthAdjust="spacing">SWACHH NOVA</textPath></text><text font-size="33" font-weight="700" fill="#c9f3ff" letter-spacing="3"><textPath href="#snRing" startOffset="804" textLength="300" lengthAdjust="spacing">SWACHH NOVA</textPath></text><circle cx="304.9" cy="70.3" r="5.5" fill="#5ee6a8"/><circle cx="392.5" cy="391.1" r="5.5" fill="#5ee6a8"/><circle cx="70.8" cy="306.8" r="5.5" fill="#5ee6a8"/></g>
+<g><animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="3.4s" repeatCount="indefinite"/>
+<ellipse cx="258" cy="390" rx="124" ry="11" fill="#021824" opacity=".55" filter="url(#snBlur)"/>
+<ellipse cx="332" cy="262" rx="59" ry="11" fill="#0a2619"/>
+<g>
+<animateMotion dur="3.4s" repeatCount="indefinite" path="M196 372C216 270 288 186 308 224L310 272" keyPoints="0;0;1;1" keyTimes="0;.2;.7;1" calcMode="linear"/>
+<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.2;.24;.66;.7;1" dur="3.4s" repeatCount="indefinite"/>
+<polygon points="-10,-3 -4,-10 5,-9 10,-2 8,7 0,10 -8,6" fill="#eef2f0" stroke="#aab6b1" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur=".9s" repeatCount="indefinite"/></polygon>
+</g>
+<path d="M273 262L291 380Q332 396 373 380L391 262Q332 280 273 262Z" fill="url(#snBin)"/>
+<path d="M300 272L305 386M332 277V394M364 272L359 386" stroke="#06190f" stroke-opacity=".3" stroke-width="3" fill="none"/>
+<path d="M303 272L308 386M335 277V394M367 272L362 386" stroke="#fff" stroke-opacity=".12" stroke-width="1.5" fill="none"/>
+<path d="M277 298Q332 316 387 298M282 346Q332 363 382 346" stroke="#06190f" stroke-opacity=".28" stroke-width="3" fill="none"/>
+<path d="M277 301Q332 319 387 301M282 349Q332 366 382 349" stroke="#fff" stroke-opacity=".14" stroke-width="1.5" fill="none"/>
+<circle cx="332" cy="326" r="15" fill="none" stroke="#e8f7ee" stroke-opacity=".55" stroke-width="2"/>
+<path d="M332 336C324 330 325 320 332 314C339 320 340 330 332 336Z" fill="#e8f7ee" fill-opacity=".6"/>
+<path d="M275 290c-13 3-12 17-2 20M389 290c13 3 12 17 2 20" stroke="#cfe6da" stroke-width="3.5" fill="none" stroke-linecap="round" opacity=".8"/>
+<path d="M291 380Q332 396 373 380" stroke="#0b2d1d" stroke-width="5" fill="none" opacity=".6"/>
+<ellipse cx="332" cy="262" rx="59" ry="11" fill="none" stroke="url(#snRim)" stroke-width="5"/>
+<g><animateTransform attributeName="transform" type="rotate" values="5 392 256;5 392 256;30 392 256;30 392 256;5 392 256;5 392 256" keyTimes="0;.28;.4;.66;.78;1" dur="3.4s" repeatCount="indefinite"/>
+<ellipse cx="332" cy="254" rx="64" ry="13" fill="url(#snLid)"/>
+<ellipse cx="332" cy="254" rx="64" ry="13" fill="none" stroke="#e3f3ea" stroke-opacity=".6" stroke-width="2"/>
+<ellipse cx="332" cy="250" rx="44" ry="6" fill="#fff" opacity=".13"/>
+<rect x="320" y="238" width="24" height="9" rx="4.5" fill="#cfe6da"/><rect x="323" y="239" width="18" height="2.5" rx="1.2" fill="#fff" opacity=".6"/>
+</g>
+<g><animateTransform attributeName="transform" type="rotate" values="20 224 158;20 224 158;5 224 158;5 224 158;20 224 158" keyTimes="0;.1;.3;.5;1" calcMode="spline" keySplines="0 0 1 1;.45 0 .55 1;0 0 1 1;.45 0 .55 1" dur="3.4s" repeatCount="indefinite"/>
+<g transform="translate(224 158) scale(.8)">
+<rect x="-5.5" y="-8" width="11" height="186" rx="5.5" fill="url(#snWood)"/>
+<rect x="-1.6" y="-4" width="2.4" height="176" rx="1.2" fill="#fff" opacity=".22"/>
+<circle cy="2" r="2.6" fill="#2d1b0c"/>
+<rect x="-7.5" y="150" width="15" height="11" rx="2" fill="#a9b4b8"/><rect x="-7.5" y="150" width="15" height="3" rx="1.5" fill="#fff" opacity=".45"/>
+<path d="M-36 284L-12 202H12L36 284Z" fill="#8a5f16" transform="translate(0 3) scale(1.04 1)"/>
+<path d="M-12 200H12L36 282Q0 292-36 282Z" fill="url(#snStraw)"/>
+<line x1="-11" y1="202" x2="-34" y2="288" stroke="#f3dc8e" stroke-width="1.3" opacity=".6"/><line x1="-9" y1="202" x2="-29" y2="288" stroke="#7d5818" stroke-width="1.3" opacity=".6"/><line x1="-8" y1="202" x2="-24" y2="288" stroke="#f3dc8e" stroke-width="1.3" opacity=".6"/><line x1="-6" y1="202" x2="-19" y2="288" stroke="#7d5818" stroke-width="1.3" opacity=".6"/><line x1="-4" y1="202" x2="-14" y2="288" stroke="#f3dc8e" stroke-width="1.3" opacity=".6"/><line x1="-3" y1="202" x2="-9" y2="288" stroke="#7d5818" stroke-width="1.3" opacity=".6"/><line x1="-1" y1="202" x2="-4" y2="288" stroke="#f3dc8e" stroke-width="1.3" opacity=".6"/><line x1="0" y1="202" x2="1" y2="288" stroke="#7d5818" stroke-width="1.3" opacity=".6"/><line x1="2" y1="202" x2="6" y2="288" stroke="#f3dc8e" stroke-width="1.3" opacity=".6"/><line x1="3" y1="202" x2="11" y2="288" stroke="#7d5818" stroke-width="1.3" opacity=".6"/><line x1="5" y1="202" x2="16" y2="288" stroke="#f3dc8e" stroke-width="1.3" opacity=".6"/><line x1="7" y1="202" x2="21" y2="288" stroke="#7d5818" stroke-width="1.3" opacity=".6"/><line x1="8" y1="202" x2="26" y2="288" stroke="#f3dc8e" stroke-width="1.3" opacity=".6"/><line x1="10" y1="202" x2="31" y2="288" stroke="#7d5818" stroke-width="1.3" opacity=".6"/>
+<path d="M-36 282L-30 291L-24 283L-18 292L-12 284L-6 293L0 285L6 293L12 284L18 292L24 283L30 291L36 282Q0 292-36 282Z" fill="#c9a043"/>
+<rect x="-13" y="172" width="26" height="30" rx="5" fill="#8a6528"/>
+<path d="M-13 178L13 184M-13 186L13 192M-13 194L13 200" stroke="#4b3512" stroke-width="2.2" opacity=".75"/>
+<path d="M-13 175H13" stroke="#e3c27a" stroke-width="1.5" opacity=".6"/>
+</g></g>
+<g fill="#cfd8d4"><circle cx="190" cy="384" r="3"><animate attributeName="opacity" values="0;.7;0" dur="1.7s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;14 -10" dur="1.7s" repeatCount="indefinite"/></circle>
+<circle cx="180" cy="388" r="2.2"><animate attributeName="opacity" values="0;.6;0" dur="1.7s" begin=".5s" repeatCount="indefinite"/><animateTransform attributeName="transform" type="translate" values="0 0;18 -8" dur="1.7s" begin=".5s" repeatCount="indefinite"/></circle></g>
+</g>
+<path d="M0 112A112 112 0 0 1 112 0H400A112 112 0 0 1 512 112V215Q256 290 0 215Z" fill="url(#snGloss)"/>
+</svg>`;
+HICONS.nova=s=>`<span class="i-3d" style="display:inline-block;width:${s}px;height:${s}px;line-height:0">${svgFit(NOVA_SVG,s)}</span>`;
+HNAMES.splice(1,0,['nova','Swachh Nova 3D']);
+const hicon=(k,s)=>!k||k==='none'?'':HICONS[k]?HICONS[k](s||40):isSvgIc(k)?`<span class="i-3d" style="display:inline-block;width:${s||40}px;height:${s||40}px;line-height:0">${svgFit(k,s||40)}</span>`:`<span class="i-bob">${esc(k)}</span>`;
 function hdInit(){const h=(LOOK&&LOOK.hdr)||{};hd={l:h.l||'logo',r:h.r||'wave',tag:h.tag||'Report waste, clean Ganga',lbg:h.lbg||'',ci:(h.ci||[]).slice()}}
 function hdPick(s){const keys=HNAMES.map(x=>x[0]).filter(k=>k!=='none').concat(hd.ci,['none']);
- return keys.map(k=>{const chip=`<button class="${hd[s]===k?'on':''}" style="display:inline-flex;align-items:center;gap:6px" onclick="hd.${s}='${k}';draw()">${k==='none'?'✕ Remove':`<span style="width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:22px">${hicon(k,30)}</span>`}</button>`;
-  return hd.ci.includes(k)?`<span style="display:inline-flex;align-items:center;gap:2px">${chip}<button class="ic" aria-label="Remove this icon from the list" onclick="hdDel('${k}')">✕</button></span>`:chip}).join('')}
+ return keys.map(k=>{const ix=hd.ci.indexOf(k),ref=ix>=0?`hd.ci[${ix}]`:`'${k}'`,chip=`<button class="${hd[s]===k?'on':''}" style="display:inline-flex;align-items:center;gap:6px" onclick="hd.${s}=${ref};draw()">${k==='none'?'✕ Remove':`<span style="width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;font-size:30px">${hicon(k,44)}</span>`}</button>`;
+  return ix>=0?`<span style="display:inline-flex;align-items:center;gap:2px">${chip}<button class="ic" aria-label="Remove this icon from the list" onclick="hdDelI(${ix})">✕</button></span>`:chip}).join('')}
+function hdDelI(i){const k=hd.ci[i];hd.ci.splice(i,1);if(hd.l===k)hd.l='none';if(hd.r===k)hd.r='none';draw()}
 function hdDel(k){hd.ci=hd.ci.filter(x=>x!==k);if(hd.l===k)hd.l='none';if(hd.r===k)hd.r='none';draw()}
-function hdAdd(){const v=(($('hdi')||{}).value||'').trim();if(!v||/[\s<>"'&\\]/.test(v)||Array.from(v).length>12){toast('Paste one emoji, no spaces');return}if(HICONS[v]||hd.ci.includes(v)){toast('That icon is already there');return}if(hd.ci.length>=12){toast('You can add up to 12 icons');return}hd.ci.push(v);draw();toast('Icon added to left and right')}
+function hdPrev(v){const e=$('hdpv');if(!e)return;v=(v||'').trim();e.innerHTML=v?(isSvgIc(v)||Array.from(v).length<=12?hicon(v,100):''):''}
+function hdAdd(){const raw=(($('hdi')||{}).value||'').trim();if(!raw){toast('Paste an emoji or the icon code first');return}
+ let v=raw;if(isSvgIc(raw)){v=cleanSvg(raw);if(!v||v.length>30000){toast('That is not a valid SVG, or it is too big');return}}
+ else if(/[\s<>"'&\\]/.test(raw)||Array.from(raw).length>12){toast('Paste one emoji, or the full <svg> code');return}
+ if(HICONS[v]||hd.ci.includes(v)){toast('That icon is already there');return}
+ if(hd.ci.length>=12){toast('You can add up to 12 icons');return}
+ hd.ci.push(v);draw();toast('Icon added to left and right')}
 function vLoginAdmin(){if(!hd)hdInit();
  return `<div class="card"><h2>Login page and header</h2><p class="note" style="margin-top:0">Pick an icon for the left and right of "Swachh Nova". Each side can be different. Press Remove to show no icon on that side.</p><b>Left icon</b><div class="opts">${hdPick('l')}</div><b>Right icon</b><div class="opts">${hdPick('r')}</div>
  <label class="l" for="hdt">Short line under the name (2 to 5 words)</label><input type="text" id="hdt" maxlength="40" value="${esc(hd.tag)}" oninput="hd.tag=this.value">
  <b>Login page colour</b><div class="acts" style="margin-top:6px"><input type="color" value="${hd.lbg||'#2B7A78'}" style="flex:1;height:44px;border:0;background:none" oninput="hd.lbg=this.value"><button class="ic" onclick="hd.lbg='';draw()">Follow app look</button></div><p class="note">${hd.lbg?'Login page uses your colour.':'Login page follows the look chosen for everyone.'}</p>
- <b>Add your own icon</b><div class="acts" style="margin-top:6px"><input type="text" id="hdi" maxlength="12" placeholder="Paste an emoji" style="flex:1"><button class="ic" onclick="hdAdd()">Add icon</button></div><p class="note">It appears in both the left and right lists. Use ✕ next to your own icon to remove it.</p>
+ <div class="hdadd"><b style="font-size:17px">Add your own icon</b><p class="note" style="margin:4px 0 8px">Paste an emoji, or the full <b>&lt;svg ...&gt; ... &lt;/svg&gt;</b> code of a moving icon. Moving (animated) SVG icons are supported and get a 3D tilt in the header.</p><textarea id="hdi" placeholder="Paste emoji or SVG code here" oninput="hdPrev(this.value)"></textarea><div id="hdpv"></div><button class="btn full" onclick="hdAdd()">Add icon</button><p class="note">It appears in both the left and right lists. Use ✕ next to your own icon to remove it.</p></div>
  <b>Header background photo</b><p class="note" style="margin:4px 0">Best size: <b>1600 × 400 pixels</b> (wide, 4 to 1). Keep the logo or text in the middle 60% of the picture, because narrow phones show only the centre. JPG or WebP under 300 KB loads fastest. Use PNG only if you need a see-through background.</p><label class="fi"><span>Choose a photo</span><input class="file" type="file" accept="image/*" onchange="onHdrPhoto(this)"></label>${hd.img?`<img class="prev" src="${esc(hd.img)}" alt=""><button class="ic" onclick="hd.img='';draw()">Remove photo</button>`:'<p class="note">No photo yet. The header uses the app colour.</p>'}<button class="btn full" style="margin-top:12px" onclick="saveHdr()">Save for everyone</button></div>`}
 async function saveHdr(){const t=(hd.tag||'').trim();if(!t||t.split(/\s+/).length>5){toast('Write 1 to 5 words');return}const o={l:hd.l,r:hd.r,tag:t,ci:hd.ci};if(hd.lbg)o.lbg=hd.lbg;try{await rpcT('adm_set_extra',{p_data:{hdr:o}});hd=null;await loadLook();toast('Saved for everyone')}catch(e){toast(errMsg(e))}}
 function rmIcon(k){delete lkIc[k];draw()}
@@ -1099,13 +1272,16 @@ function lkTiles(H){const hid=lkHidden(),vis=LKT.filter(t=>!hid.includes(t[3])),
  return vis.map(t=>`<div style="position:relative">${H(t[0],t[1],t[2],t[3])}<button class="ic" aria-label="Remove tile" title="Remove tile" style="position:absolute;top:8px;right:8px;z-index:2;min-width:32px" onclick="lkHide('${t[3]}')">✕</button></div>`).join('')+(off.length?`<div class="card"><h2>Add tile</h2><p class="note" style="margin-top:0">Tiles you removed. Tap to add one back.</p><div class="opts">${off.map(t=>`<button onclick="lkShow('${t[3]}')">＋ ${esc(t[1])}</button>`).join('')}</div></div>`:'')}
 
 /* ===== v5: add / remove options inside the Background tile ===== */
+Object.assign(PRESETS,{peach:'linear-gradient(160deg,#ffe5d0,#ffc2a1 60%,#ff9f80)',lavender:'linear-gradient(160deg,#f1e8ff,#cdb8ff 60%,#9b86e0)',coral:'linear-gradient(160deg,#ffe0e0,#ff9a9a 60%,#e5566d)',slate:'linear-gradient(170deg,#e4e9ee,#9aa8b6 60%,#3f4d5c)',emerald:'linear-gradient(170deg,#d6f7e6,#37b57c 60%,#0b5a3a)',saffron:'linear-gradient(170deg,#fff1c9,#ffb84d 55%,#e07a0b)',twilight:'linear-gradient(170deg,#5a3d8a,#2b2a64 60%,#0f0f2e)',glacier:'linear-gradient(160deg,#f0fbff,#b7e4f5 55%,#6db7d9)',rosegold:'linear-gradient(160deg,#fde7e3,#e8b4a8 55%,#b97a6b)',jungle:'linear-gradient(170deg,#c9e8c0,#2f8f4e 55%,#0c3a22)',candy:'linear-gradient(120deg,#ffc6e0,#c6b8ff,#a8ecff,#ffc6e0)',holi:'linear-gradient(120deg,#ff7eb3,#ffd166,#7bdcb5,#74b9ff,#b388ff)'});
+ANIM.push('candy','holi');
+PL.push(['peach','Peach'],['lavender','Lavender'],['coral','Coral'],['slate','Slate'],['emerald','Emerald'],['saffron','Saffron'],['twilight','Twilight'],['glacier','Glacier'],['rosegold','Rose gold'],['jungle','Jungle'],['candy','Candy ✨'],['holi','Holi ✨']);
 const PLBASE=PL.slice();
 const isOff=k=>!!(LOOK&&LOOK.off&&LOOK.off.includes(k));
 function applyScenes(){const sc=(LOOK&&LOOK.scenes)||[];PL.splice(0,PL.length,...PLBASE,...sc.map(x=>[x.id,x.n]));sc.forEach(x=>{PRESETS[x.id]='linear-gradient(135deg,'+x.a+','+x.b+')'})}
 applyScenes();
 let lkOff=[],lkScn=[],scN='',scA='#2B7A78',scB='#56B8D0';
 function lkInit(){const l=LOOK||{};lk={mode:l.mode||'preset',preset:l.preset||settings.look_bg||'ocean',color:l.color||'#EAF2F1',img:l.img||'',accent:l.accent||settings.look_accent||'',pat:l.pat||'none',fx:l.fx||'none',cnt:l.cnt||'n',spd:l.spd||'n',dim:l.dim||0,card:l.card||'solid',theme:l.theme||'auto'};lkIc=Object.assign({},l.icons||{});lkOff=(l.off||[]).slice();lkScn=(l.scenes||[]).map(x=>Object.assign({},x))}
-const LKOPTS={mode:['Style',[['preset','Scenes'],['color','One colour'],['photo','Photo']]],pat:['Pattern',[['none','None'],['dots','Dots'],['grid','Grid'],['waves','Waves']]],fx:['Floating effect',[['none','None'],['petals','🌸 Petals'],['leaves','🍃 Leaves'],['diyas','🪔 Diyas'],['bubbles','🫧 Bubbles'],['stars','✨ Stars'],['rain','💧 Rain'],['clouds','☁️ Clouds'],['fireflies','🟡 Fireflies'],['river','🌊 River']]],cnt:['How many',[['f','Few'],['n','Normal'],['m','Many']]],spd:['Motion speed',[['c','Calm'],['n','Normal'],['l','Lively']]],card:['Card look',[['solid','Solid'],['soft','Soft'],['glass','Glass']]]};
+const LKOPTS={mode:['Style',[['preset','Scenes'],['color','One colour'],['photo','Photo']]],pat:['Pattern',[['none','None'],['dots','Dots'],['grid','Grid'],['waves','Waves']]],fx:['Floating effect',[['none','None'],['petals','🌸 Petals'],['leaves','🍃 Leaves'],['diyas','🪔 Diyas'],['bubbles','🫧 Bubbles'],['stars','✨ Stars'],['rain','💧 Rain'],['clouds','☁️ Clouds'],['fireflies','🟡 Fireflies'],['river','🌊 River']]],cnt:['How many',[['f','Few'],['n','Normal'],['m','Many']]],spd:['Motion speed',[['c','Calm'],['n','Normal'],['l','Lively']]],card:['Card look',[['solid','Solid'],['soft','Soft'],['glass','Glass'],['lift','Raised'],['line','Outline']]]};
 const xbtn=(label,fn)=>`<button class="xb" aria-label="Remove ${esc(label)}" title="Remove" onclick="${fn}">✕</button>`;
 function lkGroup(k){const t=LKOPTS[k][0],items=LKOPTS[k][1],on=items.filter(x=>!lkOff.includes(k+':'+x[0])),off=items.filter(x=>lkOff.includes(k+':'+x[0]));
  return `<b>${t}</b><div class="opts">${on.map(x=>`<span class="xo"><button class="${lk[k]===x[0]?'on':''}" onclick="lk.${k}='${x[0]}';draw()">${x[1]}</button>${xbtn(x[1],`offOpt('${k}','${x[0]}')`)}</span>`).join('')}</div>${off.length?`<div class="opts" style="margin-top:2px"><span class="note">Add:</span>${off.map(x=>`<button onclick="addOpt('${k}','${x[0]}')">＋ ${x[1]}</button>`).join('')}</div>`:''}`}
@@ -1124,12 +1300,19 @@ function vLookStyle(){const pid=lk.preset||'ocean';
  ${lk.mode==='photo'?`<label class="fi"><span>Choose a photo</span><input class="file" type="file" accept="image/*" onchange="onLkPhoto(this)"></label>${lk.img?`<img class="prev" src="${esc(lk.img)}" alt="">`:'<p class="note">No photo chosen yet.</p>'}`:''}
  ${lkGroup('pat')}${lkGroup('fx')}${lkGroup('cnt')}${lkGroup('spd')}
  <b>Dim the background</b><input type="range" min="0" max="70" value="${lk.dim}" style="width:100%" oninput="lk.dim=+this.value;lkLive()">
- ${lkGroup('card')}<button class="btn full" onclick="saveLookAll()">Save for everyone</button></div>`}
+ ${lkGroup('card')}<div class="acts"><button class="btn alt" onclick="lkSurprise()">🎲 Surprise me</button></div><button class="btn full" onclick="saveLookAll()">Save for everyone</button></div>`}
+function lkSurprise(){const r=a=>a[Math.floor(Math.random()*a.length)],off=k=>lkOff.includes(k);
+const sc=PL.map(x=>x[0]).filter(x=>x!=='default'&&!off('preset:'+x)).concat(lkScn.map(x=>x.id));
+const pt=['none','dots','grid','waves'].filter(x=>!off('pat:'+x)).concat(lkPats.map(x=>x.id));
+const fx=Object.keys(FXE).filter(x=>!off('fx:'+x)).concat(lkFxs.map(x=>x.id));
+lk.mode='preset';if(sc.length)lk.preset=r(sc);if(pt.length)lk.pat=r(pt);if(fx.length)lk.fx=r(fx);lk.card=r(['soft','glass']);lk.cnt=r(['f','n','m']);lk.spd=r(['c','n','l']);
+draw();lkLive();toast('New look. Change anything you like, then press Save for everyone.')}
+
 async function saveLookAll(){try{await rpcT('adm_set_extra',{p_data:{off:lkOff,scenes:lkScn}})}catch(e){toast(errMsg(e));return}await saveLook()}
 
 /* ===== v6 ===== */
 function fixNav(){const n=$('nav');if(n&&(!PR.ah||scrollY<=120))n.classList.remove('nh')}
-function renderHdr(){fixNav();const h=(LOOK&&LOOK.hdr)||{},l=h.l||'logo',r=h.r||'wave',t=h.tag||'Report waste, clean Ganga',im=h.img||'',key=l+'|'+r+'|'+t+'|'+im;if(renderHdr.k===key)return;renderHdr.k=key;const a=$('hl'),b=$('hr'),c=$('htag'),hd0=document.querySelector('header');if(a)a.innerHTML=hicon(l,40);if(b)b.innerHTML=hicon(r,40);if(c)c.textContent=t;if(hd0){hd0.style.backgroundImage=im?'url("'+im+'")':'';hd0.classList.toggle('himg',!!im)}}
+function renderHdr(){fixNav();const h=(LOOK&&LOOK.hdr)||{},l=h.l||'logo',r=h.r||'wave',t=h.tag||'Report waste, clean Ganga',im=h.img||'',key=l+'|'+r+'|'+t+'|'+im;if(renderHdr.k===key)return;renderHdr.k=key;const a=$('hl'),b=$('hr'),c=$('htag'),hd0=document.querySelector('header');if(a)a.innerHTML=hicon(l,64);if(b)b.innerHTML=hicon(r,64);if(c)c.textContent=t;if(hd0){hd0.style.backgroundImage=im?'url("'+im+'")':'';hd0.classList.toggle('himg',!!im)}}
 /* custom effects, scenes, patterns */
 function applyScenes(){const sc=(LOOK&&LOOK.scenes)||[];PL.splice(0,PL.length,...PLBASE,...sc.map(x=>[x.id,x.n]));sc.forEach(x=>{PRESETS[x.id]='linear-gradient(135deg,'+x.a+','+x.b+')'});((LOOK&&LOOK.fxs)||[]).forEach(f=>{FXE[f.id]=[f.e,f.m]})}
 function patLayers(p){const c='rgba(0,0,0,.16)',s=p.s+'px '+p.s+'px';
@@ -1177,12 +1360,12 @@ function onHdrPhoto(t){const f=t.files&&t.files[0];if(!f)return;toast('Uploading
 function hdInit(){const h=(LOOK&&LOOK.hdr)||{};hd={l:h.l||'logo',r:h.r||'wave',tag:h.tag||'Report waste, clean Ganga',lbg:h.lbg||'',ci:(h.ci||[]).slice(),img:h.img||''}}
 async function saveHdr(){const t=(hd.tag||'').trim();if(!t||t.split(/\s+/).length>5){toast('Write 1 to 5 words');return}const o={l:hd.l,r:hd.r,tag:t,ci:hd.ci};if(hd.lbg)o.lbg=hd.lbg;if(hd.img)o.img=hd.img;try{await rpcT('adm_set_extra',{p_data:{hdr:o}});hd=null;await loadLook();toast('Saved for everyone')}catch(e){toast(errMsg(e))}}
 /* ad / notice / sponsor box: bar, dots, swipe, instructions */
-function vBanner(){return '<div class="adbar">Ad · Notice · Sponsor · etc.</div><div class="sl" id="bn"><span class="note">Ads and notices appear here</span></div><div class="dots" id="bdots"></div>'}
+function vBanner(){return '<div class="hbk" id="btype">Notice</div><div class="sl" id="bn"><span class="note">Ads and notices appear here</span></div><div class="hbcap">Ad · Notice · Sponsor · etc.</div><div class="dots" id="bdots"></div>'}
 let bsx=0;
-function bShow(i){const it=slides(),el=$('bn');if(!el||!it.length)return;bi=((i%it.length)+it.length)%it.length;const x=it[bi];el.innerHTML=(x.img?`<img src="${x.img}" alt="" onclick="openImg(this.src)">`:`<div class="tx">${esc(x.t)}</div>`)+`<div class="cp">${esc(x.c)}${x.l?` · <a href="${esc(x.l)}" target="_blank" rel="noopener" style="color:#fff">Visit</a>`:''}</div>`;const d=$('bdots');if(d)d.innerHTML=it.length>1?it.map((_,k)=>`<button class="dot${k===bi?' on':''}" aria-label="Slide ${k+1} of ${it.length}" onclick="bGo(${k})"></button>`).join(''):''}
+function bShow(i){const it=slides(),el=$('bn');if(!el||!it.length)return;bi=((i%it.length)+it.length)%it.length;const x=it[bi],bk=$('btype');if(bk){bk.textContent=x.k||'Notice';bk.className='hbk k-'+(x.k||'Notice').toLowerCase()}el.innerHTML=(x.img?`<img src="${x.img}" alt="" onclick="openImg(this.src)">`:`<div class="tx">${esc(x.t)}</div>`)+(x.k==='Notice'||x.k==='Instruction'?'':`<div class="cp">${esc(x.k==='Ad'?x.t:x.c)}${x.l?` · <a href="${esc(x.l)}" target="_blank" rel="noopener" style="color:var(--river);font-weight:700">Visit</a>`:''}</div>`);const d=$('bdots');if(d)d.innerHTML=it.length>1?it.map((_,k)=>`<button class="dot${k===bi?' on':''}" aria-label="Slide ${k+1} of ${it.length}" onclick="bGo(${k})"></button>`).join(''):''}
 function bGo(k){bShow(k);clearInterval(bt);if(slides().length>1)bt=setInterval(()=>bShow(bi+1),4000)}
 function startBanner(){clearInterval(bt);const it=slides(),e=$('bn');if(!e||!it.length)return;bShow(bi);e.ontouchstart=ev=>{bsx=ev.touches[0].clientX};e.ontouchend=ev=>{const dx=ev.changedTouches[0].clientX-bsx;if(Math.abs(dx)>40)bGo(bi+(dx<0?1:-1))};if(it.length>1)bt=setInterval(()=>bShow(bi+1),4000)}
-function slides(){return notices.slice(0,6).map(n=>({img:n.img,t:n.text,l:'',c:(n.text||'').startsWith('📌 ')?'Instruction':'Notice'})).concat(ads.slice(0,6).map(a=>({img:a.img,t:a.name,l:a.link,c:'Ad · '+a.name}))).concat(sponsors.filter(x=>x.status==='approved').slice(0,6).map(x=>({img:null,t:'🤝 '+x.name+(x.msg?' · '+x.msg:''),l:'',c:tier(x.tier)[1]+' sponsor'})))}
+function slides(){return notices.slice(0,6).map(n=>({img:n.img,t:n.text,l:'',c:(n.text||'').startsWith('📌 ')?'Instruction':'Notice',k:(n.text||'').startsWith('📌 ')?'Instruction':'Notice'})).concat(ads.slice(0,6).map(a=>({img:a.img,t:a.name,l:a.link,c:'Ad · '+a.name,k:'Ad'}))).concat(sponsors.filter(x=>x.status==='approved').slice(0,6).map(x=>({img:null,t:'🤝 '+x.name+(x.msg?' · '+x.msg:''),l:'',c:tier(x.tier)[1]+' sponsor',k:'Sponsor'})))}
 async function saveSlide(){if(nsl.k==='ad'&&!nsl.a.trim()){toast('Enter the company name');return}if(nsl.k!=='ad'&&!nsl.a.trim()&&!nsl.img){toast('Type the text or add a photo');return}
  try{toast('Uploading...');const img=await up(nsl.img);if(nsl.k==='ad')await rpcT('adm_save_ad',{p_id:null,p_name:nsl.a.trim(),p_img:img,p_link:nsl.l.trim()});else await rpcT('adm_save_notice',{p_text:(nsl.k==='instr'&&nsl.a.trim()?'📌 ':'')+nsl.a.trim(),p_img:img});nsl={k:nsl.k,a:'',l:'',img:null};toast('Added to the slider');draw()}catch(e){toast(errMsg(e))}}
 
@@ -1192,11 +1375,11 @@ function lkBg(){return {mode:lk.mode,preset:lk.preset||'ocean',color:lk.color,pa
 function bgNow(){return lkPrev()?lkBg():(U?BG:loginBg())}
 function lkLive(){if(lkPrev()){try{applyPrefs()}catch(e){}}}
 function et(){if(PR.theme!=='auto')return PR.theme;if(lkPrev())return lk.theme||'auto';return LOOK&&LOOK.theme&&LOOK.theme!=='auto'?LOOK.theme:'auto'}
-function renderHdr(){fixNav();const pv=lkPrev();if(pv||renderHdr.pv){try{applyPrefs()}catch(e){}}renderHdr.pv=pv;const h=(LOOK&&LOOK.hdr)||{},l=h.l||'logo',r=h.r||'wave',t=h.tag||'Report waste, clean Ganga',im=h.img||'',key=l+'|'+r+'|'+t+'|'+im;if(renderHdr.k===key)return;renderHdr.k=key;const a=$('hl'),b=$('hr'),c=$('htag'),hd0=document.querySelector('header');if(a)a.innerHTML=hicon(l,40);if(b)b.innerHTML=hicon(r,40);if(c)c.textContent=t;if(hd0){hd0.style.backgroundImage=im?'url("'+im+'")':'';hd0.classList.toggle('himg',!!im)}}
-Object.assign(FXE,{orbs:['','orb'],embers:['','ember'],ripples:['','rip'],mist:['','mist'],snow:['●','snow'],sparkle:['✦','spark']});
-LKOPTS.fx[1].push(['orbs','🔮 Glow orbs'],['embers','🔥 Embers'],['ripples','💠 Ripples'],['mist','🌫️ Mist'],['snow','❄️ Snow'],['sparkle','✦ Sparkle']);
-LKOPTS.pat[1].push(['lines','Lines'],['diag','Diagonal'],['rings','Rings'],['diamond','Diamonds'],['starfield','Starfield']);
-function bpat(id){return ({lines:{t:'lines',s:22},diag:{t:'diag',s:18},rings:{t:'rings',s:64},diamond:{t:'diamond',s:40},starfield:{t:'star',s:56}})[id]}
+function renderHdr(){fixNav();const pv=lkPrev();if(pv||renderHdr.pv){try{applyPrefs()}catch(e){}}renderHdr.pv=pv;const h=(LOOK&&LOOK.hdr)||{},l=h.l||'logo',r=h.r||'wave',t=h.tag||'Report waste, clean Ganga',im=h.img||'',key=l+'|'+r+'|'+t+'|'+im;if(renderHdr.k===key)return;renderHdr.k=key;const a=$('hl'),b=$('hr'),c=$('htag'),hd0=document.querySelector('header');if(a)a.innerHTML=hicon(l,64);if(b)b.innerHTML=hicon(r,64);if(c)c.textContent=t;if(hd0){hd0.style.backgroundImage=im?'url("'+im+'")':'';hd0.classList.toggle('himg',!!im)}}
+Object.assign(FXE,{marigold:['🌼','fall'],butterflies:['🦋','sail'],birds:['🕊️','sail'],fish:['🐟','sail'],boats:['⛵','sail'],lanterns:['🏮','rise'],hearts:['💚','rise'],lotus:['🪷','rise'],confetti:['🎉','fall'],suns:['🌞','tw'],moons:['🌙','tw'],rainbow:['🌈','sail'],orbs:['','orb'],embers:['','ember'],ripples:['','rip'],mist:['','mist'],snow:['●','snow'],sparkle:['✦','spark']});
+LKOPTS.fx[1].push(['marigold','🌼 Marigolds'],['butterflies','🦋 Butterflies'],['birds','🕊️ Birds'],['fish','🐟 Fish'],['boats','⛵ Boats'],['lanterns','🏮 Lanterns'],['hearts','💚 Green hearts'],['lotus','🪷 Lotus'],['confetti','🎉 Confetti'],['suns','🌞 Sun glow'],['moons','🌙 Moons'],['rainbow','🌈 Rainbows'],['orbs','🔮 Glow orbs'],['embers','🔥 Embers'],['ripples','💠 Ripples'],['mist','🌫️ Mist'],['snow','❄️ Snow'],['sparkle','✦ Sparkle']);
+LKOPTS.pat[1].push(['stripes','Stripes'],['polka','Polka'],['plaid','Plaid'],['zigzag','Zigzag'],['scales','Scales'],['triangles','Triangles'],['bricks','Bricks'],['crosses','Crosses'],['lines','Lines'],['diag','Diagonal'],['rings','Rings'],['diamond','Diamonds'],['starfield','Starfield']);
+function bpat(id){return ({lines:{t:'lines',s:22},diag:{t:'diag',s:18},rings:{t:'rings',s:64},diamond:{t:'diamond',s:40},starfield:{t:'star',s:56},stripes:{t:'stripes',s:20},polka:{t:'polka',s:36},plaid:{t:'plaid',s:48},zigzag:{t:'zigzag',s:28},scales:{t:'scales',s:40},triangles:{t:'tri',s:44},bricks:{t:'bricks',s:44},crosses:{t:'cross',s:34}})[id]}
 function patLayers(p){const c='rgba(0,0,0,.16)',s=p.s+'px '+p.s+'px';
  if(p.t==='dots')return [['radial-gradient('+c+' 1.5px,transparent 1.8px)',s,'repeat']];
  if(p.t==='grid')return [['linear-gradient('+c+' 1px,transparent 1px)',s,'repeat'],['linear-gradient(90deg,'+c+' 1px,transparent 1px)',s,'repeat']];
@@ -1204,6 +1387,14 @@ function patLayers(p){const c='rgba(0,0,0,.16)',s=p.s+'px '+p.s+'px';
  if(p.t==='diag')return [['repeating-linear-gradient(45deg,'+c+' 0,'+c+' 1px,transparent 1px,transparent '+p.s+'px)','auto','repeat']];
  if(p.t==='diamond')return [['repeating-linear-gradient(45deg,'+c+' 0,'+c+' 1px,transparent 1px,transparent '+p.s+'px)','auto','repeat'],['repeating-linear-gradient(-45deg,'+c+' 0,'+c+' 1px,transparent 1px,transparent '+p.s+'px)','auto','repeat']];
  if(p.t==='rings')return [['repeating-radial-gradient(circle at 0 0,transparent 0,transparent 13px,rgba(0,0,0,.09) 13px,rgba(0,0,0,.09) 14px)',s,'repeat']];
+ if(p.t==='stripes')return [['repeating-linear-gradient(90deg,'+c+' 0,'+c+' 2px,transparent 2px,transparent '+p.s+'px)','auto','repeat']];
+ if(p.t==='polka')return [['radial-gradient(rgba(0,0,0,.12) 6px,transparent 6.5px)',s,'repeat']];
+ if(p.t==='plaid')return [['repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0,rgba(0,0,0,.07) 8px,transparent 8px,transparent '+p.s+'px)','auto','repeat'],['repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0,rgba(0,0,0,.07) 8px,transparent 8px,transparent '+p.s+'px)','auto','repeat']];
+ if(p.t==='zigzag')return [['linear-gradient(135deg,'+c+' 25%,transparent 25%) -'+(p.s/2)+'px 0/'+p.s+'px '+p.s+'px','auto','repeat'],['linear-gradient(225deg,'+c+' 25%,transparent 25%) -'+(p.s/2)+'px 0/'+p.s+'px '+p.s+'px','auto','repeat']];
+ if(p.t==='scales')return [['radial-gradient(circle at 100% 150%,transparent 24%,rgba(0,0,0,.12) 25%,rgba(0,0,0,.12) 28%,transparent 29%),radial-gradient(circle at 0 150%,transparent 24%,rgba(0,0,0,.12) 25%,rgba(0,0,0,.12) 28%,transparent 29%)',s,'repeat']];
+ if(p.t==='tri')return [['conic-gradient(from 150deg at 50% 66%,transparent 0,rgba(0,0,0,.1) 1deg 60deg,transparent 61deg)',s,'repeat']];
+ if(p.t==='bricks')return [['linear-gradient('+c+' 1px,transparent 1px)','100% '+(p.s/2)+'px','repeat'],['linear-gradient(90deg,'+c+' 1px,transparent 1px)',p.s+'px '+p.s+'px','repeat']];
+ if(p.t==='cross')return [['linear-gradient(rgba(0,0,0,.14) 2px,transparent 2px),linear-gradient(90deg,rgba(0,0,0,.14) 2px,transparent 2px)',p.s+'px '+p.s+'px','repeat']];
  if(p.t==='star')return [['radial-gradient(rgba(255,255,255,.7) 1px,transparent 1.7px)',s,'repeat'],['radial-gradient(rgba(255,255,255,.45) 1.5px,transparent 2.2px)',Math.round(p.s*1.7)+'px '+Math.round(p.s*1.7)+'px','repeat']];
  if(p.t==='check')return [['conic-gradient('+c+' 25%,transparent 0 50%,'+c+' 0 75%,transparent 0)',s,'repeat']];
  return []}
@@ -1225,6 +1416,12 @@ function buildFx(){const f=$('fx');if(!f)return;const BG=bgNow();f.innerHTML='';
 
 loadLook();
 init();
+
+/* mixed colours: accent + header gradient + highlight colour */
+const MIXES=[['nova','Nova teal','#0F657B','#04222E','#0A4A60','#0F7A88','#D63A5A'],['ocean','Ocean blue','#0B6E99','#052F5F','#0B6E99','#2BB3C0','#E64980'],['forest','Forest green','#1F6B4A','#062A20','#1F6B4A','#4FA66B','#C2255C'],['lagoon','Lagoon','#0B7A75','#04302F','#0B7A75','#3CC4B0','#E64980'],['skyblue','Midnight blue','#1C4E80','#0A1B33','#1C4E80','#3C8DBC','#D63A5A'],['rose','Rose','#B02A55','#4A0E24','#B02A55','#EE7A98','#0F7A88'],['sunrise','Ganga sunrise','#A8431B','#3A0F0A','#A8431B','#E8943A','#0B7285'],['gold','Midnight gold','#8A6410','#14110A','#4A3A12','#B8892B','#1864AB'],['fire','Fire','#B3261E','#3A0A0A','#B3261E','#F08A3C','#0F7A88'],['lavender','Lavender dusk','#6D4DB5','#1E1040','#6D4DB5','#B39DF0','#E8A33D'],['mint','Cool mint','#1C8F7A','#06302A','#1C8F7A','#7ADBC0','#D63A5A'],['berry','Berry','#8E1F5C','#33081F','#8E1F5C','#E06AA5','#2BB3C0'],['sunset','Sunset','#C2410C','#4A1204','#C2410C','#F5A25D','#1864AB'],['emerald','Emerald night','#0B6B4A','#021F16','#0B6B4A','#3FBF8C','#E8B13D'],['royal','Royal indigo','#3B3BA8','#10103A','#3B3BA8','#7C7CE8','#F08A3C'],['peach','Peach cream','#C2623C','#4A2012','#C2623C','#F6B79B','#0B7285'],['steel','Steel','#3F5B73','#101C26','#3F5B73','#8FB0C9','#E64980'],['olive','Olive grove','#5B7A1A','#1E2A08','#5B7A1A','#A8C75A','#8C2F39'],['turmeric','Turmeric','#B7791F','#3B2606','#B7791F','#F2C25D','#4338CA'],['orchid','Orchid','#A12B8F','#380B32','#A12B8F','#E58BD6','#0F7A88'],['cherry','Cherry blossom','#C2527A','#4A1226','#C2527A','#F7B6CC','#2E8B57'],['ice','Ice blue','#2A7FB8','#082B45','#2A7FB8','#8ED0F2','#D63A5A'],['charcoal','Charcoal','#2F3640','#0B0D10','#2F3640','#6B7785','#F2A900'],['aqua','Aqua pop','#0E8FA3','#043540','#0E8FA3','#5FE0EE','#FF6B6B']];
+function applyMix(){const h=document.documentElement,a=String((lkPrev()?lk.accent:((LOOK&&LOOK.accent)||settings.look_accent))||'').toLowerCase(),m=MIXES.find(x=>x[2].toLowerCase()===a),K=['--hg1','--hg2','--hg3','--hl'];if(m)K.forEach((k,i)=>h.style.setProperty(k,m[3+i]));else K.forEach(k=>h.style.removeProperty(k))}
+(function(){const o=applyPrefs;applyPrefs=function(){const r=o.apply(this,arguments);try{applyMix()}catch(e){}return r}})();
+try{applyMix()}catch(e){}
 </script>
 </body>
 </html>
